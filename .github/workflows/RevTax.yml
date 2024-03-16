@@ -20,5 +20,5 @@ jobs:
 
     - name: Install Depencies
       run: |
-        npm intall
+        npm install
         npm test
