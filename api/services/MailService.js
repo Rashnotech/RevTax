@@ -5,6 +5,11 @@ import { config } from 'dotenv';
 const config = require('../config/default.json');
 
 class Mailer {
+    /**
+     * a class that handles sms/email validation
+     * sms - static class method
+     * mail - static class method
+     */
     constructor () {
         cty_code = '+234';
         host = config.server.host;
@@ -45,6 +50,10 @@ class Mailer {
     }
     
     static mail (email, message) {
+        /**
+         * @param {string} receiver email
+         * @param {string} message
+         */
         const transporter = nodemailer.createTransport(
             {
                 host: this.host,
@@ -62,8 +71,9 @@ class Mailer {
             subject: message.title,
             html: message.body
         }
-        transporter.sendMail(options, )
+        transporter.sendMail(options)
     }
+    
     isMobile (number) {
         const mobileRegex = /^\+\d{1,3}\d{10}$/;
         if (mobileRegex.test(number)) {
