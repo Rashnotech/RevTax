@@ -1,12 +1,19 @@
-import axios from 'axios'
-import nodemailer from 'nodemailer'
+import axios from 'axios';
+import nodemailer from 'nodemailer';
+import { config } from 'dotenv';
 
+const config = require('../config/default.json');
 
 class Mailer {
     constructor () {
         cty_code = '+234';
-        host = '';
-        port = '';
+        host = config.server.host;
+        port = config.server.port;
+        rapidKey= config.server.api;
+        account = {
+            user: config.server.user,
+            pass: config.server.pass
+        };
     }
 
     static async sms (number, message) {
@@ -20,7 +27,7 @@ class Mailer {
             url: 'https://rapid-sms.api.p.rapid.com/sms',
             headers: {
                 'content-type': 'application/json',
-                'X-RapidAPI-Key': '',
+                'X-RapidAPI-Key': this.rapidKey,
                 'X-RapidAPI-Host': 'rapid-sms-api.p.rapidapi.com'
             },
             data: {
@@ -36,21 +43,21 @@ class Mailer {
         }
     }
     
-    static mail (email, message, receiver) {
+    static mail (email, message) {
         const transporter = nodemailer.createTransport(
             {
                 host: this.host,
                 port: this.port,
                 secure: false,
                 auth: {
-                    user: '',
-                    pass: '',
+                    user: this.account.user,
+                    pass: this.account.pass,
                 }
             }
         );
         const options = {
             from: 'RevTax',
-            to: receiver,
+            to: email,
             subject: message.title,
             html: message.body
         }
@@ -58,5 +65,6 @@ class Mailer {
     }
 }
 
+console.log(config.server.host)
 
 export default Mailer;
