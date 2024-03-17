@@ -17,11 +17,12 @@ class Mailer {
     }
 
     static async sms (number, message) {
-        const tel = parseInt(number);
-        if (tel.length < 10) {
-            throw new Error('Not a valid telephone number');
-        }
-        if (tel){}
+        if (number.startsWith(0)) number = number.slice(1);
+        const tel = `${this.cty_code}${number}`;
+
+        if (!this.isMobile(tel)) {
+            throw new Error('Not a valid phone number');
+        } 
         const options = {
             method: 'POST',
             url: 'https://rapid-sms.api.p.rapid.com/sms',
@@ -31,13 +32,13 @@ class Mailer {
                 'X-RapidAPI-Host': 'rapid-sms-api.p.rapidapi.com'
             },
             data: {
-                phone_number: `${this.cty_code}${tel}`,
+                phone_number: tel,
                 text: message
             }
         };
         try {
             const response = await axios.request(options)
-            console.log(response.data);
+            return response
         } catch (err) {
             return {error: err}
         }
@@ -48,7 +49,7 @@ class Mailer {
             {
                 host: this.host,
                 port: this.port,
-                secure: false,
+                secure: true,
                 auth: {
                     user: this.account.user,
                     pass: this.account.pass,
@@ -63,8 +64,13 @@ class Mailer {
         }
         transporter.sendMail(options, )
     }
+    isMobile (number) {
+        const mobileRegex = /^\+\d{1,3}\d{10}$/;
+        if (mobileRegex.test(number)) {
+            return false
+        }
+        return true
+    }
 }
-
-console.log(config.server.host)
 
 export default Mailer;
