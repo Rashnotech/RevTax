@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "online revenue generation system",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "lint": "eslint *.js",
     "check-lint": "npm run lint",

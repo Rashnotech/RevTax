@@ -1,6 +1,6 @@
 import axios from 'axios';
 import nodemailer from 'nodemailer';
-import config from '../config/server_config.js';
+import config from '../config/server_config.cjs';
 
 
 
