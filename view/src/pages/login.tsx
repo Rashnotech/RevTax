@@ -1,5 +1,6 @@
 const Login = () => {
     return (
+<<<<<<< HEAD
         <div className="flex items-center w-full max-h-full justify-center">
             <section className="rounded-md space-y-4 my-20 p-12 text-slate-700 text-base flex shadow-md flex-col items-center md:w-2/4 border bg-white font-sans">
                 <h2 className="text-2xl font-light">Welcome</h2>
