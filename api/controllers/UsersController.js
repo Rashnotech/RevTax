@@ -1,4 +1,4 @@
-import Mailer, { isMobile } from "../services/MailService.js";
+import Mailer from "../services/MailService.js";
 import sha1 from 'sha1';
 
 const validateInput = (input, requiredFields, res) => {
@@ -29,8 +29,9 @@ class UsersController {
         };
         try {
             validateInput(data, requiredFields, res);
-            if (!data.email.includes('@')) return res.status(400).json({error: 'Invalid email address'});
-            const mobile = isMobile(data.telephone);
+            const {email, telephone} = data;
+            if (!email.includes('@')) return res.status(400).json({error: 'Invalid email address'});
+            const mobile = Mailer.isMobile(telephone);
             if (!mobile) return res.status(400).json({error: 'Invalid phone number'});
             const user = await User.findOne({ $or: [{ email }, { mobile }] });
             if (user) res.status(400).json({error: 'User already exist'});
