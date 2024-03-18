@@ -3,16 +3,6 @@ import nodemailer from 'nodemailer';
 import config from '../config/server_config.js';
 
 
-export const isMobile = (number) => {
-    if (!number) throw new Error('Phone number is required');
-    if (number.startsWith(0)) number = number.slice(1);
-    const tel = `${this.cty_code}${number}`;
-    const mobileRegex = /^\+\d{1,3}\d{10}$/;
-    if (mobileRegex.test(tel)) {
-        return false;
-    }
-    return tel;
-}
 
 class Mailer {
     /**
@@ -20,32 +10,18 @@ class Mailer {
      * sms - static class method
      * mail - static class method
      */
-    constructor () {
-        this.cty_code = '+234';
-        this.host = config.server.host;
-        this.port = config.server.port;
-        this.rapidKey= config.server.api;
-        this.account = {
-            user: config.server.user,
-            pass: config.server.pass
-        };
-    }
 
     static async sms (number, message) {
-        const mobileDigit = isMobile(number);
-        if (!mobileDigit) {
-            throw new Error('Not a valid phone number');
-        } 
         const options = {
             method: 'POST',
             url: 'https://rapid-sms.api.p.rapid.com/sms',
             headers: {
                 'content-type': 'application/json',
-                'X-RapidAPI-Key': this.rapidKey,
+                'X-RapidAPI-Key': 'd34abcdaa6msh40b38e6fb636a35p1c362djsn4d6591f044c0',
                 'X-RapidAPI-Host': 'rapid-sms-api.p.rapidapi.com'
             },
             data: {
-                phone_number: mobileDigit,
+                phone_number: number,
                 text: message
             }
         };
@@ -64,12 +40,12 @@ class Mailer {
          */
         const transporter = nodemailer.createTransport(
             {
-                host: this.host,
-                port: this.port,
+                host: 'smtp.gmail.com',
+                port: 465,
                 secure: true,
                 auth: {
-                    user: this.account.user,
-                    pass: this.account.pass,
+                    user: 'pense.blogpost@gmail.com',
+                    pass: 'nigyjnsceqoooqty'
                 }
             }
         );
@@ -84,6 +60,17 @@ class Mailer {
             return response
         }
         return {error: 'Failed to send email'};
+    }
+
+    static isMobile (number) {
+        if (number.startsWith(0)) number = number.slice(1);
+        const cty_code = '+234';
+        const tel = `${cty_code}${number}`;
+        const mobileRegex = /^\+\d{1,3}\d{10}$/;
+        if (mobileRegex.test(tel)) {
+            return tel;
+        }
+        return false;
     }
     
     static generateToken () {
