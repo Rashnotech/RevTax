@@ -22,10 +22,8 @@ class Mailer {
     }
 
     static async sms (number, message) {
-        if (number.startsWith(0)) number = number.slice(1);
-        const tel = `${this.cty_code}${number}`;
-
-        if (!this.isMobile(tel)) {
+        const mobileDigit = this.isMobile(number);
+        if (!mobileDigit) {
             throw new Error('Not a valid phone number');
         } 
         const options = {
@@ -37,7 +35,7 @@ class Mailer {
                 'X-RapidAPI-Host': 'rapid-sms-api.p.rapidapi.com'
             },
             data: {
-                phone_number: tel,
+                phone_number: mobileDigit,
                 text: message
             }
         };
@@ -49,7 +47,7 @@ class Mailer {
         }
     }
     
-    static mail (email, message) {
+    static async mail (email, message) {
         /**
          * @param {string} receiver email
          * @param {string} message
@@ -71,15 +69,21 @@ class Mailer {
             subject: message.title,
             html: message.body
         }
-        transporter.sendMail(options)
+        const response = await transporter.sendMail(options)
+        if (response.messageId) {
+            return response
+        }
+        return {error: response}
     }
     
-    isMobile (number) {
+    static isMobile (number) {
+        if (number.startsWith(0)) number = number.slice(1);
+        const tel = `${this.cty_code}${number}`;
         const mobileRegex = /^\+\d{1,3}\d{10}$/;
-        if (mobileRegex.test(number)) {
-            return false
+        if (mobileRegex.test(tel)) {
+            return false;
         }
-        return true
+        return tel;
     }
 }
 
