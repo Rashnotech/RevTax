@@ -1,9 +1,0 @@
-{
-    "server": {
-        "host": "${process.env.host}",
-        "user": "${process.env.user}",
-        "pass": "${process.env.pass}",
-        "port": "${process.env.port}",
-        "apiKey": "${process.env.api"
-    }
-}

@@ -1,8 +1,18 @@
 import axios from 'axios';
 import nodemailer from 'nodemailer';
-import { config } from 'dotenv';
+import config from '../config/server_config.js';
 
-const config = require('../config/default.json');
+
+export const isMobile = (number) => {
+    if (!number) throw new Error('Phone number is required');
+    if (number.startsWith(0)) number = number.slice(1);
+    const tel = `${this.cty_code}${number}`;
+    const mobileRegex = /^\+\d{1,3}\d{10}$/;
+    if (mobileRegex.test(tel)) {
+        return false;
+    }
+    return tel;
+}
 
 class Mailer {
     /**
@@ -11,18 +21,18 @@ class Mailer {
      * mail - static class method
      */
     constructor () {
-        cty_code = '+234';
-        host = config.server.host;
-        port = config.server.port;
-        rapidKey= config.server.api;
-        account = {
+        this.cty_code = '+234';
+        this.host = config.server.host;
+        this.port = config.server.port;
+        this.rapidKey= config.server.api;
+        this.account = {
             user: config.server.user,
             pass: config.server.pass
         };
     }
 
     static async sms (number, message) {
-        const mobileDigit = this.isMobile(number);
+        const mobileDigit = isMobile(number);
         if (!mobileDigit) {
             throw new Error('Not a valid phone number');
         } 
@@ -73,17 +83,11 @@ class Mailer {
         if (response.messageId) {
             return response
         }
-        return {error: response}
+        return {error: 'Failed to send email'};
     }
     
-    static isMobile (number) {
-        if (number.startsWith(0)) number = number.slice(1);
-        const tel = `${this.cty_code}${number}`;
-        const mobileRegex = /^\+\d{1,3}\d{10}$/;
-        if (mobileRegex.test(tel)) {
-            return false;
-        }
-        return tel;
+    static generateToken () {
+        return Math.floor(1000 + Math.random() * 9000);
     }
 }
 
