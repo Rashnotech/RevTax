@@ -1,0 +1,10 @@
+/* Styles for the label when input is focused or has content */
+input:focus + label,
+input:not(:placeholder-shown) + label {
+    top: 0;
+}
+
+/* Styles for the label when input is not focused and empty */
+input:not(:focus):not(:placeholder-shown) + label {
+    top: 2.5rem;
+}

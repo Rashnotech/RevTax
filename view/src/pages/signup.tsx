@@ -1,13 +1,13 @@
 const Signup = () => {
     return (
         <div className="container flex flex-reverse items-center space-between w-full h-full">
-            <section>
+            <section className="w-1/2">
                 <ul>
                     <li></li>
                 </ul>
             </section>
 
-            <section className="rounded-md border bg-white font-sans">
+            <section className="w-1/2 rounded-md border bg-white font-sans">
                 <h2>Welcome</h2>
                 <p>Log in to RevTax to pay your tax</p>
                 <form action="">
