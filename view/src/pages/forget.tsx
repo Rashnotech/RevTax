@@ -1,6 +1,6 @@
 const Forget = () => {
     return (
-        <div className="form_container mx-4">
+        <div className="form_container md:w-4/6 mx-auto">
             <section className="form_wrapper">
                 <h2 className="text-2xl font-light">Forgot your password?</h2>
                 <p className="text-slate-900 font-light text-center">Enter your email address and we will send you instructions
@@ -12,8 +12,8 @@ const Forget = () => {
                         <input type="email" className="input_style peer" placeholder=""  />
                     </div>
                     <button className="btn_primary">Continue</button>
-                    <a className="text-sm font-light text-center text-blue-700 cursor-pointer">Back to RexTax </a>
                 </form>
+                <a href="/login" className="text-sm font-light text-center text-blue-700 cursor-pointer">Back to RexTax </a>
             </section>
         </div>
     )

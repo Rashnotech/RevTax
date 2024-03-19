@@ -1,10 +1,5 @@
-/* Styles for the label when input is focused or has content */
-input:focus + label,
-input:not(:placeholder-shown) + label {
-    top: 0;
-}
-
-/* Styles for the label when input is not focused and empty */
-input:not(:focus):not(:placeholder-shown) + label {
-    top: 2.5rem;
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset !important; /* Set a white background */
+    background-color: white !important; /* Set a white background */
+    background-clip: content-box !important; /* Ensure the background covers only the content */
 }
