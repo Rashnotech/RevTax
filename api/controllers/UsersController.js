@@ -1,5 +1,7 @@
 import Mailer from "../services/MailService.js";
 import sha1 from 'sha1';
+import auth from '../auth/auth
+
 
 const validateInput = (input, requiredFields, res) => {
     for (const field in requiredFields) {
@@ -53,6 +55,36 @@ class UsersController {
         return res.status(400).json({error: error.message}); 
         }
     }
+
+
+  /**
+   * class method for loging in
+   * On success return a token
+   */
+
+  static async Login(req, res) {
+    const data = req.body;
+
+    const { email, telephone, password } = data
+    if (!email && !telephone) {
+      return res.status(400).json({'error': 'Missing email and telephone'})
+    }
+    if (!email.includes('@')) return res.status(400).json({error: 'Invalid email address'});            telephone = Mailer.isMobile(telephone)
+    if (!telephone) {
+      return res.status(400).json({error: 'Invalid phone number'});
+    }
+
+    if (!password) {
+      return res.status(400).json({'error': 'Missing email and password'})
+    }
+    const user = User.findOne({ $or: [{email}, {telepone}] });
+    if (!user) return res.status(404).json({'error': 'Not found'})
+    if (sha1(password) !== user.password) return res.status(400).json({'error': 'Wrong password'})
+
+    const token = auth.createToken({ email: user.email, password: user.password})
+    return res.json({ token })
+  }
+
 }
 
 export default UsersController
