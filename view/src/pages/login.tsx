@@ -1,9 +1,9 @@
 import './style.css'
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 
 const Login = () => {
     const [inputValue, setInputValue] = useState('Aliyu');
-    const handleInputChange = (e: any) => {
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value);
     };
 

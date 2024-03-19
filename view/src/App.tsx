@@ -3,12 +3,20 @@ import Login from "./pages/login"
 import Forget from "./pages/forget";
 import './assets/style.css'
 import Signup from "./pages/signup";
+import Verify from "./pages/VerifyEmail";
+import Auth from "./utils/Auth";
+import Layout from "./pages/clients/layout";
+import Dashboard from "./pages/clients/dashboard";
 
 const routes = createBrowserRouter(createRoutesFromElements(
   <Route>
-    <Route path="/login" element={<Login/>} />
-    <Route path='/reset_password' element={<Forget />} />
-    <Route path="/signup" element={<Signup />} />  
+    <Route path="login" element={<Login/>} />
+    <Route path='reset_password' element={<Forget />} />
+    <Route path="signup" element={<Signup />} />
+    <Route path="verify/:email" element={<Verify />} />
+    <Route path="/dashboard" element={<Layout />}>
+        <Route index element={<Dashboard />} />
+    </Route>
   </Route>
 ))
 
