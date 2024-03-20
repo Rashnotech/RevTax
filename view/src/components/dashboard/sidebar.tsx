@@ -1,20 +1,22 @@
+import '../../pages/style.css'
 import { NavLink } from "react-router-dom"
 interface UrlItem {
     name: String,
-    path: String
+    path: String,
+    icon: String,
 }
 
 const url: UrlItem[] = [
-    { name: "Dashboard", path: "/dashboard" },
-    { name: "Payment", path: "/payment" },
-    { name: "History", path: "/history" },
-    { name: "Profile", path: "/profile" },
-    { name: "Setting", path: "/setting" },
+    { name: "Dashboard", path: "/dashboard", icon: "radix-icons--dashboard" },
+    { name: "Payment", path: "/payment", icon: "ri--hand-coin-line" },
+    { name: "History", path: "/history", icon: "fluent--history-28-filled"},
+    { name: "Profile", path: "/profile", icon: "solar--user-linear" },
+    { name: "Setting", path: "/setting", icon: "lets-icons--setting-alt-line" },
 ]
 
 const Aside = () => {
     return (
-        <aside className="w-[250px] h-full overflow-y-auto bg-white">
+        <aside className="hidden md:block md:w-[250px] h-full overflow-y-auto bg-white">
             <nav className="mt-4">
                 <ul className="font-normal text-sm space-y-6">
                     {url.map((item, index) => {
@@ -23,9 +25,13 @@ const Aside = () => {
                                 <NavLink
                                     to={`${item.path}`}
                                     className={({ isActive }) => (isActive ?
-                                        "bg-blue-600 text-slate-300 rounded-md flow-root px-4 py-3" : ""
+                                        "bg-blue-600 text-slate-200 rounded-md flow-root px-4 py-3" :
+                                        "text-gray-600 px-4 py-3 flow-root"
                                     )}>
-                                    {item.name}
+                                        <span className="flex items-center space-between">
+                                            <span className={`${item.icon}`}></span>
+                                            <span className='ml-4'>{item.name}</span>
+                                        </span>
                                 </NavLink>
                             </li>
                         )
