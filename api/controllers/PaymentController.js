@@ -24,7 +24,8 @@ class PaymentController {
 
     payment = await Payment.findOne({_id: paymentId })
     if (!payment) return res.status(404).json({error: "Not Found"})
-    payment.status = data.status
+
+    await Payment.updateOne({ _id: paymentId }, { status: data.status })
     return res.json(payment)
   }
 
