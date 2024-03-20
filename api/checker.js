@@ -2,6 +2,15 @@ import express from 'express';
 import router from './routes/index.js'
 import mongoose from 'mongoose'
 
+const userSchema = new mongoose.Schema({
+  firstname: { type: String, required: true },      lastname: { type: String, required: true },       telephone: { type: String, required: true, unique: true },
+})
+
+
+const User = mongoose.model('User', userSchema);
+
+
+
 async function connectMongo() {
   try {
     await mongoose.connect('mongodb://127.0.0.1:27017/rev_tax')

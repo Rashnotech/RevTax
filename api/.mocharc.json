@@ -1,0 +1,7 @@
+{
+  "require": "tests/init.test.js",
+  "recursive": true,
+  "reporter": "spec",
+  "slow": "3000=",
+  "exit": true
+}
