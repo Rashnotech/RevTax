@@ -17,9 +17,12 @@ const testPayment = {
 
 describe('test PaymentController', () => {
   before(async (done) => {
-    await User.deleteOne({telephone: testUser.telephone})
     done()
-  });
+    try {
+      await User.deleteOne({telephone: testUser.telephone})
+    } catch (err) {
+    }
+  })
 
   describe('test makePayment', () => {
     it('test Missing userId', (done) => {
@@ -27,7 +30,7 @@ describe('test PaymentController', () => {
       .expect(400)
       .end((err, res) => {
 	if (err) {
-	  return done(err)
+	  done(err)
 	}
 	expect(res.body).to.deep.equal({ error: "Missing userId" });
 	done();

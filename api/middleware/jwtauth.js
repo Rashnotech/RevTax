@@ -1,4 +1,5 @@
 import auth from '../auth/auth.js'
+import User from '../../models/users.js'
 
 
 /**

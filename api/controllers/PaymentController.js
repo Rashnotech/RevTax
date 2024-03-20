@@ -1,3 +1,5 @@
+import User from '../../models/payment.js'
+
 class PaymentController {
   static async makePayment(req, res) {
     const data = req.body
@@ -7,7 +9,7 @@ class PaymentController {
 
     if (!('amount' in Object.keys(data))) return res.status(400).json({error: "Missing amount"})
 
-    const payment = await Payment({...data})
+    const payment = await new Payment({...data})
     return res.status(201).json(payment)
   }
 
