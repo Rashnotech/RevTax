@@ -1,10 +1,9 @@
 import Mailer from "../services/MailService.js";
 import sha1 from 'sha1';
 import auth from '../auth/auth.js'
-import mongoose from 'mongoose
+import mongoose from 'mongoose'
 //import User from '../../models/users.js'
 
-const User = mongoose.model('User');
 
 
 const validateInput = (input, requiredFields, res) => {
@@ -22,6 +21,7 @@ const validateInput = (input, requiredFields, res) => {
 class UsersController {
 
     static async register (req, res) {
+      const User = mongoose.model('User');
         const data = req.body;
 
         const requiredFields = {   
