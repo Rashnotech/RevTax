@@ -1,4 +1,4 @@
-import auth from '../../auth/auth'
+import auth from '../../auth/auth.js'
 
 
 describe('test authentication with jwt', () => {
