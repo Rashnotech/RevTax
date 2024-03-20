@@ -1,7 +1,11 @@
 import Mailer from "../services/MailService.js";
 import sha1 from 'sha1';
 import auth from '../auth/auth.js'
-import User from '../../models/users.js'
+import mongoose from 'mongoose
+//import User from '../../models/users.js'
+
+const User = mongoose.model('User');
+
 
 const validateInput = (input, requiredFields, res) => {
     for (const field in requiredFields) {
