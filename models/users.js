@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const userSchema = new mongoose.Schema({
   firstname: { type: String, required: true },
   lastname: { type: String, required: true },
-  phone: { type: String, required: true, unique: true },
+  telephone: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true, match: /.+\@.+\..+/ },
   token: { type: String, default: '' },
   validated: { type: Boolean, default: false },

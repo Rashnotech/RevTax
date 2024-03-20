@@ -28,5 +28,8 @@ connectMongo().then(() => {
   app.listen(port, () => {
     console.log(`server running on localhost:${port}`)
   });
-})
+}).catch((err) => {
+  console.log(err);
+});
+
 export default app;
