@@ -3,6 +3,7 @@ import UsersController from "../controllers/UsersController.js";
 import jwtAuth from '../middleware/jwtauth.js'
 import PaymentController from "../controllers/PaymentController.js";
 import verify from "../controllers/verify.js"
+import User from '../../models/users.js'
 
 
 const router = Router();
