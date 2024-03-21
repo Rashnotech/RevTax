@@ -10,6 +10,13 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 
 
+const testUser = {
+  firstname: "Inimfon",
+  lastname: "Ebong",
+  telephone: '09168848807',
+}
+
+const user = new user(testUser)
 
 async function connectMongo() {
   try {
@@ -36,6 +43,11 @@ app.use(router);
 connectMongo().then(() => {
   app.listen(port, () => {
     console.log(`server running on localhost:${port}`)
+    User.find({}).then((user) => {
+      console.log(user)
+    }).catch((err) => {
+      console.log(err)
+    })
   });
 }).catch((err) => {
   console.log(err);
