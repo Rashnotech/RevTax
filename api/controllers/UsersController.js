@@ -1,4 +1,5 @@
 import Mailer from "../services/MailService.js";
+import TextService from "../services/TextService.js";
 import sha1 from 'sha1';
 import auth from '../auth/auth.js'
 import mongoose from 'mongoose'
@@ -6,7 +7,7 @@ import User from '../models/users.js'
 
 
 
-const validateInput = (input, requiredFields, res) => {
+const validateInput = (input, requiredFields) => {
     for (const field in requiredFields) {
         const type = requiredFields[field];
         if (!type) {
@@ -34,10 +35,10 @@ class UsersController {
             address: 'required'
         };
         try {
-            validateInput(data, requiredFields, res);
+            validateInput(data, requiredFields);
             const {email, telephone} = data;
             if (!email.includes('@')) return res.status(400).json({error: 'Invalid email address'});
-            const mobile = Mailer.isMobile(telephone);
+            const mobile = TextService.isMobile(telephone);
             if (!mobile) return res.status(400).json({error: 'Invalid phone number'});
             const user = await User.findOne({ $or: [{ email }, { mobile }] });
             if (user) res.status(400).json({error: 'User already exist'});
@@ -74,7 +75,7 @@ class UsersController {
       return res.status(400).json({'error': 'Missing email and telephone'})
     }
     if (!email.includes('@')) return res.status(400).json({error: 'Invalid email address'});
-    telephone = Mailer.isMobile(telephone)
+    telephone = TextService.isMobile(telephone)
     if (!telephone) {
       return res.status(400).json({error: 'Invalid phone number'});
     }
