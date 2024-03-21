@@ -151,7 +151,7 @@ describe('test userController', () => {
 	telephone: '09168848807',
 	email: 'ebonginimfon8@gmail.com',
 	password: 'password',
-        address: "Cross river state",
+        address: "Cross river State",
 	type: 1
       }
       request.post('/auth/signup').send({...testUser})
@@ -161,6 +161,25 @@ describe('test userController', () => {
 	    done(err)
 	  }
 	  expect(res.body).to.deep.equal({ "message": "User created successfully" });
+	  done();
+	})
+    });
+  });
+
+  describe('test login', () => {
+    it('test correct data', (done) => {
+      const testUser = {
+	telephone: '09168848807',
+	email: 'ebonginimfon8@gmail.com',
+	password: 'password',
+      }
+      request.post('/auth/login').send({...testUser})
+	.expect(200)
+	.end((err, res) => {
+	  if (err) {
+	    done(err)
+	  }
+	  expect(res.body).to.have.property("token").that.is.a('string');
 	  done();
 	})
     });
