@@ -72,20 +72,22 @@ class UsersController {
       return res.status(400).json({'error': 'Missing email and telephone'})
     }
     if (!email.includes('@')) return res.status(400).json({error: 'Invalid email address'});
-    telephone = Mailer.isMobile(telephone)
-    if (!telephone) {
+    if (!Mailer.isMobile(telephone)) {
       return res.status(400).json({error: 'Invalid phone number'});
     }
 
     if (!password) {
       return res.status(400).json({'error': 'Missing email and password'})
     }
-    const user = await User.findOne({ $or: [{email}, {telepone}] });
+    const user = await User.findOne({ $or: [ { email }, { telephone } ] });
     if (!user) return res.status(404).json({'error': 'Not found'})
     if (sha1(password) !== user.password) return res.status(400).json({'error': 'Wrong password'})
 
-    const token = auth.createToken({ telephone: user.telephone, password: user.password});
-    return res.json({ token });
+    auth.createToken({ telephone: user.telephone, password: user.password}).then((token) => {
+      return res.json({ token });
+    }).catch((err) => {
+      return res.json({ error: "Login failed" });
+    });
   }
 
   static async getAllUsers(req, res) {
