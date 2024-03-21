@@ -1,4 +1,4 @@
-import User from '../../models/payment.js'
+import Payment from '../models/payment.js'
 
 class PaymentController {
   static async makePayment(req, res) {
@@ -22,7 +22,7 @@ class PaymentController {
 
     const data = req.body || {}
 
-    payment = await Payment.findOne({_id: paymentId })
+    const payment = await Payment.findOne({_id: paymentId })
     if (!payment) return res.status(404).json({error: "Not Found"})
 
     await Payment.updateOne({ _id: paymentId }, { status: data.status })

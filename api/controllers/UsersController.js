@@ -1,8 +1,7 @@
 import Mailer from "../services/MailService.js";
 import sha1 from 'sha1';
 import auth from '../auth/auth.js'
-import mongoose from 'mongoose'
-import User from '../../models/users.js'
+import User from '../models/users.js'
 
 
 
@@ -39,7 +38,7 @@ class UsersController {
             const mobile = Mailer.isMobile(telephone);
             if (!mobile) return res.status(400).json({error: 'Invalid phone number'});
             const user = await User.findOne({ $or: [{ email }, { mobile }] });
-            if (user) res.status(400).json({error: 'User already exist'});
+            if (user) return res.status(400).json({error: 'User already exist'});
             const token = Mailer.generateToken();
             const response = await Mailer.sms(mobile, `Welcome to Rev platform. Your otp is ${token}`);
             if (response.error) {
