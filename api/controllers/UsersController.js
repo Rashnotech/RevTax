@@ -67,26 +67,35 @@ class UsersController {
   static async login(req, res) {
     const data = req.body;
 
-    const { email, telephone, password } = data
+    const { email, password } = data
+
+    let { telephone } = data
     if (!email && !telephone) {
       return res.status(400).json({'error': 'Missing email and telephone'})
     }
-    if (!email.includes('@')) return res.status(400).json({error: 'Invalid email address'});
-    if (!Mailer.isMobile(telephone)) {
+    if (email && !email.includes('@')) return res.status(400).json({error: 'Invalid email address'});
+    if (telephone && !Mailer.isMobile(telephone)) {
       return res.status(400).json({error: 'Invalid phone number'});
     }
 
-    if (!password) {
-      return res.status(400).json({'error': 'Missing email and password'})
+    if (telephone) {
+      telephone = Mailer.isMobile(telephone)
     }
+
+    if (!password) {
+      return res.status(400).json({'error': 'Missing password'})
+    }
+    const users = await User.find({})
     const user = await User.findOne({ $or: [ { email }, { telephone } ] });
     if (!user) return res.status(404).json({'error': 'Not found'})
+	  console.log(user.password, sha1(password))
     if (sha1(password) !== user.password) return res.status(400).json({'error': 'Wrong password'})
 
-    auth.createToken({ telephone: user.telephone, password: user.password}).then((token) => {
+    auth.createToken({ id: user._id}).then((token) => {
+	    console.log(token)
       return res.json({ token });
     }).catch((err) => {
-      return res.json({ error: "Login failed" });
+      return res.status(400).json({ error: "Login failed" });
     });
   }
 

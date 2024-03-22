@@ -2,14 +2,22 @@ import Payment from '../models/payment.js'
 
 class PaymentController {
   static async makePayment(req, res) {
-    const data = req.body
-    const requiredField = ['userId', 'amount']
+    const { amount, payment_method } = req.body
+    const user = req.user
 
-    if (!('userId' in Object.keys(data))) return res.status(400).json({error: "Missing userId"})
+    if (!amount) return res.status(400).json({error: "Missing amount"})
 
-    if (!('amount' in Object.keys(data))) return res.status(400).json({error: "Missing amount"})
+    const data = {
+      amount,
+      userId: user._id
+    }
+
+    if (payment_method) {
+      data.payment_method = payment_method
+    }
 
     const payment = await new Payment({...data})
+    await payment.save()
     return res.status(201).json(payment)
   }
 

@@ -14,10 +14,7 @@ const testUser = {
 describe('test userController', () => {
   before((done) => {
     User.deleteOne({email: testUser.email}).then(() => {
-      User.find({}).then((users) => {
-	console.log(users)
-	done()
-      })
+      done()
     }).catch((err) => {
       done(err)
     })
@@ -180,6 +177,55 @@ describe('test userController', () => {
 	    done(err)
 	  }
 	  expect(res.body).to.have.property("token").that.is.a('string');
+	  done();
+	})
+    });
+
+    it('test with only email', (done) => {
+      const testUser = {
+	email: 'ebonginimfon8@gmail.com',
+	password: 'password',
+      }
+      request.post('/auth/login').send({...testUser})
+	.expect(200)
+	.end((err, res) => {
+	  if (err) {
+	    done(err)
+	  }
+	  expect(res.body).to.have.property("token").that.is.a('string');
+	  done();
+	})
+    });
+
+    it('test with only telephone', (done) => {
+      const testUser = {
+	telephone: '09168848807',
+	password: 'password',
+      }
+      request.post('/auth/login').send({...testUser})
+	.expect(200)
+	.end((err, res) => {
+	  if (err) {
+	    done(err)
+	  }
+	  expect(res.body).to.have.property("token").that.is.a('string');
+	  done();
+	})
+    });
+
+    it('test wrong password', (done) => {
+      const testUser = {
+	telephone: '09168848807',
+	email: 'ebonginimfon8@gmail.com',
+	password: 'wrong password',
+      }
+      request.post('/auth/login').send({...testUser})
+	.expect(400)
+	.end((err, res) => {
+	  if (err) {
+	    done(err)
+	  }
+	  expect(res.body).to.deep.equal({ error: "Wrong password" })
 	  done();
 	})
     });
