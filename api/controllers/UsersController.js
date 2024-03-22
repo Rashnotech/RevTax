@@ -50,6 +50,7 @@ class UsersController {
             }
             data.password = sha1(data.password);
             data.telephone = mobile;
+	    data.token = token
             const newUser = new User({ ...data});
             await newUser.save();
             return res.status(201).json({ message: 'User created successfully' });
@@ -97,6 +98,17 @@ class UsersController {
     });
   }
 
+  static async getUser(req, res) {
+    const { userId } = req.params
+
+    if (typeof userId !== 'string') return res.status(400).json({error: "userId must be a string"})
+
+    const user = await User.findOne({_id: userId })
+
+    if (!user) return res.status(404).json({error: "Not Found"})
+    return res.json(user)
+  }
+
   static async getAllUsers(req, res) {
     const users = await User.find({});
 
@@ -108,21 +120,20 @@ class UsersController {
 
     if (!userId) return res.status(400).json({error: "Missing userId"})
 
-    if (!(userId instanceof 'string')) return res.status(400).json({error: "userId must be a string"})
+    if (typeof userId !== 'string') return res.status(400).json({error: "userId must be a string"})
     
     const data = req.body || {}
 
-    const user = await User.findById(userId)
-    if (!user) return res.status(404).json({error: "Not Found"})
-
-    const restricted = ['created_at', 'telephone', 'type']
+    const restricted = ['createdAt', 'telephone', 'type']
 
     for (const [key, value] of Object.entries(data)) {
       if (restricted.includes(key)) {
 	delete data[key]
       }
     }
-    await User.updateOne({_id: userId }, {...data})
+    const user = await User.findByIdAndUpdate(userId, {...data }, {new: true})
+    if (!user) return res.status(404).json({error: "Not Found"})
+	  console.log(user)
     return res.json(user)
   }
 
@@ -132,7 +143,7 @@ class UsersController {
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({error: "Not Found"})
     
-    User.deleteOne({_id: userId})
+    await User.deleteOne({_id: userId})
     return res.json({})
   }
 }
