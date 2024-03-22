@@ -4,7 +4,7 @@ import jwtAuth from '../middleware/jwtauth.js'
 import PaymentController from "../controllers/PaymentController.js";
 import verify from "../controllers/verify.js"
 import User from '../models/users.js'
-
+import AuthController from "../controllers/AuthController.js"
 
 const router = Router();
 
@@ -12,6 +12,86 @@ const router = Router();
 router.post('/auth/signup', UsersController.register);
 
 router.post('/auth/login', UsersController.login);
+
+/**
+ * @swagger
+ * openapi: 3.0.0
+ * info:
+ *   title: User Management API
+ *   description: API for managing users
+ *   version: 1.0.0
+ * servers:
+ *   - url: http://localhost:5000
+ * paths:
+ *   /users:
+ *     get:
+ *       summary: Get all users
+ *       description: |
+ *         Retrieves a list of all users.
+ *       responses:
+ *         '200':
+ *           description: Successful response
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/User'
+ *         '401':
+ *           description: Unauthorized - Invalid or expired token
+ *       security:
+ *         - APIKeyHeader: []
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *           description: The unique identifier of the user
+ *         firstname:
+ *           type: string
+ *           description: The first name of the user
+ *         lastname:
+ *           type: string
+ *           description: The last name of the user
+ *         telephone:
+ *           type: string
+ *           description: The telephone number of the user
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: The email address of the user
+ *         token:
+ *           type: string
+ *           description: Access token associated with the user
+ *         validated:
+ *           type: boolean
+ *           description: Indicates whether the user has been validated
+ *         type:
+ *           type: integer
+ *           description: Type of user
+ *         address:
+ *           type: string
+ *           description: The address of the user
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: The date and time when the user was created
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           description: The date and time when the user was last updated
+ *         __v:
+ *           type: integer
+ *           description: Version control field
+ *   securitySchemes:
+ *     APIKeyHeader:
+ *       type: apiKey
+ *       in: header
+ *       name: Authorization
+ */
+
 router.get('/users', jwtAuth, UsersController.getAllUsers);
 router.get('/users/:userId', jwtAuth, UsersController.getUser);
 router.put('/users/:userId', jwtAuth, UsersController.updateUser)
@@ -76,13 +156,15 @@ router.delete('/users/:userId', jwtAuth, UsersController.deleteUser);
  *         '401':
  *           description: Unauthorized - Invalid or missing JWT token
  *       security:
- *         - BearerAuth: []
+ *         - ApiKeyAuth: []
  * components:
  *   securitySchemes:
- *     BearerAuth:
- *       type: http
- *       scheme: bearer
+ *     ApiKeyAuth:
+ *       type: apiKey
+ *       in: header
+ *       name: Authorization
  */
+
 
 router.post('/payments', jwtAuth, PaymentController.makePayment);
 
