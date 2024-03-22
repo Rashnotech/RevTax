@@ -17,7 +17,6 @@ function jwtAuth(req, res, next) {
     return res.status(401).json({ error: "Invalid token" })
   }
   if (!payload) return res.status(401).json({ error: "Invalid token" })
-
   const filter = { $or: [ {telephone: payload.telephone }, { password: payload.password } ] }
   User.findOne(filter).then((user) => {
     if (!user) return res.status(401).json({ error: "Forbidden" })
