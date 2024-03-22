@@ -16,7 +16,7 @@ class PaymentController {
       data.payment_method = payment_method
     }
 
-    const payment = await new Payment({...data})
+    const payment = new Payment({...data})
     await payment.save()
     return res.status(201).json(payment)
   }

@@ -20,12 +20,16 @@ const user = new User(testUser)
 
 describe('test PaymentController', () => {
   before((done) => {
+    User.deleteOne({email: 'ebonginimfon8@gmail.com',}).then(() => {
     const user = new User(testUser)
     user.save().then(() => {
       done()
     }).catch((err) => {
       done(err)
     });
+    }).catch((err) => {
+      done(err)
+    })
   })
 
   describe('test makePayment', () => {
@@ -41,26 +45,22 @@ describe('test PaymentController', () => {
 	  if (err) {
 	    done(err)
 	  }
-	  User.findOne({ email: 'ebonginimfon8@gmail.com' }).then((user) => {
-	    const testPayment = {
-	    userId: user._id,
-	    amount: 5000
-	    }
-		  console.log(res.text)
-	    request.post('/payments').send(testPayment)
-	      .set(Authorization, res.token)
-	      .expect(200)
-	      .end((err, res) => {
-		if (err) {
-		  done(err)
-		}
-		console.log(res)
-		expect(res.body).to.deep.equal({ error: "Missing userId" });
+	  const testPayment = {
+	  amount: 5000
+	  }
+	  request.post('/payments').send(testPayment)
+            .set("Authorization", res.body.token)
+	    .expect(201)
+	    .end((err, res) => {
+	      if (err) {
+		done(err)
+	      }
+	      expect(res.body).to.have.property("userId").that.is.a('string');
+	      expect(res.body).to.have.property("amount").that.is.a('number');
 		done();
 	      })
 	  })
 	})
       })
-    });
 })
 

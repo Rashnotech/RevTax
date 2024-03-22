@@ -2,7 +2,7 @@ import mongoose from '../utils/db.js';
 const { Schema } = mongoose;
 
 const paymentSchema = new Schema({
-  user_id: { type: String, required: true },
+  userId: { type: String, required: true },
   amount: { type: Number, default: 0 },
   payment_method: { type: String, default: 'card' },
   status: { type: String, default: 'pending', required: true },

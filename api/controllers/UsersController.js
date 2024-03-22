@@ -88,11 +88,9 @@ class UsersController {
     const users = await User.find({})
     const user = await User.findOne({ $or: [ { email }, { telephone } ] });
     if (!user) return res.status(404).json({'error': 'Not found'})
-	  console.log(user.password, sha1(password))
     if (sha1(password) !== user.password) return res.status(400).json({'error': 'Wrong password'})
 
     auth.createToken({ id: user._id}).then((token) => {
-	    console.log(token)
       return res.json({ token });
     }).catch((err) => {
       return res.status(400).json({ error: "Login failed" });
