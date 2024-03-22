@@ -10,7 +10,7 @@ const options = {
     },
     servers: [
       {
-        url: 'http://52.23.178.187:5000',
+        url: 'http://52.23.178.187',
         description: 'Local server',
       },
     ],
