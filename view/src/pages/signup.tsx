@@ -47,7 +47,11 @@ const Signup = () => {
                             <label htmlFor="firstname" className='label_style group-focus-within:-top-2.5 peer-focus:top-0'>
                                 First Name
                             </label>
-                            <input type="text" className="input_style peer" />
+                            <input
+                                {...register('firstName')}
+                                type="text"
+                                className="input_style peer"
+                            />
                             {errors.firstName && <span className="text-red-500 text-xs">{errors.firstName.message}</span>}
                         </div>
 
@@ -55,25 +59,38 @@ const Signup = () => {
                             <label htmlFor="lastname" className="label_style group-focus-within:-top-2.5 peer-focus:top-0">
                                 Last Name
                             </label>
-                            <input type="text" name="lastname" className="input_style peer" id="" />
+                            <input
+                                type="text"
+                                {...register('lastName')}
+                                className="input_style peer"
+                            />
                             {errors.lastName && <span className="text-red-500 text-xs">{errors.lastName.message}</span>}
                         </div>
-                        <div className="flex flex-col group relative group">
-                            <label htmlFor="telephone" className="label_style group-focus-within:-top-2.5 peer-focus:top-0">
-                                Telephone
-                            </label>
-                            <input type="tel" name="telephone" className="input_style peer" id="" />
-                            {errors.telephone && <span className="text-red-500 text-xs">{errors.telephone.message}</span>}
-                        </div>
+                      
                         <div className="flex flex-col group relative group">
                             <label htmlFor="password" className="label_style group-focus-within:-top-2.5 peer-focus:top-0">
                                 password
                             </label>
-                            <input type="password" className="input_style peer" id="" />
+                            <input
+                                type="password"
+                                {...register('password')}
+                                className="input_style peer"
+                            />
                             {errors.password && <span className="text-red-500 text-xs">{errors.password.message}</span>}
                         </div>
                     </section>
                     <section className="space-y-6 hidden">
+                        <div className="flex flex-col group relative group">
+                            <label htmlFor="telephone" className="label_style group-focus-within:-top-2.5 peer-focus:top-0">
+                                Telephone
+                            </label>
+                            <input
+                                type="tel"
+                                {...register('telephone')}
+                                className="input_style peer"
+                            />
+                            {errors.telephone && <span className="text-red-500 text-xs">{errors.telephone.message}</span>}
+                        </div>
                         <div className="flex flex-col group relative group">
                             <label htmlFor="email" className="label_style group-focus-within:-top-2.5 peer-focus:top-0">
                                 Email address
@@ -86,7 +103,7 @@ const Signup = () => {
                                 Address
                             </label>
                             <input type="text" name="address" className="input_style peer" id="" />
-                            {errors.firstName && <span className="text-red-500 text-xs">{errors.firstName.message}</span>}
+                            {errors.email && <span className="text-red-500 text-xs">{errors.email.message}</span>}
                         </div>
                     </section>
                     <div className="flex items-center justify-between">
