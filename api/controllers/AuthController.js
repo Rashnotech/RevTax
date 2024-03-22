@@ -5,7 +5,7 @@ import sha1 from 'sha1';
 
 class AuthController {
 
-  static async requestToken (req, res) => {
+  static async requestToken (req, res) {
     const { email } = req.params
 
 
@@ -33,10 +33,10 @@ class AuthController {
     if (!user) return res.status(404).json({error: "Not Found" })
     if (user.token === token ) return res.json({status: "Ok", email })
 
-    return return res.status(403).json({error: "Wrong token" })
+    return res.status(403).json({error: "Wrong token" })
   }
 
-  static async resetPassword {
+  static async resetPassword(req, res) {
     const { email } = req.params
     const { password } = req.body;
     const user = await User.findOne({ email })
