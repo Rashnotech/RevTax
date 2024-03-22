@@ -10,13 +10,20 @@
    @apply text-sm transition-all font-light absolute top-2.5 left-3 bg-white
 }
 .form_container {
-    @apply flex items-center w-full max-h-full justify-center
+    @apply flex items-center w-full max-h-full justify-center my-8
 }
 .form_wrapper {
-    @apply rounded-md space-y-4 my-20 p-12 text-slate-700 text-base flex shadow-md flex-col items-center md:w-2/4 border bg-white font-sans
+    @apply rounded-md space-y-4 md:w-2/4 my-20 p-12 text-slate-700 text-base flex shadow-md flex-col items-center border bg-white font-sans
 }
 .btn_primary {
     @apply w-full rounded-md px-4 py-2 text-white font-light text-lg bg-blue-700
 }
 
+.label_up {
+    @apply absolute left-3 -top-3 w-fit bg-white transition-all font-light text-sm
+}
+
+.label_down {
+    @apply absolute left-3 top-3 group-focus-within:-top-1/4 font-light transition-all text-sm w-fit bg-white
+}
 
