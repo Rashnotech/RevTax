@@ -1,41 +1,54 @@
 import './style.css'
 import { ChangeEvent, useState } from 'react'
+import { useForm, SubmitHandler } from 'react-hook-form';
+
+type IFormInput = {
+    record: string;
+    recordRequired: string;
+    password: string;
+    passwordRequired: string;
+};
 
 const Login = () => {
-    const [inputValue, setInputValue] = useState('Aliyu');
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setInputValue(e.target.value);
-    };
+    const { 
+        register,
+        handleSubmit,
+        formState: { errors } } = useForm <IFormInput>();
 
+    const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
     return (
         <div className="form_container md:w-3/5 mx-auto">
             <section className="form_wrapper">
                 <h2 className="text-2xl font-light">Welcome</h2>
                 <p className="text-slate-900 font-light">Log in to RevTax to pay your tax</p>
-                <form action="" className="w-full space-y-6">
+                <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-6">
                     <div className="flex flex-col relative group">
                         <label
                             htmlFor="email" 
                             className={`absolute left-3 ${
-                                inputValue === '' ? 'label_style group-focus-within:-top-2.5' :
-                                ' text-sm transition-all font-light top-0 bg-white'
+                                'label_style group-focus-within:-top-2.5'
                             }`}>
-                            Email address
+                            Email or Telephone
                         </label>
                         <input 
-                            type="email" 
-                            placeholder=""
+                            type="text" 
                             className="input_style peer"
-                            value={inputValue}
-                            onChange={handleInputChange}
+                            {...register('record', { required: true, pattern: /^[A-Z0-9]+$/ })}
                         />
+                        {errors.record && <span className='text-red-500 text-sm'>This field is required</span>}
                     </div>
                     <div className="flex flex-col group relative">
                         <label htmlFor="password"
                             className="label_style group-focus-within:-top-2.5 peer-focus:top-0">
                                 Password
                         </label>
-                        <input type="password" name="password" className="input_style peer" id="" />
+                        <input
+                            type="password"
+                            {...register('password', { required: true })}
+                            className="input_style peer"
+                            id=""
+                        />
+                        {errors.password && <span className='text-red-500 text-sm'>This field is required</span>}
                     </div>
                     <a href='/reset_password' className='text-blue-700 font-light mt-4 text-sm cursor-pointer'>Forget password?</a>
                     <button className='btn_primary'>Continue</button>
