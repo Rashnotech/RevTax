@@ -8,17 +8,18 @@ import User from '../models/users.js'
 
 function jwtAuth(req, res, next) {
   const token = req.headers.authorization
-  if (!token) return res.status(403).json({ereor: "forbidden"})
+  if (!token) return res.status(403).json({error: "forbidden"})
 
+  let payload
   try {
-    const payload = auth.verifyToken(token);
+    payload = auth.verifyToken(token);
   } catch {
     return res.status(401).json({ error: "Invalid token" })
   }
   if (!payload) return res.status(401).json({ error: "Invalid token" })
-   const filter = { telephone: payload.telephone, password: payload.password }
+  const filter = { $or: [ {telephone: payload.telephone }, { password: payload.password } ] }
   User.findOne(filter).then((user) => {
-    if (!user) res.status(401).json({ error: "Forbidden" })
+    if (!user) return res.status(401).json({ error: "Forbidden" })
     req.user = user
     next()
   }).catch((err) => {
