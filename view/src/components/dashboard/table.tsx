@@ -8,7 +8,7 @@ interface TableProps {
 
 const Table: React.FC<TableProps> = ({caption, head, body}) => {
     return (
-        <table className="table-auto border-collapse my-8 font-sans w-full text-sm">
+        <table className="border-collapse table-auto w-full my-8 font-sans text-sm">
             <caption className='caption-bottom mt-4'>
                 {caption && caption}
             </caption>

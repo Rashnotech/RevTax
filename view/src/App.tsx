@@ -13,6 +13,7 @@ import Transacthistory from "./pages/clients/history";
 import Userprofile from "./pages/clients/profile";
 import Payrevenue from "./pages/clients/payment";
 import Usersetting from "./pages/clients/settings";
+import Paytax from "./pages/clients/paytax";
 
 const routes = createBrowserRouter(createRoutesFromElements(
   <Route>
@@ -25,7 +26,9 @@ const routes = createBrowserRouter(createRoutesFromElements(
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="history" element={<Transacthistory />} />
         <Route path="profile" element={<Userprofile />} />
-        <Route path="payment" element={<Payrevenue />} />
+        <Route path="payment" element={<Payrevenue />}>
+          <Route path="paytax" element={<Paytax />} />
+        </Route>
         <Route path="setting" element={<Usersetting />} />
     </Route>
   </Route>
