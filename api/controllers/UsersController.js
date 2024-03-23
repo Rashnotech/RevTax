@@ -1,12 +1,13 @@
 import Mailer from "../services/MailService.js";
+import TextService from "../services/TextService.js";
 import sha1 from 'sha1';
 import auth from '../auth/auth.js'
-import mongoose from 'mongoose'
-import User from '../../models/users.js'
+import User from '../models/users.js'
 
 
 
-const validateInput = (input, requiredFields, res) => {
+
+const validateInput = (input, requiredFields) => {
     for (const field in requiredFields) {
         const type = requiredFields[field];
         if (!type) {
@@ -19,11 +20,13 @@ const validateInput = (input, requiredFields, res) => {
 
 
 class UsersController {
-
     static async register (req, res) {
+
         const data = req.body;
 
-        const requiredFields = {   
+      
+
+      const requiredFields = {   
             firstname: 'required',
             lastname: 'required',
             email: 'required',
@@ -31,32 +34,46 @@ class UsersController {
             password: 'required',
             type: 'required',
             address: 'required'
-        };
-        try {
-            validateInput(data, requiredFields, res);
-            const {email, telephone} = data;
-            if (!email.includes('@')) return res.status(400).json({error: 'Invalid email address'});
-            const mobile = Mailer.isMobile(telephone);
-            if (!mobile) return res.status(400).json({error: 'Invalid phone number'});
-            const user = await User.findOne({ $or: [{ email }, { mobile }] });
-            if (user) res.status(400).json({error: 'User already exist'});
-            const token = Mailer.generateToken();
-            const response = await Mailer.sms(mobile, `Welcome to Rev platform. Your otp is ${token}`);
-            if (response.error) {
-                const mailResponse = await Mailer.mail(email, {
-                    title: 'RevTax',
-                    body: `<p>Welcome to Rev platform. Your otp is ${token} </p>`
-                });
-                if (mailResponse.error) return res.status(500).json({error:"An error occured while sending otp"});
-            }
-            data.password = sha1(data.password);
-            data.telephone = mobile;
-            const newUser = new User({ ...data});
-            await newUser.save();
-            return res.status(201).json({ message: 'User created successfully' });
-        } catch (error) {
-        return res.status(400).json({error: error.message}); 
+};
+      
+
+     
+      try {
+        validateInput(data, requiredFields);
+        
+        const {email, telephone} = data;
+
+        if (!email.includes('@')) return res.status(400).json({error: 'Invalid email address'});
+        
+        const mobile = TextService.isMobile(telephone);
+        if (!mobile) return res.status(400).json({error: 'Invalid phone number'});
+        
+        const existingUser = await User.findOne({ $and: [{ email }, { mobile }] });
+        if (existingUser) res.status(400).json({error: 'User email or mobile already exist'});
+        
+        const token = Mailer.generateToken();
+        const smsResponse = await TextService.sms(mobile, `Welcome to Rev platform. Your otp is ${token}`);
+        console.log
+        if (smsResponse.error) {
+           const mailResponse = await Mailer.mail(email,
+            {
+              title: 'RevTax',
+              body: `<p>Welcome to Rev platform. Your otp is ${token} </p>`
+            });
+            if (mailResponse.error) return res.status(500).json({error: 'An error occured while sending otp'});
+
         }
+
+        data.password = sha1(data.password);
+        data.telephone = mobile;
+
+        const newUser = new User({ ...data});
+        await newUser.save();
+        
+        return res.status(201).json({ message: 'User created successfully' });
+      } catch (error) {
+        return res.status(400).json({error: error.message}); 
+      }
     }
 
 
@@ -68,25 +85,47 @@ class UsersController {
   static async login(req, res) {
     const data = req.body;
 
-    const { email, telephone, password } = data
+    const { email, password } = data
+
+    let { telephone } = data
     if (!email && !telephone) {
       return res.status(400).json({'error': 'Missing email and telephone'})
     }
-    if (!email.includes('@')) return res.status(400).json({error: 'Invalid email address'});
-    telephone = Mailer.isMobile(telephone)
-    if (!telephone) {
+
+    if (email && !email.includes('@')) return res.status(400).json({error: 'Invalid email address'});
+    if (telephone && !TextService.sMobile(telephone)) {
+
       return res.status(400).json({error: 'Invalid phone number'});
     }
 
-    if (!password) {
-      return res.status(400).json({'error': 'Missing email and password'})
+    if (telephone) {
+      telephone = Mailer.isMobile(telephone)
     }
-    const user = await User.findOne({ $or: [{email}, {telepone}] });
+
+    if (!password) {
+      return res.status(400).json({'error': 'Missing password'})
+    }
+    const users = await User.find({})
+    const user = await User.findOne({ $or: [ { email }, { telephone } ] });
     if (!user) return res.status(404).json({'error': 'Not found'})
     if (sha1(password) !== user.password) return res.status(400).json({'error': 'Wrong password'})
 
-    const token = auth.createToken({ telephone: user.telephone, password: user.password});
-    return res.json({ token });
+    auth.createToken({ id: user._id}).then((token) => {
+      return res.json({ token });
+    }).catch((err) => {
+      return res.status(400).json({ error: "Login failed" });
+    });
+  }
+
+  static async getUser(req, res) {
+    const { userId } = req.params
+
+    if (typeof userId !== 'string') return res.status(400).json({error: "userId must be a string"})
+
+    const user = await User.findOne({_id: userId })
+
+    if (!user) return res.status(404).json({error: "Not Found"})
+    return res.json(user)
   }
 
   static async getAllUsers(req, res) {
@@ -100,21 +139,20 @@ class UsersController {
 
     if (!userId) return res.status(400).json({error: "Missing userId"})
 
-    if (!(userId instanceof 'string')) return res.status(400).json({error: "userId must be a string"})
+    if (typeof userId !== 'string') return res.status(400).json({error: "userId must be a string"})
     
     const data = req.body || {}
 
-    const user = await User.findById(userId)
-    if (!user) return res.status(404).json({error: "Not Found"})
-
-    const restricted = ['created_at', 'telephone', 'type']
+    const restricted = ['createdAt', 'telephone', 'type']
 
     for (const [key, value] of Object.entries(data)) {
       if (restricted.includes(key)) {
 	delete data[key]
       }
     }
-    await User.updateOne({_id: userId }, {...data})
+    const user = await User.findByIdAndUpdate(userId, {...data }, {new: true})
+    if (!user) return res.status(404).json({error: "Not Found"})
+	  console.log(user)
     return res.json(user)
   }
 
@@ -124,7 +162,7 @@ class UsersController {
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({error: "Not Found"})
     
-    User.deleteOne({_id: userId})
+    await User.deleteOne({_id: userId})
     return res.json({})
   }
 }

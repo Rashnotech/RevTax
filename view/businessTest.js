@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { expect } from 'chai';
-import Business from './models/business.js';
+import Business from '../models/business.js';
 
 // Connect to MongoDB
 mongoose.connect('mongodb://127.0.0.1:27017/FileStorage' );

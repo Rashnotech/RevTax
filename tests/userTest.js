@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-import User from './models/users.js';
+import User from '../models/users.js';
 
 mongoose.connect('mongodb://127.0.0.1:27017/FileStorage');
 

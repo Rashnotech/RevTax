@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.input_style {
+    @apply border rounded-md p-3 border-slate-600 outline-none bg-none focus:font-light focus:bg-none
+}
+
+.label_style {
+   @apply text-sm transition-all font-light absolute top-2.5 left-3 bg-white
+}
+.form_container {
+    @apply flex items-center w-full max-h-full justify-center
+}
+.form_wrapper {
+    @apply rounded-md space-y-4 my-20 p-12 text-slate-700 text-base flex shadow-md flex-col items-center md:w-2/4 border bg-white font-sans
+}
+.btn_primary {
+    @apply w-full rounded-md px-4 py-2 text-white font-light text-lg bg-blue-700
+}
+
+
