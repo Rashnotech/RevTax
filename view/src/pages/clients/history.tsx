@@ -3,7 +3,7 @@ import Table from "../../components/dashboard/table"
 const Transacthistory = () => {
     return (
         <section className="flex-1 w-full px-6 font-light">
-            <h2 className="text-xl font-light mt-4 text-slate-600">Transaction History</h2>
+            <h2 className="text-2xl font-sans font-semibold mt-4 text-slate-600">Transaction History</h2>
             <div className="p-4 mt-3 flex items-center justify-between bg-white shadow-sm">
                 <label className="relative block w-1/2">
                     <span className="sr-only">Search</span>

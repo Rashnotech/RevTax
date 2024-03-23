@@ -1,4 +1,5 @@
 import '../../pages/style.css'
+import { Avatar, Wrap, WrapItem } from '@chakra-ui/react'
 const Header = () => {
     return (
         <header className="sticky top-0 bg-white shadow-md py-4 px-6 z-10">
@@ -8,9 +9,11 @@ const Header = () => {
                 </div>
                 <ul className="flex items-center space-x-6">
                     <li>
-                        <button className='text-black rounded-md p-2 flex items-center ring-2 ring-blue-500'>
-                            <span className="mdi--user-circle"></span>
-                        </button>
+                        <Wrap>
+                            <WrapItem>
+                                <Avatar name="Abdulrasheed Aliyu" src="#" />
+                            </WrapItem>
+                        </Wrap>
                     </li>
                 </ul>
             </div>
