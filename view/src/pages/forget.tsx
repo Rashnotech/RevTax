@@ -32,7 +32,9 @@ const Forget = () => {
         formState: { errors }} = useForm<IFormInput>({ resolver })
 
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-        console.log(data)
+        /**
+         * handle submit here
+         */
     }
     const email = watch('email');
     return (

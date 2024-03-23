@@ -2,7 +2,6 @@ import './style.css'
 import { useState } from 'react';
 import resolver from '../utils/resolverLog';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import PostRequest from '../utils/PostRequest';
 import { IFormInput } from '../utils/types';
 
 
@@ -21,6 +20,8 @@ function Login() {
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         /**
          * PostRequest goes in here
+         * for url use the import.meta.env.url variable in the .env file
+         * 
          */
     };
     return (

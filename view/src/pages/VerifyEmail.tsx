@@ -1,8 +1,8 @@
 import { useState, useRef, ChangeEvent, KeyboardEvent, FC } from 'react';
 
 const Verify: FC = () => {
-    const [otp, setOtp] = useState(['', '', '', '', '']);
-    const inputRefs  = useRef<HTMLInputElement []>(Array(5).fill(null));
+    const [otp, setOtp] = useState(['', '', '', '', '', '']);
+    const inputRefs  = useRef<HTMLInputElement []>(Array(6).fill(null));
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
         const newOtp = [...otp];
