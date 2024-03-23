@@ -1,9 +1,9 @@
-const Payrevenue = () => {
+const Usersetting = () => {
     return (
         <section className="flex-1 w-full px-6 font-light">
-            payment
+            settings
         </section>
     )
 }
 
-export default Payrevenue
+export default Usersetting

@@ -1188,14 +1188,6 @@ video {
   background-color: rgb(148 163 184 / var(--tw-bg-opacity));
 }
 
-.hover\:bg-blue-700\/15:hover {
-  background-color: rgb(29 78 216 / 0.15);
-}
-
-.hover\:bg-blue-700\/50:hover {
-  background-color: rgb(29 78 216 / 0.5);
-}
-
 .focus\:border-blue-500:focus {
   --tw-border-opacity: 1;
   border-color: rgb(59 130 246 / var(--tw-border-opacity));
@@ -1204,28 +1196,6 @@ video {
 .focus\:outline-none:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
-}
-
-.disabled\:bg-blue-500:disabled {
-  --tw-bg-opacity: 1;
-  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
-}
-
-.disabled\:bg-blue-400:disabled {
-  --tw-bg-opacity: 1;
-  background-color: rgb(96 165 250 / var(--tw-bg-opacity));
-}
-
-.group:focus-within .group-focus-within\:-top-2 {
-  top: -0.5rem;
-}
-
-.group:focus-within .group-focus-within\:-top-2\.5 {
-  top: -0.625rem;
-}
-
-.peer:focus ~ .peer-focus\:top-0 {
-  top: 0px;
 }
 
 @media (min-width: 768px) {

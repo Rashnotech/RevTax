@@ -7,11 +7,11 @@ interface UrlItem {
 }
 
 const url: UrlItem[] = [
-    { name: "Dashboard", path: "/dashboard", icon: "radix-icons--dashboard" },
-    { name: "Payment", path: "/payment", icon: "ri--hand-coin-line" },
-    { name: "History", path: "/history", icon: "fluent--history-28-filled"},
-    { name: "Profile", path: "/profile", icon: "solar--user-linear" },
-    { name: "Setting", path: "/setting", icon: "lets-icons--setting-alt-line" },
+    { name: "Dashboard", path: "/user/dashboard", icon: "radix-icons--dashboard" },
+    { name: "Payment", path: "/user/payment", icon: "ri--hand-coin-line" },
+    { name: "History", path: "/user/history", icon: "fluent--history-28-filled"},
+    { name: "Profile", path: "/user/profile", icon: "solar--user-linear" },
+    { name: "Setting", path: "/user/setting", icon: "lets-icons--setting-alt-line" },
 ]
 
 const Aside = () => {
