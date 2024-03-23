@@ -1,6 +1,4 @@
-
-import mongoose from '../utils/db.js';
-
+import mongoose from '../utils/db.js'
 
 const userSchema = new mongoose.Schema({
   firstname: { type: String, required: true },

@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
+import mongoose from '../utils/db.js'
 const { Schema } = mongoose;
 
-import Business from './Business';
+import Business from './business.js';
 
 const isRegisteredSchema = new Schema({
   business: {
