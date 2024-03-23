@@ -1,10 +1,11 @@
+
 import User from '../models/users.js'
 
 
 const verify = async (req, res) => {
   const { email } = req.params
 
-  const { token } = req.body;
+  const { token } = req.body
 
   console.log(email)
   const user = await User.findOne({ email })

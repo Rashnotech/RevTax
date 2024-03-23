@@ -1,4 +1,3 @@
-import axios from 'axios';
 import nodemailer from 'nodemailer';
 import config from '../config/server_config.js';
 
@@ -6,33 +5,9 @@ import config from '../config/server_config.js';
 
 class Mailer {
     /**
-     * a class that handles sms/email validation
-     * sms - static class method
+     * a class that handles email validation
      * mail - static class method
      */
-
-    static async sms (number, message) {
-        const options = {
-            method: 'POST',
-            url: 'https://rapid-sms.api.p.rapid.com/sms',
-            headers: {
-                'content-type': 'application/json',
-                'X-RapidAPI-Key': 'd34abcdaa6msh40b38e6fb636a35p1c362djsn4d6591f044c0',
-                'X-RapidAPI-Host': 'rapid-sms-api.p.rapidapi.com'
-            },
-            data: {
-                phone_number: number,
-                text: message
-            }
-        };
-        try {
-            const response = await axios.request(options)
-            return response
-        } catch (err) {
-            return {error: err}
-        }
-    }
-    
     static async mail (email, message) {
         /**
          * @param {string} receiver email
@@ -40,12 +15,12 @@ class Mailer {
          */
         const transporter = nodemailer.createTransport(
             {
-                host: 'smtp.gmail.com',
-                port: 465,
+                host: config.server.host,
+                port: config.server.port,
                 secure: true,
                 auth: {
-                    user: 'pense.blogpost@gmail.com',
-                    pass: 'nigyjnsceqoooqty'
+                    user: config.server.user,
+                    pass: config.server.pass
                 }
             }
         );
@@ -61,20 +36,9 @@ class Mailer {
         }
         return {error: 'Failed to send email'};
     }
-
-    static isMobile (number) {
-        if (number.startsWith(0)) number = number.slice(1);
-        const cty_code = '+234';
-        const tel = `${cty_code}${number}`;
-        const mobileRegex = /^\+\d{1,3}\d{10}$/;
-        if (mobileRegex.test(tel)) {
-            return tel;
-        }
-        return false;
-    }
     
     static generateToken () {
-        return Math.floor(1000 + Math.random() * 9000);
+        return Math.floor(10000 + Math.random() * 90000);
     }
 }
 

@@ -1,4 +1,6 @@
+
 import Payment from '../models/payment.js'
+
 
 class PaymentController {
   static async makePayment(req, res) {

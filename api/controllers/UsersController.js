@@ -1,11 +1,13 @@
 import Mailer from "../services/MailService.js";
+import TextService from "../services/TextService.js";
 import sha1 from 'sha1';
 import auth from '../auth/auth.js'
 import User from '../models/users.js'
 
 
 
-const validateInput = (input, requiredFields, res) => {
+
+const validateInput = (input, requiredFields) => {
     for (const field in requiredFields) {
         const type = requiredFields[field];
         if (!type) {
@@ -18,11 +20,13 @@ const validateInput = (input, requiredFields, res) => {
 
 
 class UsersController {
-
     static async register (req, res) {
+
         const data = req.body;
 
-        const requiredFields = {   
+      
+
+      const requiredFields = {   
             firstname: 'required',
             lastname: 'required',
             email: 'required',
@@ -30,33 +34,46 @@ class UsersController {
             password: 'required',
             type: 'required',
             address: 'required'
-        };
-        try {
-            validateInput(data, requiredFields, res);
-            const {email, telephone} = data;
-            if (!email.includes('@')) return res.status(400).json({error: 'Invalid email address'});
-            const mobile = Mailer.isMobile(telephone);
-            if (!mobile) return res.status(400).json({error: 'Invalid phone number'});
-            const user = await User.findOne({ $or: [{ email }, { mobile }] });
-            if (user) return res.status(400).json({error: 'User already exist'});
-            const token = Mailer.generateToken();
-            const response = await Mailer.sms(mobile, `Welcome to Rev platform. Your otp is ${token}`);
-            if (response.error) {
-                const mailResponse = await Mailer.mail(email, {
-                    title: 'RevTax',
-                    body: `<p>Welcome to Rev platform. Your otp is ${token} </p>`
-                });
-                if (mailResponse.error) return res.status(500).json({error:"An error occured while sending otp"});
-            }
-            data.password = sha1(data.password);
-            data.telephone = mobile;
-	    data.token = token
-            const newUser = new User({ ...data});
-            await newUser.save();
-            return res.status(201).json({ message: 'User created successfully' });
-        } catch (error) {
-        return res.status(400).json({error: error.message}); 
+};
+      
+
+     
+      try {
+        validateInput(data, requiredFields);
+        
+        const {email, telephone} = data;
+
+        if (!email.includes('@')) return res.status(400).json({error: 'Invalid email address'});
+        
+        const mobile = TextService.isMobile(telephone);
+        if (!mobile) return res.status(400).json({error: 'Invalid phone number'});
+        
+        const existingUser = await User.findOne({ $and: [{ email }, { mobile }] });
+        if (existingUser) res.status(400).json({error: 'User email or mobile already exist'});
+        
+        const token = Mailer.generateToken();
+        const smsResponse = await TextService.sms(mobile, `Welcome to Rev platform. Your otp is ${token}`);
+        console.log
+        if (smsResponse.error) {
+           const mailResponse = await Mailer.mail(email,
+            {
+              title: 'RevTax',
+              body: `<p>Welcome to Rev platform. Your otp is ${token} </p>`
+            });
+            if (mailResponse.error) return res.status(500).json({error: 'An error occured while sending otp'});
+
         }
+
+        data.password = sha1(data.password);
+        data.telephone = mobile;
+
+        const newUser = new User({ ...data});
+        await newUser.save();
+        
+        return res.status(201).json({ message: 'User created successfully' });
+      } catch (error) {
+        return res.status(400).json({error: error.message}); 
+      }
     }
 
 
@@ -74,8 +91,10 @@ class UsersController {
     if (!email && !telephone) {
       return res.status(400).json({'error': 'Missing email and telephone'})
     }
+
     if (email && !email.includes('@')) return res.status(400).json({error: 'Invalid email address'});
-    if (telephone && !Mailer.isMobile(telephone)) {
+    if (telephone && !TextService.sMobile(telephone)) {
+
       return res.status(400).json({error: 'Invalid phone number'});
     }
 
