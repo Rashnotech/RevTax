@@ -1,15 +1,25 @@
-import Payment from "../models/payment.js"
+
+import Payment from '../models/payment.js'
+
 
 class PaymentController {
   static async makePayment(req, res) {
-    const data = req.body
-    const requiredField = ['userId', 'amount']
+    const { amount, payment_method } = req.body
+    const user = req.user
 
-    if (!('userId' in Object.keys(data))) return res.status(400).json({error: "Missing userId"})
+    if (!amount) return res.status(400).json({error: "Missing amount"})
 
-    if (!('amount' in Object.keys(data))) return res.status(400).json({error: "Missing amount"})
+    const data = {
+      amount,
+      userId: user._id
+    }
 
-    const payment = await new Payment({...data})
+    if (payment_method) {
+      data.payment_method = payment_method
+    }
+
+    const payment = new Payment({...data})
+    await payment.save()
     return res.status(201).json(payment)
   }
 
@@ -18,14 +28,14 @@ class PaymentController {
 
     if (!paymentId) return res.status(400).json({error: "Missing paymentId"})
 
-    if (!(paymentId instanceof 'string')) return res.status(400).json({error: "paymentId must be a string"})
+    if (typeof paymentId !== 'string') return res.status(400).json({error: "paymentId must be a string"})
 
     const data = req.body || {}
 
-    payment = await Payment.findOne({_id: paymentId })
+    const payment = await Payment.findByIdAndUpdate(paymentId, { status: data.status }, { new: true })
     if (!payment) return res.status(404).json({error: "Not Found"})
 
-    await Payment.updateOne({ _id: paymentId }, { status: data.status })
+    //await Payment.updateOne({ _id: paymentId }, { status: data.status })
     return res.json(payment)
   }
 
@@ -36,11 +46,10 @@ class PaymentController {
   static async getPayment(req, res) {
     const { paymentId } = req.params
     
-    if (!paymentId) return res.status(400).json({error: "Missing paymentId"})
 
-    if (!(paymentId instanceof 'string')) return res.status(400).json({error: "paymentId must be a string"})
+    if (typeof paymentId !== 'string') return res.status(400).json({error: "paymentId must be a string"})
     
-    payment = await Payment.findOne({_id: paymentId })
+    const payment = await Payment.findOne({_id: paymentId })
     
     if (!payment) return res.status(404).json({error: "Not Found"})
     return res.json(payment)
@@ -55,15 +64,15 @@ class PaymentController {
     const { userId } = req.params
 
     if (!userId) return res.status(400).json({error: "Missing userId"})
-    if (!(userId instanceof 'string')) return res.status(400).json({error: "userId must be a string"})
+    if (typeof userId !== 'string') return res.status(400).json({error: "userId must be a string"})
 
-    const payment = await Payment.findMany({ userId })
+    const payment = await Payment.find({ userId })
 
     res.json(payment || [])
   }
 
   static async getAllPayment(req, res) {
-    const payment = await Payment.findMany({})
+    const payment = await Payment.find({})
     res.json(payment || [])
   }
 }

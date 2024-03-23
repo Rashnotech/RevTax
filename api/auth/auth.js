@@ -10,6 +10,7 @@ class Auth {
     return new Promise((resolve, reject) => {
       jwt.sign(payload, privateKey, {expiresIn: '30d', algorithm: 'ES256'}, (err, token) => {
       if (err) {
+	      console.log(err)
 	reject("Error creating token", err)
       }
 	resolve(token)
