@@ -1,5 +1,5 @@
 import config from '../config/sms_config.js';
-import twilio from 'twilio';
+import twilio from 'twilio'
 
 const accountSid = config.twilio.accountSID;
 const authToken = config.twilio.authSID;
@@ -13,10 +13,10 @@ export default class TextService {
   static async sms (mobile, message) {
     const response = await client.messages.create({
         body: message,
-        from: '+2348081126250',
+        from: '+19166340948',
         to: mobile,
     });
-    return response.errorCode;
+    return response;
   }
 
   static isMobile (number) {
