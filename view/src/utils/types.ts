@@ -8,7 +8,8 @@ export type IFormValues = {
     firstName: string,
     lastName: string,
     telephone: string,
-    password: number,
+    password: string,
+    confirm: string,
     address: string,
     email: string,
     type: number

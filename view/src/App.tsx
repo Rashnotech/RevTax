@@ -8,6 +8,7 @@ import Auth from "./utils/Auth";
 import Layout from "./pages/clients/layout";
 import Dashboard from "./pages/clients/dashboard";
 import Home from "./pages/home";
+import { ChakraProvider } from "@chakra-ui/react";
 
 const routes = createBrowserRouter(createRoutesFromElements(
   <Route>
@@ -25,7 +26,9 @@ const routes = createBrowserRouter(createRoutesFromElements(
 function App() {
 
   return (
+    <ChakraProvider>
       <RouterProvider router={routes} />
+    </ChakraProvider>
   );
 }
 

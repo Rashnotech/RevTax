@@ -1,6 +1,6 @@
 import './style.css'
 import { useState } from 'react';
-import resolver from '../utils/resolver';
+import resolver from '../utils/resolverLog';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import PostRequest from '../utils/PostRequest';
 import { IFormInput } from '../utils/types';
@@ -19,11 +19,9 @@ function Login() {
     const password = watch('password');
 
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-        try {
-            await PostRequest('', data);
-        } catch (err) {
-            throw Error('');
-        }
+        /**
+         * PostRequest goes in here
+         */
     };
     return (
         <div className="form_container md:w-3/5 mx-auto">
