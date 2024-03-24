@@ -2,7 +2,7 @@ import { Router } from "express";
 import UsersController from "../controllers/UsersController.js";
 import jwtAuth from '../middleware/jwtauth.js'
 import PaymentController from "../controllers/PaymentController.js";
-import verify from "../controllers/verify.js"
+import verify, { auth_token } from "../controllers/verify.js"
 import User from '../models/users.js'
 import AuthController from "../controllers/AuthController.js"
 
@@ -428,7 +428,7 @@ router.get('/api/payments/:paymentId', jwtAuth, PaymentController.getPayment);
 
 router.get('/api/users/:userId/payments', jwtAuth, PaymentController.getPaymentByUser);
 router.post('/api/verify/:email', verify)
-
+router.post('/api/auth/auth_token', auth_token)
 router.post('/api/requesttoken', AuthController.requestToken)
 router.post('/api/verifytoken', AuthController.verifyToken)
 router.post('/api/resetpassword', AuthController.resetPassword)
