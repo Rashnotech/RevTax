@@ -34,7 +34,6 @@ class UsersController {
 };
       
 
-     
       try {
         validateInput(data, requiredFields);
         
@@ -69,7 +68,6 @@ class UsersController {
               `
             });
             if (mailResponse.error) return res.status(500).json({error: 'An error occured while sending otp'});
-
         }
 
         data.password = sha1(data.password);
@@ -93,33 +91,27 @@ class UsersController {
   static async login(req, res) {
     const data = req.body;
 
-    const { email, password } = data
+    const { password } = data
+    let { record } = data
 
-    let { telephone } = data
-    if (!email && !telephone) {
+    if (!record) {
       return res.status(400).json({'error': 'Missing email and telephone'})
     }
 
-    if (email && !email.includes('@')) return res.status(400).json({error: 'Invalid email address'});
-    if (telephone && !TextService.sMobile(telephone)) {
-
-      return res.status(400).json({error: 'Invalid phone number'});
-    }
-
-    if (telephone) {
-      telephone = Mailer.isMobile(telephone)
+    if (TextService.isMobile(record)) {
+      record = TextService.isMobile(record)
     }
 
     if (!password) {
       return res.status(400).json({'error': 'Missing password'})
     }
     const users = await User.find({})
-    const user = await User.findOne({ $or: [ { email }, { telephone } ] });
+    const user = await User.findOne({ $or: [ { email: record }, { telephone: record } ] });
     if (!user) return res.status(404).json({'error': 'Not found'})
     if (sha1(password) !== user.password) return res.status(400).json({'error': 'Wrong password'})
 
     auth.createToken({ id: user._id}).then((token) => {
-      return res.json({ token });
+      return res.json({ token: token });
     }).catch((err) => {
       return res.status(400).json({ error: "Login failed" });
     });

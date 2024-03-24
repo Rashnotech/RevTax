@@ -18,7 +18,7 @@ const router = Router();
  * servers:
  *   - url: http://localhost:5000
  * paths:
- *   /auth/signup:
+ *   /api/auth/signup:
  *     post:
  *       summary: User Signup
  *       description: |
@@ -80,7 +80,7 @@ const router = Router();
  *       security: []
  */
 
-router.post('/auth/signup', UsersController.register);
+router.post('/api/auth/signup', UsersController.register);
 
 /**
  * @swagger
@@ -92,7 +92,7 @@ router.post('/auth/signup', UsersController.register);
  * servers:
  *   - url: http://localhost:5000
  * paths:
- *   /auth/login:
+ *   /api/auth/login:
  *     post:
  *       summary: User Login
  *       description: |
@@ -138,7 +138,7 @@ router.post('/auth/signup', UsersController.register);
  *       security: []
  */
 
-router.post('/auth/login', UsersController.login);
+router.post('/api/auth/login', UsersController.login);
 
 /**
  * @swagger
@@ -219,7 +219,7 @@ router.post('/auth/login', UsersController.login);
  *       name: Authorization
  */
 
-router.get('/users', jwtAuth, UsersController.getAllUsers);
+router.get('/api/users', jwtAuth, UsersController.getAllUsers);
 
 /**
  * @swagger
@@ -317,11 +317,11 @@ router.get('/users', jwtAuth, UsersController.getAllUsers);
  *       name: Authorization
  */
 
-router.get('/users/:userId', jwtAuth, UsersController.getUser);
+router.get('/api/users/:userId', jwtAuth, UsersController.getUser);
 
 
-router.put('/users/:userId', jwtAuth, UsersController.updateUser)
-router.delete('/users/:userId', jwtAuth, UsersController.deleteUser);
+router.put('/api/users/:userId', jwtAuth, UsersController.updateUser)
+router.delete('/api/users/:userId', jwtAuth, UsersController.deleteUser);
 
 /**
  * @swagger
@@ -392,7 +392,7 @@ router.delete('/users/:userId', jwtAuth, UsersController.deleteUser);
  */
 
 
-router.post('/payments', jwtAuth, PaymentController.makePayment);
+router.post('/api/payments', jwtAuth, PaymentController.makePayment);
 
 
 /**
@@ -420,17 +420,17 @@ router.post('/payments', jwtAuth, PaymentController.makePayment);
  *                   type: string
  */
 
-router.put('/payments/:paymentId', jwtAuth, PaymentController.updatePayment);
+router.put('/api/payments/:paymentId', jwtAuth, PaymentController.updatePayment);
 
-router.get('/payments', jwtAuth, PaymentController.getAllPayment);
+router.get('/api/payments', jwtAuth, PaymentController.getAllPayment);
 
-router.get('/payments/:paymentId', jwtAuth, PaymentController.getPayment);
+router.get('/api/payments/:paymentId', jwtAuth, PaymentController.getPayment);
 
-router.get('/users/:userId/payments', jwtAuth, PaymentController.getPaymentByUser);
-router.post('/verify/:email', verify)
+router.get('/api/users/:userId/payments', jwtAuth, PaymentController.getPaymentByUser);
+router.post('/api/verify/:email', verify)
 
-router.post('/requesttoken', AuthController.requestToken)
-router.post('/verifytoken', AuthController.verifyToken)
-router.post('/resetpassword', AuthController.resetPassword)
+router.post('/api/requesttoken', AuthController.requestToken)
+router.post('/api/verifytoken', AuthController.verifyToken)
+router.post('/api/resetpassword', AuthController.resetPassword)
 
 export default router;
