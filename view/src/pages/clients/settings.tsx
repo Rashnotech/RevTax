@@ -32,7 +32,7 @@ const Usersetting = () => {
                     <li className="first:pt-0 last:pb-0">
                         <Link to='' className='flex py-4'>
                             <span className="h-10 w-10 rounded-full flex items-center justify-center bg-slate-200">
-                                <span className="mage--email-fill"></span>
+                                <span className="ph--password-bold"></span>
                             </span>
                             <div className="ml-3 overflow-hidden">
                                 <p className="text-sm font-medium text-slate-900">Change password</p>
@@ -43,7 +43,7 @@ const Usersetting = () => {
                     <li className="first:pt-0 last:pb-0">
                         <Link to='' className='flex py-4'>
                             <span className="h-10 w-10 rounded-full flex items-center justify-center bg-slate-200">
-                                <span className="ph--password-bold"></span>
+                                <span className="mdi--two-factor-authentication"></span>
                             </span>
                             <div className="ml-3 overflow-hidden">
                                 <p className="text-sm font-medium text-slate-900">2-step verification</p>
