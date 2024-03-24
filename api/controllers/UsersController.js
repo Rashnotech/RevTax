@@ -21,9 +21,8 @@ const validateInput = (input, requiredFields) => {
 
 class UsersController {
     static async register (req, res) {
+      const data = req.body;
 
-        const data = req.body;
-      
       const requiredFields = {   
             firstname: 'required',
             lastname: 'required',
@@ -45,16 +44,28 @@ class UsersController {
         const mobile = TextService.isMobile(telephone);
         if (!mobile) return res.status(400).json({error: 'Invalid phone number'});
         
-        const existingUser = await User.findOne({ $and: [{ email }, { mobile }] });
+        const existingUser = await User.findOne({ $or: [{ email }, { mobile }] });
         if (existingUser) res.status(400).json({error: 'User email or mobile already exist'});
         
         const token = Mailer.generateToken();
         const smsResponse = await TextService.sms(mobile, `Welcome to Rev platform. Your otp is ${token}`);
-        if (smsResponse.error) {
+        if (smsResponse.status !== 'success') {
            const mailResponse = await Mailer.mail(email,
             {
               title: 'RevTax',
-              body: `<p>Welcome to Rev platform. Your otp is ${token} </p>`
+              body: `
+              <html>
+              <body>
+                <h1>RevTax Email Verification</h1>
+                Hi ${email}, <br>
+                We've received your request due to attempt to create an account.
+                <p> Your OTP code is: ${token} </p>
+                If you didn't attempt signing up this code, you can safely ignore this email. Someone else might have typed your email address by mistake.
+                Thanks <br>
+                <strong>RevTax Team</strong>
+              </body>
+              <html>
+              `
             });
             if (mailResponse.error) return res.status(500).json({error: 'An error occured while sending otp'});
         }

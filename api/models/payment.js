@@ -1,5 +1,4 @@
-
-import mongoose from '../utils/db.js';
+import mongoose from "../utils/db.js";
 const { Schema } = mongoose;
 
 const paymentSchema = new Schema({
