@@ -1,7 +1,7 @@
 import '../../pages/style.css'
-import { Avatar, Wrap, WrapItem, Menu, MenuList, MenuItem,
-    MenuButton,
-    Drawer, DrawerBody,
+import { Avatar, Wrap, WrapItem, Menu,
+    MenuList, MenuItem, MenuButton,
+    Drawer, DrawerBody, DrawerCloseButton,
     DrawerContent, DrawerOverlay, Button, useDisclosure } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import Aside from './sidebar'
@@ -24,6 +24,7 @@ const Header = () => {
                 <Drawer placement='left' onClose={onClose} isOpen={isOpen}>
                     <DrawerOverlay />
                     <DrawerContent>
+                    <DrawerCloseButton />
                     <DrawerBody>
                         <Aside visibility='block' />
                     </DrawerBody>

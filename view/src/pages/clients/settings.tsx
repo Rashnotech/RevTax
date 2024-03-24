@@ -6,7 +6,7 @@ const Usersetting = () => {
         <section className="flex-1 w-full px-6 font-light">
             <h2 className="text-2xl font-sans font-semibold mt-4 text-slate-600">Settings</h2>
             <div className="p-4 mt-3 flex md:flex-row flex-col items-center justify-between bg-white shadow-sm">
-                <ul role="list" className="divide-y divide-slate-200 max-w-md bg-white p-2">
+                <ul role="list" className="divide-y divide-slate-200 w-full bg-white p-2">
                     <li className="first:pt-0 last:pb-0">
                         <Link to='' className='flex py-4'>
                             <span className="h-10 w-10 rounded-full flex items-center justify-center bg-slate-200">
@@ -55,11 +55,11 @@ const Usersetting = () => {
                     <li className="first:pt-0 last:pb-0">
                         <Link to='' className='flex py-4'>
                             <span className="h-10 w-10 rounded-full flex items-center justify-center bg-slate-200">
-                                <span className=""></span>
+                                <span className="fluent--delete-16-regular"></span>
                             </span>
                             <div className="ml-3 overflow-hidden">
-                                <p className="text-sm font-medium text-slate-900">Delete account</p>
-                                <p className="text-sm text-slate-500 truncate">This account cannot be undone</p>
+                                <p className="text-sm font-medium text-red-500">Delete account</p>
+                                <p className="text-sm text-red-500 truncate">This action cannot be undone</p>
                             </div>
                         </Link>
                     </li>
