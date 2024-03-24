@@ -1,7 +1,7 @@
 {
   "name": "rev_tax",
   "version": "1.0.0",
-  "description": "\"online revenue generation system\"",
+  "description": "online revenue generation system",
   "type": "module",
   "main": "server.js",
   "directories": {
@@ -43,11 +43,8 @@
     "redis": "^4.6.13",
     "sha1": "^1.1.1",
     "supertest": "^6.3.4",
-
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.0"
-
+    "swagger-ui-express": "^5.0.0",
     "twilio": "^5.0.1"
-
   }
 }
