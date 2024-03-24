@@ -1,6 +1,6 @@
 const Paytax = () => {
   return (
-    <section className="w-1/2 mx-auto">
+    <section className="md:w-1/2 md:mx-auto w-full">
         <form action="" className="space-y-4">
             <div className="flex flex-col">
                 <label htmlFor="business" className="text-sm font-normal">Please pick an option</label>

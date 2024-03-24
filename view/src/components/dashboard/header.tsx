@@ -15,21 +15,20 @@ const Header = () => {
             <div className="flex items-center justify-between">
                 <div className="md:ml-12 md:block flex items-center space-x-4">
                     <img src="https://via.placeholder.com/150" alt="logo" className="w-10 flex-initial h-10 rounded-full object-cover" />
-                    <Button className='md:hidden block' onClick={onOpen}>
-                        <span className='fluent--text-align-justify-24-regular'></span>
-                    </Button>
-                    <Drawer placement='left' onClose={onClose} isOpen={isOpen}>
-                        <DrawerOverlay />
-                        <DrawerContent>
-                        <DrawerBody>
-                            <Aside visibility='block' />
-                        </DrawerBody>
-                        </DrawerContent>
-                    </Drawer>
-
-
-
+                    <span className='md:hidden block'>
+                        <Button onClick={onOpen}>
+                            <span className='fluent--text-align-justify-24-regular'></span>
+                        </Button>
+                    </span> 
                 </div>
+                <Drawer placement='left' onClose={onClose} isOpen={isOpen}>
+                    <DrawerOverlay />
+                    <DrawerContent>
+                    <DrawerBody>
+                        <Aside visibility='block' />
+                    </DrawerBody>
+                    </DrawerContent>
+                </Drawer>
                 <ul className="flex items-center space-x-6">
                     <li>
                         <Menu>

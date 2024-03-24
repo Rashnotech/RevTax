@@ -2,7 +2,7 @@ import Table from "../../components/dashboard/table"
 
 const Transacthistory = () => {
     return (
-        <section className="flex-1 w-full overflow-x-auto px-6 font-light">
+        <section className="flex-1 w-full px-6 font-light">
             <h2 className="text-2xl font-sans font-semibold mt-4 text-slate-600">Transaction History</h2>
             <div className="p-4 mt-3 flex md:flex-row flex-col items-center justify-between bg-white shadow-sm">
                 <label className="relative block md:w-1/2">
@@ -17,10 +17,14 @@ const Transacthistory = () => {
                     <button className="rounded-md bg-primary text-sm border text-white bg-pink-700 hover:bg-pink-600 px-4 py-2">Download Receipt</button>
                 </div>
             </div>
-            <Table
-                caption="Revenue transaction history"
-                head={['S/N', 'Amount', 'Method', 'Date', 'Status']}
-                body={[]} />
+            <div className="overflow-x-auto ">
+                <Table
+                    caption="Revenue transaction history"
+                    head={['S/N', 'Amount', 'Method', 'Date', 'Status']}
+                    body={[]}
+                />
+            </div>
+           
         </section>
     )
 }
