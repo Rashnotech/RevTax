@@ -7,7 +7,7 @@ const Layout = () => {
         <section className="flex bg-[#f3f4f6] flex-col h-[100vh]">
             <Header />
             <div className="flex h-full">
-                <Aside />
+                <Aside visibility='hidden' />
                 <Outlet />
             </div>
         </section>

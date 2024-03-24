@@ -6,6 +6,10 @@ interface UrlItem {
     icon: String,
 }
 
+interface AsideProps {
+    visibility: String;
+}
+
 const url: UrlItem[] = [
     { name: "Dashboard", path: "/user/dashboard", icon: "radix-icons--dashboard" },
     { name: "Payment", path: "/user/payment", icon: "ri--hand-coin-line" },
@@ -14,9 +18,9 @@ const url: UrlItem[] = [
     { name: "Setting", path: "/user/setting", icon: "lets-icons--setting-alt-line" },
 ]
 
-const Aside = () => {
+const Aside: React.FC<AsideProps> = ({visibility}) => {
     return (
-        <aside className="hidden md:block md:w-[250px] h-full overflow-y-auto bg-white">
+        <aside className={`md:block ${visibility} md:w-[250px] h-full overflow-y-auto bg-white`}>
             <nav className="mt-4">
                 <ul className="font-normal text-sm space-y-6">
                     {url.map((item, index) => {
