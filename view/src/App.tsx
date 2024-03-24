@@ -4,7 +4,7 @@ import Forget from "./pages/forget";
 import './assets/style.css'
 import Signup from "./pages/signup";
 import Verify from "./pages/VerifyEmail";
-import Auth from "./utils/Auth";
+import AuthLoader from "./utils/Auth";
 import Layout from "./pages/clients/layout";
 import Dashboard from "./pages/clients/dashboard";
 import Home from "./pages/home";
@@ -23,8 +23,9 @@ const routes = createBrowserRouter(createRoutesFromElements(
     <Route path='reset_password' element={<Forget />} />
     <Route path="signup" element={<Signup />} />
     <Route path="verify/:email" element={<Verify />} />
+
     <Route path="user" element={<Layout />}>
-        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="dashboard" loader={async () => await AuthLoader() } element={<Dashboard />} />
         <Route path="history" element={<Transacthistory />} />
         <Route path="profile" element={<Userprofile />} />
         <Route path="payment" element={<Payrevenue />}>
@@ -37,6 +38,7 @@ const routes = createBrowserRouter(createRoutesFromElements(
         <Route path="history" element={<Transacthistory />} />
         <Route path="staff" />
         <Route path="setting" element={<Usersetting />} />
+
     </Route>
   </Route>
 ))

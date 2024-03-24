@@ -25,7 +25,8 @@ function Login() {
          * for url use the import.meta.env.url variable in the .env file
          * 
          */
-        const url = 'http://52.23.178.187/api/auth/login'
+
+	const url = `${import.meta.env.VITE_API_URL}/login`
         
         const response = await PostRequest(url, data)
 	
