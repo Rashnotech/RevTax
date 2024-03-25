@@ -22,7 +22,7 @@ const routes = createBrowserRouter(createRoutesFromElements(
     <Route path="login" element={<Login/>} />
     <Route path='reset_password' element={<Forget />} />
     <Route path="signup" element={<Signup />} />
-    <Route path="verify/:email" element={<Verify />} />
+    <Route path="verify" element={<Verify />} />
     <Route path="user" element={<Layout />}>
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="history" element={<Transacthistory />} />

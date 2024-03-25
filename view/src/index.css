@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .input_style {
-    @apply border rounded-md p-3 border-slate-600 outline-none bg-none focus:font-light focus:bg-none
+    @apply border rounded-md text-sm p-3 border-slate-600 outline-none bg-none focus:font-light focus:bg-none
 }
 
 .label_style {
@@ -16,7 +16,7 @@
     @apply rounded-md space-y-4 md:w-2/4 my-20 p-12 text-slate-700 text-base flex shadow-md flex-col items-center border bg-white font-sans
 }
 .btn_primary {
-    @apply w-full rounded-md px-4 py-2 text-white font-light text-lg bg-blue-700
+    @apply w-full rounded-md px-4 py-2 text-white font-light text-sm bg-blue-700
 }
 
 .label_up {
@@ -25,5 +25,13 @@
 
 .label_down {
     @apply absolute left-3 top-3 group-focus-within:-top-1/4 font-light transition-all text-sm w-fit bg-white
+}
+
+.success {
+    @apply ring-1 ring-green-500/60 bg-green-500/25 rounded-md p-3 font-light text-sm text-green-600
+}
+
+.error {
+    @apply ring-1 ring-red-500/60 bg-red-500/25 rounded-md p-3 font-light text-sm text-red-600
 }
 
