@@ -1,4 +1,8 @@
+import React, { useState } from 'react'
+
 const Paytax = () => {
+    const [step, setStep] = useState(1)
+    const [businessType, setBusinessType] = useState('')
   return (
     <section className="md:w-1/2 md:mx-auto w-full">
         <form action="" className="space-y-4">
