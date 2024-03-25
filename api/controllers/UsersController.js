@@ -110,9 +110,10 @@ class UsersController {
     const user = await User.findOne({ $or: [ { email: record }, { telephone: record } ] });
     if (!user) return res.status(404).json({'error': 'Not found'})
     if (sha1(password) !== user.password) return res.status(400).json({'error': 'Wrong password'})
-
+    user.password = '';
     auth.createToken({ id: user._id}).then((token) => {
-      return res.json({ token: token });
+      res.cookie('revTax', token, { httpOnly: true })
+      return res.json({ user });
     }).catch((err) => {
       return res.status(400).json({ error: "Login failed" });
     });
@@ -148,7 +149,7 @@ class UsersController {
 
     for (const [key, value] of Object.entries(data)) {
       if (restricted.includes(key)) {
-	delete data[key]
+	      delete data[key]
       }
     }
     const user = await User.findByIdAndUpdate(userId, {...data }, {new: true})
@@ -166,6 +167,16 @@ class UsersController {
     await User.deleteOne({_id: userId})
     return res.json({})
   }
+
+  static logout(req, res) {
+    try {
+      res.clearCookie('revTax');
+      return res.json({message: 'Logged out successfully'});
+    } catch (error) {
+      return res.status(400).json({error});
+    } 
+  } 
+
 }
 
 export default UsersController

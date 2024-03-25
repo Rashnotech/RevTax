@@ -7,10 +7,10 @@ import User from '../models/users.js'
  */
 
 function jwtAuth(req, res, next) {
-  const token = req.headers.authorization
+  const token = req.cookies.revTax
   if (!token) return res.status(403).json({error: "forbidden"})
 
-  let payload
+  let payload = ''
   try {
     payload = auth.verifyToken(token);
   } catch {

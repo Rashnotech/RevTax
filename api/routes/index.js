@@ -428,7 +428,8 @@ router.get('/api/payments/:paymentId', jwtAuth, PaymentController.getPayment);
 
 router.get('/api/users/:userId/payments', jwtAuth, PaymentController.getPaymentByUser);
 router.post('/api/verify/:email', verify)
-router.post('/api/auth/auth_token', auth_token)
+router.get('/api/signout', UsersController.logout)
+/*router.post('/api/auth/auth_token', auth_token)*/
 router.post('/api/requesttoken', AuthController.requestToken)
 router.post('/api/verifytoken', AuthController.verifyToken)
 router.post('/api/resetpassword', AuthController.resetPassword)

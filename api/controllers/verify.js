@@ -23,6 +23,7 @@ export const auth_token = async (req, res) => {
 
   try {
     const verified = auth.verifyToken(token)
+    console.log(verified);
     return res.status(200).json({ status: "verified" })
   } catch {
     return res.status(401).json({ status: "failed" })
