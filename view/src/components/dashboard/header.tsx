@@ -6,8 +6,11 @@ import { Avatar, Wrap, WrapItem, Menu,
 import { Link } from 'react-router-dom'
 import Aside from './sidebar'
 
+interface HeaderProps {
+    fullname: string;
+}
 
-const Header = () => {
+const Header: React.FC<HeaderProps> = ({fullname}) => {
     const { isOpen, onClose, onOpen } = useDisclosure()
 
     return (
@@ -36,7 +39,7 @@ const Header = () => {
                             <MenuButton>
                                 <Wrap>
                                     <WrapItem>
-                                        <Avatar name="Abdulrasheed Aliyu" src="#" />
+                                        <Avatar name={fullname} src="#" />
                                     </WrapItem>
                                 </Wrap>
                             </MenuButton>
