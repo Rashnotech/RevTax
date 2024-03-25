@@ -39,7 +39,7 @@ const Signup = () => {
     const onSubmit: SubmitHandler<IFormValues> = async (data) => {
         setLoading(true);
         try {
-            const url = 'http://localhost:5000/api/auth/signup';
+            const url = `${import.meta.env.VITE_AUTH_URL}/signup`;
             const res = await UsersRequest(`${url}`, data);
             const response = await res.json();
             if (res.ok) {

@@ -38,7 +38,7 @@ const Verify: FC = () => {
         const otpValue = otp.join('');
         setLoading(true);
         try {
-            const url = `http://localhost:5000/api/verifytoken?email=${email}`;
+            const url = `${import.meta.env.VITE_API_URL}/verifytoken?email=${email}`;
             const response = await UsersRequest(url, { token: otpValue })
             const res = await response.json();
             console.log(res);
