@@ -8,8 +8,6 @@ class AuthController {
   static async requestToken (req, res) {
     const { email } = req.params
 
-
-  console.log(email)
     const user = await User.findOne({ email })
     if (!user) return res.status(404).json({error: "Not Found" })
     const token = Mailer.generateToken() 
@@ -21,18 +19,15 @@ class AuthController {
     });
     if (mailResponse.error) return res.status(500).json({ error: "There was an error sending code" })
 
-
     return res.json({ status: "Ok" })
   }
 
   static async verifyToken(req, res) {
-
-    const { email } = req.params
+    const { email } = req.query
     const { token } = req.body;
-    const user = await User.findOne({ email })
-    if (!user) return res.status(404).json({error: "Not Found" })
+    const user = await User.findOne({ 'email': email })
+    if (!user) return res.status(404).json({error: "Account doesn't exist" })
     if (user.token === token ) return res.json({status: "Ok", email })
-
     return res.status(403).json({error: "Wrong token" })
   }
 

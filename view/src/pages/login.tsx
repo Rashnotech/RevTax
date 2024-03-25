@@ -37,9 +37,9 @@ function Login() {
 	  expire.setTime(expire.getTime() + (30 * 24 * 60 * 60 * 1000))
 	  document.cookie = `rev_tax=${token};expires=${expire.toUTCString()};path=/`;
 	  setTimeout(() => {
-                    navigate('/dashboard')
-                }, 5000);
-       }
+        navigate('/dashboard')
+        }, 5000);
+    }
 
     };
     return (
