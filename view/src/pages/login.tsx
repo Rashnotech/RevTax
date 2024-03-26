@@ -20,11 +20,45 @@ function Login() {
     const password = watch('password');
 
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-        /**
-         * PostRequest goes in here
-         * for url use the import.meta.env.url variable in the .env file
-         * 
-         */
+        try {
+            // Get the URL from environment variables
+            const url = `${import.meta.env.VITE_API_URL}/login`;
+            
+            // Make a POST request with form data
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+    
+            // Check if the response is successful
+            if (response.ok) {
+                // If successful, extract token from response
+                const json = await response.json();
+                const token = json.token;
+    
+                // Set token in cookie with expiration
+                const expire = new Date();
+                expire.setTime(expire.getTime() + (30 * 24 * 60 * 60 * 1000));
+                document.cookie = `rev_tax=${token};expires=${expire.toUTCString()};path=/`;
+    
+                // Redirect to dashboard after 5 seconds
+                setTimeout(() => {
+                    navigate('/dashboard');
+                }, 5000);
+            } else {
+                // Handle unsuccessful login attempt
+                setFeedback("Login failed. Please check your credentials.");
+            }
+        } catch (error) {
+            // Handle any errors that occur during the request
+            console.error('Error submitting login form:', error);
+            // Display an error message to the user
+            setFeedback("An error occurred while processing your request. Please try again later.");
+        }
+    };
 
 	const url = `${import.meta.env.VITE_API_URL}/login`
         

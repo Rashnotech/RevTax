@@ -1,0 +1,14 @@
+.verification {
+  width: 100%;
+  position: relative;
+  background-color: var(--white);
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--padding-117xl) var(--padding-xl) var(--padding-117xl)
+    var(--padding-2xl);
+  box-sizing: border-box;
+  letter-spacing: normal;
+}
