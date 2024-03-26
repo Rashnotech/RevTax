@@ -2,9 +2,9 @@ import { Router } from "express";
 import UsersController from "../controllers/UsersController.js";
 import jwtAuth from '../middleware/jwtauth.js'
 import PaymentController from "../controllers/PaymentController.js";
-import verify, { auth_token } from "../controllers/verify.js"
-import User from '../models/users.js'
+import verify from "../controllers/verify.js"
 import AuthController from "../controllers/AuthController.js"
+import TaxController from '../controllers/TaxController.js'
 
 const router = Router();
 
@@ -433,5 +433,7 @@ router.get('/api/signout', UsersController.logout)
 router.post('/api/requesttoken', AuthController.requestToken)
 router.post('/api/verifytoken', AuthController.verifyToken)
 router.post('/api/resetpassword', AuthController.resetPassword)
+router.post('/api/business', jwtAuth, TaxController.business)
+router.put('/api/business', jwtAuth, TaxController.updateBusiness)
 
 export default router;
