@@ -3,10 +3,11 @@ import { useState } from 'react';
 import resolver from '../utils/resolverLog';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { IFormInput } from '../utils/types';
-import PostRequest from '../utils/PostRequest';
-
+import PostRequest from '../utils/PostRequest'
+import { useNavigate } from 'react-router-dom'
 
 function Login() {
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false)
     const [feedback, setFeedback] = useState()
     const {
@@ -25,9 +26,21 @@ function Login() {
          * 
          */
 
-        const url = `{import.meta.env.url}/login`
-        const res = PostRequest(url, data)
-        console.log(res)
+	const url = `${import.meta.env.VITE_API_URL}/login`
+        
+        const response = await PostRequest(url, data)
+	
+	if (response.ok) {
+	  const json = await response.json()
+	  const token = json.token
+	  const expire = new Date()
+	  expire.setTime(expire.getTime() + (30 * 24 * 60 * 60 * 1000))
+	  document.cookie = `rev_tax=${token};expires=${expire.toUTCString()};path=/`;
+	  setTimeout(() => {
+                    navigate('/dashboard')
+                }, 5000);
+       }
+
     };
     return (
         <div className="form_container md:w-3/5 mx-auto">

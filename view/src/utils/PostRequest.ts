@@ -4,15 +4,11 @@ const PostRequest = async (url: string, data: any) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
+	    'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
         body: JSON.stringify(data)
     })
-    if (response.ok) {
-        return response.json()
-    } else {
-        return response.json()
-    }
+    return response
 }
 
 export default PostRequest

@@ -1,5 +1,6 @@
 
 import User from '../models/users.js'
+import auth from '../auth/auth.js'
 
 
 const verify = async (req, res) => {
@@ -7,7 +8,6 @@ const verify = async (req, res) => {
 
   const { token } = req.body
 
-  console.log(email)
   const user = await User.findOne({ email })
   if (!user) return res.status(404).json({error: "Not Found" })
 
@@ -16,6 +16,17 @@ const verify = async (req, res) => {
     return res.json({ status: "Ok" })
   }
   return res.status(404).json({error: "Failed" })
+}
+
+export const auth_token = async (req, res) => {
+  const { token } = req.body
+
+  try {
+    const verified = auth.verifyToken(token)
+    return res.status(200).json({ status: "verified" })
+  } catch {
+    return res.status(401).json({ status: "failed" })
+  }
 }
 
 export default verify
