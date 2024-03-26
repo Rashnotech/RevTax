@@ -3,6 +3,7 @@ import { useState } from 'react';
 import resolver from '../utils/resolverLog';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { IFormInput } from '../utils/types';
+import PostRequest from '../utils/PostRequest';
 
 
 function Login() {
@@ -23,6 +24,10 @@ function Login() {
          * for url use the import.meta.env.url variable in the .env file
          * 
          */
+
+        const url = `{import.meta.env.url}/login`
+        const res = PostRequest(url, data)
+        console.log(res)
     };
     return (
         <div className="form_container md:w-3/5 mx-auto">
