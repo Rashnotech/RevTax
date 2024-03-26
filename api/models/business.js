@@ -2,7 +2,7 @@ import mongoose from '../utils/db.js';
 const { Schema } = mongoose;
 
 const businessSchema = new Schema({
-  user_id: { type: String, required: true },
+  userId: { type: String, required: true },
   name: { type: String, required: true },
   type: { type: String, required: true },
   isregistered: { type: Boolean, default: false },
