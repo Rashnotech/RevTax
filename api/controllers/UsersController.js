@@ -45,7 +45,7 @@ class UsersController {
         if (!mobile) return res.status(400).json({error: 'Invalid phone number'});
         
         const existingUser = await User.findOne({ $or: [{ email }, { mobile }] });
-        if (existingUser) res.status(400).json({error: 'User email or mobile already exist'});
+        if (existingUser) return res.status(400).json({error: 'User email or mobile already exist'});
         
         const token = Mailer.generateToken();
         const smsResponse = await TextService.sms(mobile, `Welcome to Rev platform. Your otp is ${token}`);
