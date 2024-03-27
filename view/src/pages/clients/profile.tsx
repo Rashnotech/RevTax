@@ -1,16 +1,11 @@
 import { Avatar, Wrap, WrapItem, TabList, Tabs, Tab, TabPanels, TabPanel } from '@chakra-ui/react'
 import Info from '../../components/dashboard/info';
+import { user } from '../../store/user';
+import { useAtom } from 'jotai';
 
-const user = [
-    {
-        id: 1,
-        firstName: 'Abdulrasheed',
-        lastName: 'Aliyu',
-        email: 'rashnotech@gmail.com'
-    }
-];
 
 const Userprofile = () => {
+    const [userData]: any = useAtom(user)
     return (
         <section className="flex-1 w-full px-6 font-light">
            <h2 className="text-2xl font-semibold mt-4 text-slate-600">Profile</h2>
@@ -20,13 +15,13 @@ const Userprofile = () => {
                         <div className="flex items-center">
                            <Wrap>
                                 <WrapItem>
-                                    <Avatar name="Abdulrasheed Aliyu" src="#" />
+                                    <Avatar name={`${userData.firstname} ${userData.lastname}`} src="#" />
                                 </WrapItem>
                            </Wrap>
                         </div>
                         <div className="font-sans">
-                            <h2 className="text-xl font-semibold">Customer name</h2>
-                            <p className="text-slate-700 text-xs">customername@gmail.com</p>
+                            <h2 className="text-xl font-semibold">{`${userData.firstname} ${userData.lastname}`}</h2>
+                            <p className="text-slate-700 text-xs">{userData.email}</p>
                         </div>
                     </div>
                 </div>
@@ -40,7 +35,7 @@ const Userprofile = () => {
                         <TabPanels>
                             <TabPanel>
                                 <Info
-                                    data={user} />
+                                    data={[userData]} />
                             </TabPanel>
 
                             <TabPanel>

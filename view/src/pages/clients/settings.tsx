@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom'
+import { user } from '../../store/user'
+import { useAtom } from 'jotai'
 
 
 const Usersetting = () => {
+    const [userData]: any = useAtom(user)
     return (
         <section className="flex-1 w-full px-6 font-light">
             <h2 className="text-2xl font-sans font-semibold mt-4 text-slate-600">Settings</h2>
@@ -14,7 +17,7 @@ const Usersetting = () => {
                             </span>
                             <div className="ml-3 overflow-hidden">
                                 <p className="text-sm font-medium text-slate-900">Email</p>
-                                <p className="text-sm text-slate-500 truncate">something@workforce.com</p>
+                                <p className="text-sm text-slate-500 truncate">{userData.email}</p>
                             </div>
                         </Link>
                     </li>
