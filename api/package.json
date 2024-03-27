@@ -10,7 +10,7 @@
   "scripts": {
     "lint": "eslint *.js",
     "check-lint": "npm run lint",
-    "start-server": "nodemon -w server.js",
+    "start-server": "node_modules/nodemon/bin/nodemon.js -w server.js",
     "test": "mocha --require tests/init.test.js tests/**/*.js",
     "dev": "nodemon --exec babel-node --presets @babel/preset-env ./server.js"
   },
@@ -45,6 +45,7 @@
     "supertest": "^6.3.4",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
-    "twilio": "^5.0.1"
+    "twilio": "^5.0.1",
+    "uuid": "^9.0.1"
   }
 }
