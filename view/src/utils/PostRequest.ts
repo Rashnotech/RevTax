@@ -5,7 +5,8 @@ export const UsersRequest = async (url: string, data: any) => {
             'Content-Type': 'application/json',
         }),
         method: 'POST',
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
+        credentials: 'include'
     })
     return response
 }
