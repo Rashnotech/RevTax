@@ -19,6 +19,7 @@ class BusinessController {
 
     try {
       const business = new Business({...data})
+      await business.validate()
       await business.save()
       return res.status(201).json(business)
     } catch (err) {
