@@ -32,8 +32,7 @@ class UsersController {
             type: 'required',
             address: 'required'
 };
-      
-
+      console.log(req)
       try {
         validateInput(data, requiredFields);
         
@@ -48,8 +47,8 @@ class UsersController {
         if (existingUser) return res.status(400).json({error: 'User email or mobile already exist'});
         
         const token = Mailer.generateToken();
-        const smsResponse = await TextService.sms(mobile, `Welcome to Rev platform. Your otp is ${token}`);
-        if (smsResponse.status !== 'success') {
+        /*const smsResponse = await TextService.sms(mobile, `Welcome to Rev platform. Your otp is ${token}`);
+        if (smsResponse.status !== 'success') {*/
            const mailResponse = await Mailer.mail(email,
             {
               title: 'RevTax',
@@ -68,10 +67,12 @@ class UsersController {
               `
             });
             if (mailResponse.error) return res.status(500).json({error: 'An error occured while sending otp'});
-        }
+        
 
         data.password = sha1(data.password);
         data.telephone = mobile;
+	
+	data.token = token;
 
         const newUser = new User({ ...data});
         await newUser.save();
