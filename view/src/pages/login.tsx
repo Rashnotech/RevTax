@@ -5,10 +5,13 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { IFormInput } from '../utils/types';
 import { UsersRequest } from '../utils/PostRequest'
 import { useNavigate } from 'react-router-dom'
+import { useAtom } from 'jotai'
+import { user } from '../store/user'
 import Feedback from '../components/alert';
 
 function Login() {
     const navigate = useNavigate();
+    const [, setUser] = useAtom(user);
     const [loading, setLoading] = useState(false)
     const [feedback, setFeedback] = useState('')
     const [error, setError] = useState('')
@@ -27,10 +30,7 @@ function Login() {
         const response = await UsersRequest(url, data)
         if (response.ok) {
             const res = await response.json()
-            const token = res.token
-            const expire = new Date()
-            expire.setTime(expire.getTime() + (30 * 24 * 60 * 60 * 1000))
-            document.cookie = `rev_tax=${token};expires=${expire.toUTCString()};path=/`;
+            setUser(res.user)
             setFeedback('Redirecting to dashboard...')
             setTimeout(() => {
                 navigate('/user/dashboard')

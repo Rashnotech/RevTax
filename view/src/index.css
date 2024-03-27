@@ -35,3 +35,6 @@
     @apply ring-1 ring-red-500/60 bg-red-500/25 rounded-md p-3 font-light text-sm text-red-600
 }
 
+.btn_default {
+    @apply w-full rounded-md px-4 py-2 text-white font-light text-sm bg-gray-900
+}
