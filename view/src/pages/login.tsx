@@ -23,7 +23,7 @@ function Login() {
 
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         setLoading(true)
-        const url = `${import.meta.env.VITE_AUTH_URL}/login`
+        const url = `${import.meta.env.VITE_API_SERVER}/login`
         const response = await UsersRequest(url, data)
         if (response.ok) {
             const res = await response.json()

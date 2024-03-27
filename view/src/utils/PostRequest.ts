@@ -20,6 +20,7 @@ export const UsersRequest = async (url: string, data: any) => {
         method: 'POST',
         body: JSON.stringify(data)
     })
+    alert(await response.text())
     return response
 }
 

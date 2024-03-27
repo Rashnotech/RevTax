@@ -39,9 +39,11 @@ const Signup = () => {
     const onSubmit: SubmitHandler<IFormValues> = async (data) => {
         setLoading(true);
         try {
-            const url = `${import.meta.env.VITE_AUTH_URL}/signup`;
+            const url = `${import.meta.env.VITE_API_SERVER}/signup`;
             const res = await UsersRequest(`${url}`, data);
+alert(res.ok)
             const response = await res.json();
+alert("hellow")
             if (res.ok) {
                 setFeedback('Account created successfully, check your email to verify your account');
                 setTimeout(() => {
