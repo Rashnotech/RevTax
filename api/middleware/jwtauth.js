@@ -7,19 +7,18 @@ import User from '../models/users.js'
  */
 
 function jwtAuth(req, res, next) {
-  const token = req.headers.authorization
+  const token = req.cookies.revtax;
+  console.log(token)
   if (!token) return res.status(403).json({error: "forbidden"})
 
-  let payload
   try {
-    payload = auth.verifyToken(token);
+    const payload = auth.verifyToken(token);
   } catch {
     return res.status(401).json({ error: "Invalid token" })
   }
   if (!payload) return res.status(401).json({ error: "Invalid token" })
-  const filter = { _id: payload.id }
-  User.findOne(filter).then((user) => {
-    if (!user) return res.status(401).json({ error: "Forbidden" })
+  User.findOne({ _id: payload.userId }).then((user) => {
+    if (!user) return res.status(401).json({ error: "User not found" })
     req.user = user
     next()
   }).catch((err) => {

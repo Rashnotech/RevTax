@@ -3,14 +3,15 @@ import router from './routes/index.js'
 import businessRouter from './routes/businessroutes.js'
 import BusinessTypeRouter from './routes/businessTyperoutes.js'
 import cors from 'cors'
-import mongoose from './utils/db.js'
 import swaggerUi from 'swagger-ui-express';
 import specs from './swagger.js';
+import cookieParser from 'cookie-parser';
 
 const app = express()
 const port = 5000
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors());
 app.use(router);
   
