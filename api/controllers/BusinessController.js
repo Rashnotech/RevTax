@@ -16,10 +16,13 @@ class BusinessController {
       }
     }
 
-
-    const business = new Business({...data})
-    await business.save()
-    return res.status(201).json(business)
+    try {
+      const business = new Business({...data})
+      await business.save()
+      return res.status(201).json(business)
+    } catch (err) {
+      return res.status(400).json({error: err.message })
+    }
   }
 
 
