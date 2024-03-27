@@ -5,13 +5,13 @@ const resolver: Resolver<IFormValues> = async (values) => {
     const errors: Record<string, any> = {};
 
     // Validate email or phone number
-    if (!values.firstName) {
+    if (!values.firstname) {
         errors.firstName = {
             type: 'required',
             message: 'First name is required',
         };
     } 
-    if(!values.lastName) {
+    if(!values.lastname) {
         errors.lastName = {
             type: 'required',
             message: 'Last name is required',
