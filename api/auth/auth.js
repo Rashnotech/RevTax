@@ -11,9 +11,9 @@ class Auth {
       jwt.sign(payload, privateKey, {expiresIn: '30d', algorithm: 'ES256'}, (err, token) => {
       if (err) {
 	      console.log(err)
-	reject("Error creating token", err)
+	      reject("Error creating token", err)
       }
-	resolve(token)
+	    resolve(token)
       })
     })
   }

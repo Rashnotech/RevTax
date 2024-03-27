@@ -5,8 +5,8 @@ export type IFormInput = {
 
 
 export type IFormValues = {
-    firstName: string,
-    lastName: string,
+    firstname: string,
+    lastname: string,
     telephone: string,
     password: string,
     confirm: string,

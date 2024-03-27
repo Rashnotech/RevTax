@@ -31,7 +31,7 @@ class UsersController {
             password: 'required',
             type: 'required',
             address: 'required'
-};
+          };
       
 
       try {
@@ -48,12 +48,13 @@ class UsersController {
         if (existingUser) return res.status(400).json({error: 'User email or mobile already exist'});
         
         const token = Mailer.generateToken();
-        const smsResponse = await TextService.sms(mobile, `Welcome to Rev platform. Your otp is ${token}`);
-        if (smsResponse.status !== 'success') {
-           const mailResponse = await Mailer.mail(email,
-            {
-              title: 'RevTax',
-              body: `
+        //const smsResponse = await TextService.sms(mobile, `Welcome to Rev platform. Your otp is ${token}`);
+        //Twilo require a paid account to send sms
+        //if (smsResponse.status !== 'success') {}
+        const mailResponse = await Mailer.mail(email,
+          {
+            title: 'RevTax',
+            body: `
               <html>
               <body>
                 <h1>RevTax Email Verification</h1>
@@ -65,17 +66,17 @@ class UsersController {
                 <strong>RevTax Team</strong>
               </body>
               <html>
-              `
-            });
-            if (mailResponse.error) return res.status(500).json({error: 'An error occured while sending otp'});
-        }
+            `
+        });
+        if (mailResponse.error) return res.status(500).json({error: 'An error occured while sending otp'});
 
         data.password = sha1(data.password);
         data.telephone = mobile;
+        data['token'] = token;
 
         const newUser = new User({ ...data});
         await newUser.save();
-        
+
         return res.status(201).json({ message: 'User created successfully' });
       } catch (error) {
         return res.status(400).json({error: error.message}); 
