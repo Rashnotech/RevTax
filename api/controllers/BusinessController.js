@@ -1,5 +1,6 @@
 import User from '../models/users.js'
 import Business from '../models/business.js'
+import BusinessType from '../models/businessType.js'
 
 class BusinessController {
   static async createBusiness(req, res) {
@@ -34,7 +35,13 @@ class BusinessController {
     const business = await Business.findOne({_id: businessId })
 
     if (!business) return res.status(404).json({error: "Not Found"})
-    return res.json(business)
+	  console.log(business.type)
+    const businessType = await BusinessType.findOne({ name: business.type })
+    const response = {
+      ...business.toObject(),
+      fee: businessType.fee
+    };
+    return res.json(response)
   }
 
   static async getAllBusiness(req, res) {
