@@ -6,14 +6,14 @@ import { useAtom } from 'jotai'
 
 const Layout = () => {
     const [userData]: any = useAtom(user)
-    return userData ? (
-        <section className="flex bg-[#f3f4f6] flex-col h-[100vh]">
-            <Header fullname ={`${userData.firstname} ${userData.lastname}`} />
-            <div className="flex h-full">
-                <Aside visibility='hidden' />
-                <Outlet />
-            </div>
-        </section>
+    return Object.keys(userData).length ? (
+            <section className="flex bg-[#f3f4f6] flex-col h-[100vh]">
+                <Header fullname ={`${userData.firstname} ${userData.lastname}`} />
+                <div className="flex h-full">
+                    <Aside visibility='hidden' />
+                    <Outlet />
+                </div>
+            </section>
     ): (<Navigate to='/login' />)
 }
 

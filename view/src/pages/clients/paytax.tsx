@@ -3,6 +3,10 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import data from  './state.json'
 import Feedback from '../../components/alert';
 import { IFormInput } from '../../utils/resolve';
+import { UsersRequest } from '../../utils/PostRequest';
+import { useAtom } from 'jotai'
+import { makePayment } from './pay';
+import { user } from '../../store/user';
 
 interface StateStructure {
     [key: string]: string[];
@@ -10,6 +14,7 @@ interface StateStructure {
   
 const Paytax = () => {
     const [step, setStep] = useState(1)
+    const [userData]: any = useAtom(user)
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState('')
@@ -26,6 +31,15 @@ const Paytax = () => {
 
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         console.log(data)
+        const url = `${import.meta.env.VITE_API_URL}/business`
+        const res = await UsersRequest(url, data);
+        const response = await res.json();
+        if (res.ok) {
+            makePayment(userData.telephone, userData.email, data.name, 55000, data.method)
+            console.log(response)
+        } else {
+            setError(response.error)
+        }
     }
     const handleSelect = (event: { target: { value: React.SetStateAction<string>; }; }) => {
         setRecord(event.target.value)
@@ -141,6 +155,7 @@ const Paytax = () => {
 
             <div className={`${step === 3 || (record && record === 'existing') ? 'block transition-all': 'hidden transition-opacity'}`}>      
                 <div className="flex flex-col">
+                    <input type="hidden" {...register('user_id')} value={userData._id} />
                     <fieldset>
                         <legend className="text-base font-semibold text-slate-900 dark:text-slate-200">Payment method</legend>
                         <div className="mt-4 space-y-2">

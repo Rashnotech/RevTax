@@ -1,5 +1,5 @@
-import Business from "../models/business";
-import IsRegistered from "../models/isRegistered";
+import Business from "../models/business.js";
+import IsRegistered from "../models/isRegistered.js";
 
 export default class TaxController {
 
@@ -11,6 +11,7 @@ export default class TaxController {
             type, cac, tin,
             isregistered, state, LGA
         } = data;
+        console.log(data)
         const filtered = {
             user_id, name, type, isregistered,
             state, LGA}
@@ -21,7 +22,8 @@ export default class TaxController {
         if (isregistered) {
             if (!cac || !tin) return res.status(400).json({error: 'Missing cac or tin'})
         }
-        const business = await Business.findOne({ user_id: data.user  })
+        const business = await Business.findOne({ 'user_id': data.user  })
+        console.log(business);
         if (business) return res.status(400).json({error: 'You already own a business'})
         const newBiz = new Business({ ...filtered });
         await newBiz.save()

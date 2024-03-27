@@ -12,7 +12,7 @@ const verify = async (req, res) => {
   if (!user) return res.status(404).json({error: "Not Found" })
 
   if (user.token === token ) {
-    await User.updateOne({ email }, { vetified: true })
+    await User.updateOne({ email }, { verified: true })
     return res.json({ status: "Ok" })
   }
   return res.status(404).json({error: "Failed" })

@@ -12,7 +12,7 @@ const Feedback: React.FC<AlertProps> = ({ message, status }: AlertProps) => {
         // Set a timer to hide the feedback after 2000 milliseconds (2 seconds)
         const timer = setTimeout(() => {
             setIsVisible(false);
-        }, 2000);
+        }, 5000);
 
         // Cleanup function to clear the timer if the component unmounts before the timer is finished
         return () => clearTimeout(timer);

@@ -1,6 +1,7 @@
 import { Resolver } from 'react-hook-form';
 
 export interface IFormInput {
+    user_id: string;
     business: string;
     name: string;
     isRegistered: Boolean;
