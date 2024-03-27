@@ -5,9 +5,13 @@ import { Avatar, Wrap, WrapItem, Menu,
     DrawerContent, DrawerOverlay, Button, useDisclosure } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import Aside from './sidebar'
+import { handleLogout } from '../../pages/clients/logout';
 
+interface HeaderProps {
+    fullname: string;
+}
 
-const Header = () => {
+const Header: React.FC<HeaderProps> = ({fullname}) => {
     const { isOpen, onClose, onOpen } = useDisclosure()
 
     return (
@@ -36,14 +40,14 @@ const Header = () => {
                             <MenuButton>
                                 <Wrap>
                                     <WrapItem>
-                                        <Avatar name="Abdulrasheed Aliyu" src="#" />
+                                        <Avatar name={fullname} src="#" />
                                     </WrapItem>
                                 </Wrap>
                             </MenuButton>
                             <MenuList>
                                 <MenuItem>
                                     <span className='majesticons--logout-half-circle-line'></span>
-                                    <Link to="#" className="block px-4 py-2 text-sm font-normal text-gray-700 hover:bg-gray-100">Logout</Link>
+                                    <Link to="#" onClick={handleLogout} className="block px-4 py-2 text-sm font-normal text-gray-700 hover:bg-gray-100">Logout</Link>
                                 </MenuItem>
                                
                             </MenuList>
