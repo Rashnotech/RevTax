@@ -8,7 +8,9 @@ import User from '../models/users.js'
 
 function jwtAuth(req, res, next) {
   const token = req.cookies.revtax;
-  console.log(token)
+  const usertoken = req.cookies.user;
+  console.log('Token', token)
+  console.log('User token', usertoken)
   if (!token) return res.status(403).json({error: "forbidden"})
 
   try {

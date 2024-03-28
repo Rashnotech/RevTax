@@ -14,6 +14,11 @@ import Payrevenue from "./pages/clients/payment";
 import Usersetting from "./pages/clients/settings";
 import Paytax from "./pages/clients/paytax";
 import Admin from "./pages/admin/layout";
+import Settings from "./pages/admin/settings";
+import Transactions from "./pages/admin/transactions";
+import Users from "./pages/admin/users";
+import Business from "./pages/admin/business";
+import Moboard from "./pages/admin/dashboard";
 
 const routes = createBrowserRouter(createRoutesFromElements(
   <Route>
@@ -32,11 +37,11 @@ const routes = createBrowserRouter(createRoutesFromElements(
         <Route path="setting" element={<Usersetting />} />
     </Route>
     <Route path="admin" element={<Admin />}>
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="history" element={<Transacthistory />} />
-        <Route path="staff" />
-        <Route path="setting" element={<Usersetting />} />
-
+        <Route path="dashboard" element={<Moboard />} />
+        <Route path="transactions" element={<Transactions />} />
+        <Route path="users" element={<Users />} />
+        <Route path="business" element={<Business />} />
+        <Route path="settings" element={<Settings />} />
     </Route>
   </Route>
 ))

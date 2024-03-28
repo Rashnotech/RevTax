@@ -81,7 +81,7 @@ alert("hellow")
                         <a href="/login" className="font-medium">Log in here</a>
                     </p>
                 </div>
-                {feedback && <p className="success">feedback</p> }
+                {feedback && <p className="success">{feedback}</p> }
                 {error && <p className="error"> {error} </p>}
                 <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-6">
                     <section className={`space-y-6 ${next && 'hidden transition-all'}`}>
