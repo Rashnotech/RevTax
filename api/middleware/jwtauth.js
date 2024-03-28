@@ -17,7 +17,7 @@ function jwtAuth(req, res, next) {
     return res.status(401).json({ error: "Invalid token" })
   }
   if (!payload) return res.status(401).json({ error: "Invalid token" })
-  User.findOne({ _id: payload.userId }).then((user) => {
+  User.findOne({ email: payload.email }).then((user) => {
     if (!user) return res.status(401).json({ error: "User not found" })
     req.user = user
     next()
