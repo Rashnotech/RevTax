@@ -60,8 +60,8 @@ const Verify: FC = () => {
     return (
         <div className="form_container md:w-4/6 mx-auto">
             <div className='form_wrapper'>
-                {feedback && Feedback({ message: feedback, status: 'success' })}
-                {error && Feedback({ message: error, status: 'error' })}
+                {feedback && <p className='success'>{feedback}</p>}
+                {error && <p className='error'>{error}</p>}
                 <h2 className="text-2xl font-light">OTP</h2>
                 <p className="text-slate-900 font-light text-center">
                     Enter your one time password (OTP) to verify you 

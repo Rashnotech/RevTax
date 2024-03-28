@@ -1,13 +1,10 @@
-
 import User from '../models/users.js'
 import auth from '../auth/auth.js'
 
 
 const verify = async (req, res) => {
   const { email } = req.params
-
   const { token } = req.body
-
   const user = await User.findOne({ email })
   if (!user) return res.status(404).json({error: "Not Found" })
 

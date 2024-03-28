@@ -2,5 +2,7 @@ import { atom } from 'jotai'
 
 
 
-const payment = atom({})
-const business = atom({})
+export const payment = atom({})
+
+
+export const business = atom({})

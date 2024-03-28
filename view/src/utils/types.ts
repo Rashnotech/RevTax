@@ -3,6 +3,12 @@ export type IFormInput = {
     password: string;
 }
 
+export interface UrlItem {
+    name: string;
+    path: string;
+    icon: string;
+}
+
 
 export type IFormValues = {
     firstname: string,

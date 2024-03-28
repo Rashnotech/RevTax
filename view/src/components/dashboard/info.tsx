@@ -12,7 +12,7 @@ const Info: React.FC<UserprofileProps> = ({ data }) => {
                     'updatedAt', '_id', 'token', 'type', '__v' ].includes(key))
                 .map((key, index) => (
                     <li key={index} className="flex items-center justify-between py-2">
-                        <span className="font-normal text-sm font-sans">{key.toLocaleUpperCase()}:</span>
+                        <span className="font-normal text-sm font-sans">{key.toUpperCase()}:</span>
                         <span className="text-gray-700 font-light">{items[key]}</span>
                     </li>
                 ))

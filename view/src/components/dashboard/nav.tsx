@@ -1,10 +1,6 @@
 import { NavLink } from 'react-router-dom'
+import { UrlItem } from '../../utils/types'
 
-interface UrlItem {
-    name: String,
-    path: String,
-    icon: String,
-}
 
 const Nav: React.FC<{ url: UrlItem[] }> = ({ url }) => {
     return (
