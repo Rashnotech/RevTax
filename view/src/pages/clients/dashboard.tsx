@@ -9,7 +9,7 @@ const Dashboard: FC = () => {
     return (
         <main className="flex-1 w-full px-6 font-light">
             <div className="rounded-md bg-sky-500/10 p-4 md:p-8 my-4 ring-blue-400 ring-1 relative">
-                <h2 className="text-xl font-light font-sans text-slate-600">Hello {`${userData.firstname}`}, Welcome to your Dashboard</h2>
+                <h2 className="text-sm font-light font-sans text-slate-600">Hello {`${userData.firstname}`}, Welcome to your Dashboard</h2>
             </div>
             <div className="flex flex-wrap gap-4 box-border">
                 <PanelItem label="Total revenue" number={23000} percent={52} type="increase" />
