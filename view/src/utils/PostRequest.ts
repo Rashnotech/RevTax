@@ -6,9 +6,7 @@ export const UsersRequest = async (url: string, data: any) => {
         }),
         method: 'POST',
         body: JSON.stringify(data),
-        credentials: 'include'
     })
-    alert(await response.text())
     return response
 }
 
