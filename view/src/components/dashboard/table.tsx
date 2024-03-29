@@ -7,6 +7,7 @@ interface TableProps {
 }
 
 const Table: React.FC<TableProps> = ({caption, head, body}) => {
+alert(body)
     return (
         <table className="border-collapse table-auto w-full my-8 font-sans text-sm">
             <caption className='caption-bottom mt-4'>
@@ -24,12 +25,12 @@ const Table: React.FC<TableProps> = ({caption, head, body}) => {
             </thead>
             <tbody className='bg-white dark:bg-slate-800'>
                 <tr>
-                    {body && body.length > 0 ? body.map((item, index) => (
+                    {body && Object.keys(body).length > 0 ? Object.entries(body).map((item) => (
                         <td
-                            key={index}
+                            key={item._id}
                             className='border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:test-slate-400'
                         >
-                            {item}
+                            {item.amount}
                         </td>
                     )) : <td colSpan={head.length} className='border-b text-center border-slate-100 text-slate-500 p-4 pl-8'>No data</td>}
                 </tr>

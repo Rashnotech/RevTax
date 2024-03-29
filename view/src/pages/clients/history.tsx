@@ -1,7 +1,34 @@
 import Table from "../../components/dashboard/table"
-
+import { useNavigate } from 'react-router-dom'
+import { useAtom } from 'jotai'
+import { payment } from '../../store/client'
+import { UsersRequest } from "../../utils/PostRequest"
+import { user } from '../../store/user'
+import { useEffect } from 'react'
+import { getRequest } from "../../utils/GetRequest"
 
 const Transacthistory = () => {
+    const [paymentData, setPayment]: any = useAtom(payment)
+    const [userData]: any = useAtom(user)
+
+    useEffect(() => {
+   	const fetchPaymentData = async () => {
+            try {
+                const url = `${import.meta.env.VITE_API_URL}/users/${userData._id}/payments`;
+                const response = await getRequest(url);
+//alert(await response.text())
+                const data = await response.json();
+                setPayment({...data});
+
+            } catch (error) {
+                console.error('Error fetching payment data:', error);
+            }
+        };
+
+        fetchPaymentData();
+    }, []);
+
+
     return (
         <section className="flex-1 w-full px-6 font-light">
             <h2 className="text-2xl font-sans font-semibold mt-4 text-slate-600">Transaction History</h2>
@@ -22,7 +49,7 @@ const Transacthistory = () => {
                 <Table
                     caption="Revenue transaction history"
                     head={['S/N', 'Amount', 'Method', 'Date', 'Status']}
-                    body={[]}
+                    body={[paymentData]}
                 />
             </div>
            

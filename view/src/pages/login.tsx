@@ -9,6 +9,7 @@ import { useAtom } from 'jotai'
 import { user } from '../store/user'
 import Feedback from '../components/alert';
 
+
 function Login() {
     const navigate = useNavigate();
     const [, setUser] = useAtom(user);
@@ -31,6 +32,9 @@ function Login() {
         if (response.ok) {
             const res = await response.json()
             setUser(res.user)
+            const expire = new Date()
+            expire.setTime(expire.getTime() + (30 * 24 * 60 * 60 * 1000));
+            document.cookie = `rev_tax=${res.token}; expires=${expire.toUTCString()}`
             setFeedback('Redirecting to dashboard...')
             setTimeout(() => {
                 navigate('/user/dashboard')
