@@ -110,7 +110,7 @@ class UsersController {
     if (!user) return res.status(404).json({'error': 'Not found'})
     if (sha1(password) !== user.password) return res.status(400).json({'error': 'Wrong password'})
     user.password = undefined;
-    auth.createToken({ id: user._id}).then((token) => {
+    auth.createToken({ id: user.telephone }).then((token) => {
       res.cookie("revtax", token, { httpOnly: true })
       return res.json({ user })
     }).catch((err) => {
