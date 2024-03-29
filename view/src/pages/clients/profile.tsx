@@ -1,11 +1,32 @@
 import { Avatar, Wrap, WrapItem, TabList, Tabs, Tab, TabPanels, TabPanel } from '@chakra-ui/react'
 import Info from '../../components/dashboard/info';
 import { user } from '../../store/user';
+import { business } from '../../store/client'
 import { useAtom } from 'jotai';
+import { useEffect } from 'react'
+import { getRequest } from "../../utils/GetRequest"
 
 
 const Userprofile = () => {
     const [userData]: any = useAtom(user)
+    const [businessData, setBusiness] = useAtom(business)
+    useEffect(() => {
+      const fetchBusinessData = async () => {
+        try {
+          const url = `${import.meta.env.VITE_API_URL}/users/${userData._id}/businesses`;
+          const response = await getRequest(url);
+//alert(await response.text())
+          const data = await response.json();
+                setBusiness(data);
+          } catch (error) {
+            console.error('Error fetching payment data:', error);
+            }
+        };
+
+        fetchBusinessData();
+    }, []);
+
+
     return (
         <section className="flex-1 w-full px-6 font-light">
            <h2 className="text-2xl font-semibold mt-4 text-slate-600">Profile</h2>
@@ -40,7 +61,7 @@ const Userprofile = () => {
 
                             <TabPanel>
                                 <Info
-                                    data={[]} />
+                                    data={businessData} />
                             </TabPanel>
                         </TabPanels>
                     </Tabs>
