@@ -8,7 +8,7 @@ import { useEffect } from 'react'
 import { getRequest } from "../../utils/GetRequest"
 
 const Transacthistory = () => {
-    const [paymentData, setPayment] = useAtom(payment)
+    const [paymentData, setPayment]: any = useAtom(payment)
     const [userData]: any = useAtom(user)
 
     useEffect(() => {
@@ -18,7 +18,7 @@ const Transacthistory = () => {
                 const response = await getRequest(url);
 //alert(await response.text())
                 const data = await response.json();
-                setPayment(data);
+                setPayment({...data});
 
             } catch (error) {
                 console.error('Error fetching payment data:', error);
