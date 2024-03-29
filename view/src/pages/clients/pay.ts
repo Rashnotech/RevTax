@@ -1,3 +1,6 @@
+import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
+
+
 export function makePayment(mobile: any, email: any, name: any, amount: any, type: any) {
     FlutterwaveCheckout({
       public_key: "FLWPUBK_TEST-SANDBOXDEMOKEY-X",
@@ -17,8 +20,17 @@ export function makePayment(mobile: any, email: any, name: any, amount: any, typ
         logo: "https://assets.piedpiper.com/logo.png",
       },
     });
-  }
+    const handle = useFlutterwave(FlutterwaveCheckout)
+    handle({
+	callback: (response) => {
+           console.log(response);
+            closePaymentModal() // this will close the modal programmatically
+            },
+         onClose: () => {},
+    })
 
-function FlutterwaveCheckout(arg0: { public_key: string; tx_ref: string; amount: any; currency: string; payment_options: string; redirect_url: string; customer: { email: any; phone_number: any; name: any; }; customizations: { title: string; description: string; logo: string; }; }) {
-  throw new Error("Function not implemented.");
 }
+
+/*function FlutterwaveCheckout(arg0: { public_key: string; tx_ref: string; amount: any; currency: string; payment_options: string; redirect_url: string; customer: { email: any; phone_number: any; name: any; }; customizations: { title: string; description: string; logo: string; }; }) {
+  throw new Error("Function not implemented.");
+}*/
