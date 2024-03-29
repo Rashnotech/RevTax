@@ -13,6 +13,7 @@ BusinessRouter.put('/api/businesses/:businessId', jwtAuth, BusinessController.up
 BusinessRouter.get('/api/businesses', jwtAuth, BusinessController.getAllBusiness)
 
 BusinessRouter.get('/api/businesses/:businessId', jwtAuth, BusinessController.getBusiness)
+BusinessRouter.get('/api/users/:userId/businesses', jwtAuth, BusinessController.getBusinessByUser);
 
 BusinessRouter.delete('/api/businesses/:businessId', jwtAuth, BusinessController.deleteBusiness)
 
