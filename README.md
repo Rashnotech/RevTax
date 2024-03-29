@@ -1,7 +1,7 @@
 <p>
     <img title="react" src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" width="50" height="50"/>
 </p>
-![npm](https://upload.wikimedia.org/wikipedia/commons/d/db/Npm-logo.svg){:width="50" height="50"}
+![npm](https://upload.wikimedia.org/wikipedia/commons/d/db/Npm-logo.svg)
 <p>
     <img title="node" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Node.js_logo_2015.svg" width="50" height="50"/>
 </p>
