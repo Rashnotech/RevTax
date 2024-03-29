@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 import config from '../config/server_config.js';
 
-
+console.log(config.server.host, config.server.port, config.server.user, config.server.pass)
 
 class Mailer {
     /**
