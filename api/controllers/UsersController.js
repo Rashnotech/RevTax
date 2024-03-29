@@ -110,7 +110,7 @@ class UsersController {
     if (sha1(password) !== user.password) return res.status(400).json({'error': 'Wrong password'})
     auth.createToken({ email: user.email}).then((token) => {
       user.password = undefined;
-      return res.json({ user })
+      return res.json({ user, token })
     }).catch((err) => {
       return res.status(400).json({ error: "Login failed" });
     });
