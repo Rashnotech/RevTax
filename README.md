@@ -1,5 +1,5 @@
 <p>
-    <img title="react" src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" width="20" height="20"/>
+    <img title="react" src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" width="50" height="50"/>
 </p>
 
 # RevTax
