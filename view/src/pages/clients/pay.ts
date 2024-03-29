@@ -3,12 +3,11 @@ import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
 
 export function makePayment(mobile: any, email: any, name: any, amount: any, type: any) {
     FlutterwaveCheckout({
-      public_key: "FLWPUBK_TEST-SANDBOXDEMOKEY-X",
+      public_key: "FLWPUBK_TEST-15269720fbb3b2e0b22ae2cd1a57d4f4-X",
       tx_ref: "revtax-48981487343MDI0NzMx",
       amount: amount,
       currency: "NGN",
       payment_options: `${type}, mobilemoneynigeria, nigeria`,
-      redirect_url: "https://glaciers.titanic.com/handle-flutterwave-payment",
       customer: {
         email: email,
         phone_number: mobile,
@@ -23,6 +22,7 @@ export function makePayment(mobile: any, email: any, name: any, amount: any, typ
     const handle = useFlutterwave(FlutterwaveCheckout)
     handle({
 	callback: (response) => {
+	    alert(response.status)
            console.log(response);
             closePaymentModal() // this will close the modal programmatically
             },
