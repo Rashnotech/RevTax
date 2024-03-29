@@ -45,6 +45,15 @@ class BusinessController {
     return res.json(response)
   }
 
+  static async getBusinessByUser(req, res) {
+    const { userId } = req.params
+    if (!userId) return res.status(400).json({error: "Missing userId"})
+    if (typeof userId !== 'string') return res.status(400).json({error: "userId must be a string"})
+
+    const businesses = await Business.find({ userId })
+    return res.json(businesses)
+  }
+
   static async getAllBusiness(req, res) {
     const businesses = await Business.find({});
 
