@@ -39,7 +39,7 @@ const Signup = () => {
     const onSubmit: SubmitHandler<IFormValues> = async (data) => {
         setLoading(true);
         try {
-            const url = 'http://localhost:5000/api/auth/signup';
+            const url = `${import.meta.env.VITE_AUTH_URL}/signup`;
             const res = await UsersRequest(`${url}`, data);
             const response = await res.json();
             if (res.ok) {
@@ -79,8 +79,8 @@ const Signup = () => {
                         <a href="/login" className="font-medium">Log in here</a>
                     </p>
                 </div>
-                {feedback && Feedback({ message: feedback, status: 'success' })}
-                {error && Feedback({ message: error, status: 'error' })}
+                {feedback && <p className="success">feedback</p> }
+                {error && <p className="error"> {error} </p>}
                 <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-6">
                     <section className={`space-y-6 ${next && 'hidden transition-all'}`}>
                         <div className="flex flex-col group relative">
