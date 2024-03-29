@@ -2,7 +2,7 @@ import User from '../models/users.js'
 import auth from '../auth/auth.js'
 
 
-const verify = async (req, res) => {
+const verifyemail = async (req, res) => {
   const { email } = req.params
   const { token } = req.body
   const user = await User.findOne({ email })
@@ -27,4 +27,4 @@ export const auth_token = async (req, res) => {
   }
 }
 
-export default verify
+export default verifyemail
