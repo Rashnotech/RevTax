@@ -1,8 +1,12 @@
+<p>
+    <img title="react" src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" width="20" height="20"/>
+</p>
+
 # RevTax
 
 ![npm](https://img.shields.io/npm/v/flutterwave-react-v3)
 ![npm](https://img.shields.io/npm/dt/flutterwave-react-v3)
-![NPM](https://img.shields.io/npm/l/flutterwave-react-v3)   
+![NPM](https://img.shields.io/npm/l/flutterwave-react-v3)
 ![React](https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg)
 ![npm](https://upload.wikimedia.org/wikipedia/commons/d/db/Npm-logo.svg)
 ![node](https://upload.wikimedia.org/wikipedia/commons/7/7e/Node.js_logo_2015.svg)
