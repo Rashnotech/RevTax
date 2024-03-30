@@ -1,5 +1,7 @@
 import Business from "../models/business.js";
 import IsRegistered from "../models/isRegistered.js";
+import BusinessType from "../models/businessType.js";
+
 
 export default class TaxController {
 
@@ -11,7 +13,6 @@ export default class TaxController {
             type, cac, tin,
             isRegistered, state, LGA
         } = data;
-        console.log(data)
         const filtered = {
             userId, name, type, isRegistered,
             state, LGA}
@@ -20,14 +21,15 @@ export default class TaxController {
 		return res.status(400).json({ error: `Missing ${field}` })
 	    }
 	}
-console.log(isRegistered)
         if (isRegistered === 'true') isRegistered = true;
         if (isRegistered === true) {
             if (!cac || !tin) return res.status(400).json({error: 'Missing cac or tin'})
         }
         const business = await Business.findOne({ 'userId': userId  })
-        console.log(business);
         if (business) return res.status(400).json({error: 'You already own a business'})
+	const busType = await BusinessType.findOne({name: filtered.type })
+	    console.log(busType, busType.code)
+	filtered.code = busType.code;
         const newBiz = new Business({ ...filtered });
         await newBiz.save()
 
@@ -40,7 +42,8 @@ console.log(isRegistered)
             const registered = new IsRegistered(...ref)
             registered.save()
         }
-        return res.status(201).json('Account created successfully')
+	    console.log(newBiz)
+        return res.status(201).json(newBiz)
     }
 
     static async updateBusiness (req, res) {
