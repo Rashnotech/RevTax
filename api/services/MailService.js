@@ -1,8 +1,6 @@
 import nodemailer from 'nodemailer';
 import config from '../config/server_config.js';
 
-
-
 class Mailer {
     /**
      * a class that handles email validation

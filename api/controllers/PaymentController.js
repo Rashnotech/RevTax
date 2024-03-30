@@ -62,13 +62,11 @@ class PaymentController {
 
   static async getPaymentByUser(req, res) {
     const { userId } = req.params
-
     if (!userId) return res.status(400).json({error: "Missing userId"})
     if (typeof userId !== 'string') return res.status(400).json({error: "userId must be a string"})
 
-    const payment = await Payment.find({ userId })
-
-    res.json(payment || [])
+    const payments = await Payment.find({ userId })
+    return res.json(payments)
   }
 
   static async getAllPayment(req, res) {

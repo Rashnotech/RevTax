@@ -1,23 +1,21 @@
-interface sectionprops {
-    style: string;
-}
+import Tax from '../assets/images/tax.jpg'
 
-
-const Section: React.FC<sectionprops> = ({ style }) => {
+const Section = () => {
     return (
-        <section className={`flex items-center ${style} font-sans py-8 justify-between`}>
-            <article className="w-2/5 p-4">
-                 <img src="#" alt="" className="rounded-md border w-full h-full" />
+        <section id='about' className={`flex md:flex-row flex-col items-center font-sans px-4 md:px-0 py-8 justify-between`}>
+            <article className="w-full md:w-2/5 p-4">
+                 <img src={Tax} alt="" className="rounded-md border w-full h-full" />
             </article>
-            <article className="w-2/5 space-y-8">
-                <h3 className="text-2xl font-medium">Lorem ipsum, dolor sit amet consectetur adipisicing</h3>
-                <p className="text-sm">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                    Cum sequi facere unde quis facilis possimus eveniet fugiat accusamus,
-                    eos voluptatibus, ea veritatis quidem recusandae maxime cumque, autem
-                    placeat tenetur omnis?
+            <article className="w-full md:w-1/2 space-y-8 font-sans font-light">
+                <h3 className="text-4xl font-semibold">What to know about us?</h3>
+                <p className="text-lg">
+                RevTax  is a software solution aimed at revolutionizing
+                revenue collection processes to combat corruption, harassment,
+                and extortion prevalent in manual collection methods.
+                This project leverages modern technologies and innovative approaches 
+                to streamline revenue collection, making it easy, simple, and transparent.
                 </p>
-                <button className="rounded-md border px-4 py-2">Know more</button>    
+                <button className="rounded-lg ring-sky-500 text-sky-600 font-medium font-sans ring-1 px-6 py-3">Know more</button>    
             </article>
         </section>
     )

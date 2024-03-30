@@ -9,6 +9,7 @@ import { useAtom } from 'jotai'
 import { user } from '../store/user'
 import Feedback from '../components/alert';
 
+
 function Login() {
     const navigate = useNavigate();
     const [, setUser] = useAtom(user);
@@ -31,6 +32,9 @@ function Login() {
         if (response.ok) {
             const res = await response.json()
             setUser(res.user)
+            const expire = new Date()
+            expire.setTime(expire.getTime() + (30 * 24 * 60 * 60 * 1000));
+            document.cookie = `rev_tax=${res.token}; expires=${expire.toUTCString()}`
             setFeedback('Redirecting to dashboard...')
             setTimeout(() => {
                 navigate('/user/dashboard')
@@ -43,8 +47,7 @@ function Login() {
     return (
         <div className="form_container md:w-3/5 mx-auto">
             <section className="form_wrapper">
-                {feedback && <Feedback message={feedback} status='success' />}
-                {error && <Feedback message={error} status='error' />}
+                {feedback || error && <Feedback message={feedback || error} status={feedback ? 'success' : 'error'} />}
                 <h2 className="text-2xl font-light">Welcome</h2>
                 <p className="text-slate-900 font-light">Log in to RevTax to pay your tax</p>
                 <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-6">

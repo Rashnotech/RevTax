@@ -31,8 +31,7 @@ class UsersController {
             password: 'required',
             type: 'required',
             address: 'required'
-          };
-      
+      };
 
       try {
         validateInput(data, requiredFields);
@@ -44,7 +43,7 @@ class UsersController {
         const mobile = TextService.isMobile(telephone);
         if (!mobile) return res.status(400).json({error: 'Invalid phone number'});
         
-        const existingUser = await User.findOne({ $or: [{ email }, { mobile }] });
+        const existingUser = await User.findOne({ $or: [{ email }, { 'telephone': mobile }] });
         if (existingUser) return res.status(400).json({error: 'User email or mobile already exist'});
         
         const token = Mailer.generateToken();
@@ -69,7 +68,7 @@ class UsersController {
             `
         });
         if (mailResponse.error) return res.status(500).json({error: 'An error occured while sending otp'});
-
+        
         data.password = sha1(data.password);
         data.telephone = mobile;
         data['token'] = token;
@@ -109,10 +108,9 @@ class UsersController {
     const user = await User.findOne({ $or: [ { email: record }, { telephone: record } ] });
     if (!user) return res.status(404).json({'error': 'Not found'})
     if (sha1(password) !== user.password) return res.status(400).json({'error': 'Wrong password'})
-    user.password = undefined;
-    auth.createToken({ id: user.telephone }).then((token) => {
-      res.cookie("revtax", token, { httpOnly: true })
-      return res.json({ user })
+    auth.createToken({ email: user.email}).then((token) => {
+      user.password = undefined;
+      return res.json({ user, token })
     }).catch((err) => {
       return res.status(400).json({ error: "Login failed" });
     });

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 interface AlertProps {
-  message: string,
+  message: string | undefined,
   status: string;
 }
 
@@ -12,7 +12,7 @@ const Feedback: React.FC<AlertProps> = ({ message, status }: AlertProps) => {
         // Set a timer to hide the feedback after 2000 milliseconds (2 seconds)
         const timer = setTimeout(() => {
             setIsVisible(false);
-        }, 5000);
+        }, 2000);
 
         // Cleanup function to clear the timer if the component unmounts before the timer is finished
         return () => clearTimeout(timer);
@@ -21,11 +21,11 @@ const Feedback: React.FC<AlertProps> = ({ message, status }: AlertProps) => {
     if (!isVisible) return null;
 
     return (
-        <>
+        <div className='w-full'>
             <div className={status}>
                     <p>{message}</p>
             </div>
-        </>
+        </div>
     )
 };
 export default Feedback;

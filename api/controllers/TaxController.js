@@ -6,29 +6,32 @@ export default class TaxController {
     static async business (req, res) {
         const data = req.body;
         const {
-            user_id,
+            userId,
             name,
             type, cac, tin,
-            isregistered, state, LGA
+            isRegistered, state, LGA
         } = data;
         console.log(data)
         const filtered = {
-            user_id, name, type, isregistered,
+            userId, name, type, isRegistered,
             state, LGA}
-        if (!user_id || !name || !type || !isregistered || !state || !LGA) {
-            return res.status(400).json({ error: 'Missing field' })
-        }
-        if (isregistered === 'true') isregistered = true;
-        if (isregistered) {
+	for (const field of Object.keys(filtered)) {
+	    if (!Object.keys(data).includes(field)) {
+		return res.status(400).json({ error: `Missing ${field}` })
+	    }
+	}
+console.log(isRegistered)
+        if (isRegistered === 'true') isRegistered = true;
+        if (isRegistered === true) {
             if (!cac || !tin) return res.status(400).json({error: 'Missing cac or tin'})
         }
-        const business = await Business.findOne({ 'user_id': data.user  })
+        const business = await Business.findOne({ 'userId': userId  })
         console.log(business);
         if (business) return res.status(400).json({error: 'You already own a business'})
         const newBiz = new Business({ ...filtered });
         await newBiz.save()
 
-        if (isregistered) {
+        if (isRegistered === true) {
             const ref = {
                 business: newBiz._id,
                 cac,

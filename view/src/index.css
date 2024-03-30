@@ -28,11 +28,11 @@
 }
 
 .success {
-    @apply ring-1 ring-green-500/60 bg-green-500/25 rounded-md p-3 font-light text-sm text-green-600
+    @apply ring-1 ring-green-500/60 bg-green-500/25 rounded-md w-full p-3 font-light text-sm text-green-600
 }
 
 .error {
-    @apply ring-1 ring-red-500/60 bg-red-500/25 rounded-md p-3 font-light text-sm text-red-600
+    @apply ring-1 ring-red-500/60 bg-red-500/25 rounded-md p-3 w-full font-light text-sm text-red-600
 }
 
 .btn_default {

@@ -1,7 +1,7 @@
 import { Resolver } from 'react-hook-form';
 
 export interface IFormInput {
-    user_id: string;
+    userId: string;
     business: string;
     name: string;
     isRegistered: Boolean;
@@ -9,7 +9,7 @@ export interface IFormInput {
     tin: string;
     type: string;
     state: string;
-    lga: string;
+    LGA: string;
     method: string;
 }
 

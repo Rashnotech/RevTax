@@ -6,13 +6,14 @@ const Nav = () => {
     return (
         <nav className="flex items-center justify-between">
             <Link to='.'><img src={Revtax} alt="Logo" className='w-16 h-16' /></Link>
-            <ul className="flex items-center">
-                <li><Link to='.'>Home</Link></li>
-                <li><Link to='#about'>About us</Link></li>
-                <li>Product</li>
-                <li><Link to='#contact'>Contact</Link></li>
+            <ul className="md:flex hidden items-center">
+                <li><a href='#'>Home</a></li>
+                <li><a href='#about'>About us</a></li>
+                <li><a href='#product'>Product</a></li>
+                <li><a href='#contact'>Contact</a></li>
             </ul>
-            <Link to='/signup' className='rounded-md border px-4 py-2 bg-blue-600 text-white'>Register</Link>
+            <Link to='/signup' className='md:block hidden rounded-md border px-4 py-2 bg-blue-600 text-white'>Register</Link>
+            <button className='md:hidden block'>Nav</button>
         </nav>
     )
 }

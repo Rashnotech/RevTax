@@ -48,10 +48,10 @@ const Signup = () => {
                     navigate(`/verify?email=${encodeURIComponent(data.email)}`);
                 }, 5000);
             } else {
+                console.log(response.error);
                 setError(response.error || 'An unexpected error occurred');
             }
         } catch (error) {
-            console.error(error); // Log or handle error
             setError('Failed to connect to the server');
         } finally {
             setLoading(false);
@@ -79,8 +79,8 @@ const Signup = () => {
                         <a href="/login" className="font-medium">Log in here</a>
                     </p>
                 </div>
-                {feedback && <p className="success">{feedback}</p> }
-                {error && <p className="error"> {error} </p>}
+                {feedback && <Feedback message={feedback} status='success' />}
+                {error && <Feedback message={error || errors.password?.message} status='error' />}
                 <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-6">
                     <section className={`space-y-6 ${next && 'hidden transition-all'}`}>
                         <div className="flex flex-col group relative">

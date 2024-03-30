@@ -38,10 +38,10 @@ const Verify: FC = () => {
         const otpValue = otp.join('');
         setLoading(true);
         try {
-            const url = `${import.meta.env.VITE_API_URL}/verifytoken?email=${email}`;
+            const url = `${import.meta.env.VITE_API_URL}/verifyemail/${email}`;
+alert(url)
             const response = await UsersRequest(url, { token: otpValue })
             const res = await response.json();
-            console.log(res);
             if (res.status === 'Ok') {
                 setFeedback('Account verified successfully, redirecting to login page');
                 setTimeout(() => {
