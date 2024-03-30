@@ -18,7 +18,7 @@ const Business = () => {
                         </Link>
                     </li>
                     <li className="first:pt-0 last:pb-0">
-                        <Link to='' className='flex py-4'>
+                        <Link to='/admin/business/types' className='flex py-4'>
                             <span className="h-10 w-10 rounded-full flex items-center justify-center bg-slate-200">
                                 <span className="carbon--business-processes"></span>
                             </span>

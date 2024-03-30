@@ -48,7 +48,6 @@ const Signup = () => {
                     navigate(`/verify?email=${encodeURIComponent(data.email)}`);
                 }, 5000);
             } else {
-                console.log(response.error);
                 setError(response.error || 'An unexpected error occurred');
             }
         } catch (error) {

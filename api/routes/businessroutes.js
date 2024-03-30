@@ -1,7 +1,5 @@
 import { Router } from "express";
 import jwtAuth from '../middleware/jwtauth.js'
-import verify, { auth_token } from "../controllers/verify.js"
-import AuthController from "../controllers/AuthController.js"
 import BusinessController from "../controllers/BusinessController.js"
 
 

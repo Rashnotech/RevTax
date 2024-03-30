@@ -36,7 +36,7 @@ const Paytax = () => {
         const response = await res.json();
         if (res.ok) {
             makePayment(userData.telephone, userData.email, data.name, 55000, data.method)
-            console.log(response)
+            setSuccess(response)
         } else {
             setError(response.error)
         }
@@ -52,7 +52,9 @@ const Paytax = () => {
   return (
     <section className="md:w-1/2 md:mx-auto w-full">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+
             {error && <Feedback message={error} status='error' />}
+            {success && <Feedback message={success} status='success' />}
             <div className="block space-y-4">
                 <div className={`${!record ? 'flex flex-col': 'hidden'}`}>
                     <label htmlFor="business" className="text-sm font-normal">Please pick an option</label>
@@ -138,14 +140,14 @@ const Paytax = () => {
                 </div>
                 <div className="flex flex-col">
                     <label htmlFor="lga" className="text-sm font-normal">Local Governement Area</label>
-                    <select {...register('lga')} className="px-4 py-2 rounded-md outline-none border transition-all text-xs" id="">
+                    <select {...register('LGA')} className="px-4 py-2 rounded-md outline-none border transition-all text-xs" id="">
                         {choice && state[choice] ?
                             state[choice].map((lga) => (
                                 <option key={lga} value={lga}>{lga}</option>
                             ))
                         : <option>No state selected</option> }
                     </select>
-                    {errors && <p className='text-xs font-sans text-pink-600'>{errors.lga?.message}</p>}
+                    {errors && <p className='text-xs font-sans text-pink-600'>{errors.LGA?.message}</p>}
                 </div>
                 <div className="flex items-center justify-between">
                     <button onClick={decrement} className="px-4 py-2 text-sm bg-black font-semibold text-white hover: bg-black/75 rounded-md">back</button>
@@ -155,7 +157,7 @@ const Paytax = () => {
 
             <div className={`${step === 3 || (record && record === 'existing') ? 'block transition-all': 'hidden transition-opacity'}`}>      
                 <div className="flex flex-col">
-                    <input type="hidden" {...register('user_id')} value={userData._id} />
+                    <input type="hidden" {...register('userId')} value={userData._id} />
                     <fieldset>
                         <legend className="text-base font-semibold text-slate-900 dark:text-slate-200">Payment method</legend>
                         <div className="mt-4 space-y-2">

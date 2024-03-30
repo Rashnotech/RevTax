@@ -38,3 +38,7 @@
 .btn_default {
     @apply w-full rounded-md px-4 py-2 text-white font-light text-sm bg-gray-900
 }
+
+.table_data {
+    @apply border-b border-slate-100 p-4 pl-8 text-slate-500
+}

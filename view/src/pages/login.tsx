@@ -47,7 +47,8 @@ function Login() {
     return (
         <div className="form_container md:w-3/5 mx-auto">
             <section className="form_wrapper">
-                {feedback || error && <Feedback message={feedback || error} status={feedback ? 'success' : 'error'} />}
+                {feedback && <Feedback message={feedback} status='success' />}
+                {error && <Feedback message={error} status='error' />}
                 <h2 className="text-2xl font-light">Welcome</h2>
                 <p className="text-slate-900 font-light">Log in to RevTax to pay your tax</p>
                 <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-6">
