@@ -7,6 +7,9 @@ import { UsersRequest } from '../../utils/PostRequest';
 import { useAtom } from 'jotai'
 import { makePayment } from './pay';
 import { user } from '../../store/user';
+import { business } from '../../store/client'
+import { payment } from '../../store/client'
+import { getRequest } from "../../utils/GetRequest"
 
 interface StateStructure {
     [key: string]: string[];
@@ -15,6 +18,7 @@ interface StateStructure {
 const Paytax = () => {
     const [step, setStep] = useState(1)
     const [userData]: any = useAtom(user)
+    const [businessData, setBusiness]: any = useAtom(business)
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState('')
@@ -31,15 +35,38 @@ const Paytax = () => {
 
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         console.log(data)
-        const url = `${import.meta.env.VITE_API_URL}/business`
-        const res = await UsersRequest(url, data);
-        const response = await res.json();
-        if (res.ok) {
-            makePayment(userData.telephone, userData.email, data.name, 55000, data.method)
-            console.log(response)
-        } else {
-            setError(response.error)
-        }
+        if (data.business === 'new') {
+            const url = `${import.meta.env.VITE_API_URL}/business`
+            const res = await UsersRequest(url, data);
+            const response = await res.json();
+alert(response.code)
+            await setBusiness({...response})
+            if (!res.ok) {
+               setError("Failed to create business please try again later")
+              return;
+            }
+          }
+alert(businessData.code)
+          const amounturl = `${import.meta.env.VITE_API_URL}/businesstypes/${businessData.code}`
+          const amountresponse = await getRequest(amounturl)
+          if (amountresponse.ok) {
+              const json = await amountresponse.json();
+              const amount = json.fee
+              data.amount = amount
+
+              const payurl = `${import.meta.env.VITE_API_URL}/payments`
+              const paymentResponse = await UsersRequest(payurl, data);
+alert('done')
+              const paymentjson = await paymentResponse.json()
+              if (paymentResponse.ok) {
+                  makePayment(userData.telephone, userData.email, data.name, data.amount, data.method, paymentjson._id)
+                  console.log(response)
+              } else {
+                 setError(response.error)
+              }
+          } else {
+             setError(response.error)
+          }
     }
     const handleSelect = (event: { target: { value: React.SetStateAction<string>; }; }) => {
         setRecord(event.target.value)
@@ -118,12 +145,9 @@ const Paytax = () => {
                     <label htmlFor="categories" className="text-sm font-normal">Business category</label>
                     <select {...register('type')} className="px-4 py-2 rounded-md outline-none border transition-all text-xs" id="">
                         <option value="">Please choose one</option>
-                        <option value="SUPERMARKET">Supermarket</option>
-                        <option value="KIOS">Kios</option>
-                        <option value="FASHION HOUSE">Fashion House</option>
-                        <option value="WAREHOUSE">Warehouse</option>
-                        <option value="ICT FIRM">ICT Firm</option>
-                        <option value="OTHERS">Others</option>
+                        <option value="Small Scale Business">Small Scale Business</option>
+                        <option value="Medium Scale Business">Medium Scale Business</option>
+                        <option value="Large Scale Business">Large Scale Business</option>
                     </select>
                 </div>
                 <div className="flex flex-col">
@@ -138,7 +162,7 @@ const Paytax = () => {
                 </div>
                 <div className="flex flex-col">
                     <label htmlFor="lga" className="text-sm font-normal">Local Governement Area</label>
-                    <select {...register('lga')} className="px-4 py-2 rounded-md outline-none border transition-all text-xs" id="">
+                    <select {...register('LGA')} className="px-4 py-2 rounded-md outline-none border transition-all text-xs" id="">
                         {choice && state[choice] ?
                             state[choice].map((lga) => (
                                 <option key={lga} value={lga}>{lga}</option>
@@ -155,7 +179,7 @@ const Paytax = () => {
 
             <div className={`${step === 3 || (record && record === 'existing') ? 'block transition-all': 'hidden transition-opacity'}`}>      
                 <div className="flex flex-col">
-                    <input type="hidden" {...register('user_id')} value={userData._id} />
+                    <input type="hidden" {...register('userId')} value={userData._id} />
                     <fieldset>
                         <legend className="text-base font-semibold text-slate-900 dark:text-slate-200">Payment method</legend>
                         <div className="mt-4 space-y-2">
