@@ -1,4 +1,5 @@
 import './style.css'
+import Logo from '../assets/revtax.png'
 import { useState } from 'react';
 import resolver from '../utils/resolverLog';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -7,12 +8,14 @@ import { UsersRequest } from '../utils/PostRequest'
 import { useNavigate } from 'react-router-dom'
 import { useAtom } from 'jotai'
 import { user } from '../store/user'
+import { admin } from '../store/admin';
 import Feedback from '../components/alert';
 
 
 function Login() {
     const navigate = useNavigate();
     const [, setUser] = useAtom(user);
+    const [, setAdmin] = useAtom(admin);
     const [loading, setLoading] = useState(false)
     const [feedback, setFeedback] = useState('')
     const [error, setError] = useState('')
@@ -31,13 +34,13 @@ function Login() {
         const response = await UsersRequest(url, data)
         if (response.ok) {
             const res = await response.json()
-            setUser(res.user)
+            res.type == 3 ? setAdmin(res.user) : setUser(res.user)
             const expire = new Date()
             expire.setTime(expire.getTime() + (30 * 24 * 60 * 60 * 1000));
             document.cookie = `rev_tax=${res.token}; expires=${expire.toUTCString()}`
             setFeedback('Redirecting to dashboard...')
             setTimeout(() => {
-                navigate('/user/dashboard')
+                res.type === 3 ? navigate('/admin/dashboard') : navigate('/user/dashboard')
             }, 5000);
         } else {
             setError('Invalid email or password');
@@ -49,6 +52,7 @@ function Login() {
             <section className="form_wrapper">
                 {feedback && <Feedback message={feedback} status='success' />}
                 {error && <Feedback message={error} status='error' />}
+                <img src={Logo} className='w-12 h-12' alt="Logo" />
                 <h2 className="text-2xl font-light">Welcome</h2>
                 <p className="text-slate-900 font-light">Log in to RevTax to pay your tax</p>
                 <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-6">

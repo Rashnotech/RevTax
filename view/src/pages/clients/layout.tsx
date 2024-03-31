@@ -18,7 +18,7 @@ const Layout = () => {
     const [userData]: any = useAtom(user)
     return Object.keys(userData).length ? (
             <section className="flex bg-[#f3f4f6] flex-col h-[100vh]">
-                <Header fullname ={`${userData.firstname} ${userData.lastname}`} />
+                <Header fullname ={`${userData.firstname} ${userData.lastname}`} url={url} />
                 <div className="flex h-full">
                     <Aside visibility='hidden' url={url} />
                     <Outlet />

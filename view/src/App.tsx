@@ -37,6 +37,7 @@ const routes = createBrowserRouter(createRoutesFromElements(
         </Route>
         <Route path="setting" element={<Usersetting />} />
     </Route>
+
     <Route path="admin" element={<Admin />}>
         <Route path="dashboard" element={<Moboard />} />
         <Route path="transactions" element={<Transactions />} />

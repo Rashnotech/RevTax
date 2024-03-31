@@ -73,7 +73,6 @@ const Transacthistory = () => {
                 const response = await getRequest(url);
                 const data = await response.json();
                 setPayment(data);
-                console.log(data);
             } catch (error) {
                 console.error('Error fetching payment data:', error);
             }

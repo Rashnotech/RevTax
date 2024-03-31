@@ -1,13 +1,13 @@
 import React from 'react'
 
 interface UserprofileProps {
-    data: any[];
+    data: any[] | object;
 }
 
 const Info: React.FC<UserprofileProps> = ({ data }) => {
     return (
         <ul>
-            {data && data.length > 0 ? data.map((items) => (
+            {Array.isArray(data) && data.length > 0 ? data.map((items) => (
                 Object.keys(items).filter(key => !['password', 'validated', 'createdAt',
                     'updatedAt', '_id', 'token', 'type', '__v' ].includes(key))
                 .map((key, index) => (

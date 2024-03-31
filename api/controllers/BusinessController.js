@@ -13,7 +13,7 @@ class BusinessController {
 
     for (const key of required) {
       if (!Object.keys(data).includes(key)) {
-	return res.status(400).json({ error: `Missing ${key}` })
+        return res.status(400).json({ error: `Missing ${key}` })
       }
     }
 

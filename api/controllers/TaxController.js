@@ -1,5 +1,6 @@
 import Business from "../models/business.js";
 import IsRegistered from "../models/isRegistered.js";
+import BusinessType from "../models/businessType.js";
 
 export default class TaxController {
 
@@ -11,7 +12,6 @@ export default class TaxController {
             type, cac, tin,
             isRegistered, state, LGA
         } = data;
-        console.log(data)
         const filtered = {
             userId, name, type, isRegistered,
             state, LGA}
@@ -24,25 +24,29 @@ export default class TaxController {
         if (isRegistered === true) {
             if (!cac || !tin) return res.status(400).json({error: 'Missing cac or tin'})
         }
-        const business = await Business.findOne({ 'userId': userId  })
-        console.log(business);
-        if (business) return res.status(400).json({error: 'You already own a business'})
-        const newBiz = new Business({ ...filtered });
-        await newBiz.save()
+        if (data.business === 'new') {
+            const business = await Business.findOne({ 'userId': userId  })
+            if (business) return res.status(400).json({error: 'You already own a business'})
+            const newBiz = new Business({ ...filtered });
+            await newBiz.save()
 
-        if (isRegistered === true) {
-            const ref = {
-                business: newBiz._id,
-                cac,
-                tin
+            if (isRegistered === true) {
+                const ref = {
+                    business: newBiz._id,
+                    cac,
+                    tin
+                }
+                const registered = new IsRegistered(...ref)
+                registered.save()
             }
-            const registered = new IsRegistered(...ref)
-            registered.save()
+            const bizType = await BusinessType.findOne({ name: type })
+            return res.status(201).json({message: 'Account created successfully', fee: bizType.fee})
+        } else {
+            const business = await Business.findOne({ 'userId': userId  })
+            if (!business) return res.status(400).json({error: 'No existing business'})
+            const bizType = await BusinessType.findOne({ name: type })
+            return res.status(200).json({fee: bizType.fee})
         }
-        return res.status(201).json('Account created successfully')
     }
 
-    static async updateBusiness (req, res) {
-
-    }
 }

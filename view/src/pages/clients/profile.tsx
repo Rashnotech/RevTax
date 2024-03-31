@@ -60,7 +60,7 @@ const Userprofile = () => {
 
                             <TabPanel>
                                 <Info
-                                    data={[businessData]} />
+                                    data={businessData} />
                             </TabPanel>
                         </TabPanels>
                     </Tabs>

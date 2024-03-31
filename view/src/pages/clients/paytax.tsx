@@ -51,7 +51,7 @@ const Paytax = () => {
         const res = await UsersRequest(url, data);
         const response = await res.json();
         if (res.ok) {
-            makePayment(userData.telephone, userData.email, data.name, 55000, data.method)
+            makePayment(userData.telephone, userData.email, data.name, response.fee, data.method)
             setSuccess(response)
         } else {
             setError(response.error)
@@ -137,7 +137,7 @@ const Paytax = () => {
                     <select {...register('type')} className="px-4 py-2 rounded-md outline-none border transition-all text-xs" id="">
                         <option value="">Please choose one</option>
                         {types.map((type: any) => (
-                            <option key={type._id} value={type.code}>{type.name}</option>
+                            <option key={type._id} value={type.name}>{type.code}</option>
                         ))}
                     </select>
                 </div>

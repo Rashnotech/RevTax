@@ -33,7 +33,7 @@ const BusinessType = () => {
             }
         }
         fetchBizTypes()
-    }, [])
+    }, [!isOpen])
 
     const addType = () => {
         setCurrent({});
