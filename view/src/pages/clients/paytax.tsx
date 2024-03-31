@@ -7,7 +7,11 @@ import { UsersRequest } from '../../utils/PostRequest';
 import { useAtom } from 'jotai'
 import { makePayment } from './pay';
 import { user } from '../../store/user';
-import { getRequest } from '../../utils/GetRequest';
+
+import { business } from '../../store/client'
+import { payment } from '../../store/client'
+import { getRequest } from "../../utils/GetRequest"
+
 
 interface StateStructure {
     [key: string]: string[];
@@ -16,6 +20,7 @@ interface StateStructure {
 const Paytax = () => {
     const [step, setStep] = useState(1)
     const [userData]: any = useAtom(user)
+    const [businessData, setBusiness]: any = useAtom(business)
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState('')
@@ -47,6 +52,7 @@ const Paytax = () => {
     const choice = watch('state');
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         console.log(data)
+
         const url = `${import.meta.env.VITE_API_URL}/business`
         const res = await UsersRequest(url, data);
         const response = await res.json();
@@ -56,6 +62,30 @@ const Paytax = () => {
         } else {
             setError(response.error)
         }
+
+        
+
+          const amounturl = `${import.meta.env.VITE_API_URL}/data.type/${businessData.code}`
+          const amountresponse = await getRequest(amounturl)
+          if (amountresponse.ok) {
+              const json = await amountresponse.json();
+              const amount = json.fee
+              data.amount = amount
+
+              const payurl = `${import.meta.env.VITE_API_URL}/payments`
+              const paymentResponse = await UsersRequest(payurl, data);
+alert('done')
+              const paymentjson = await paymentResponse.json()
+              if (paymentResponse.ok) {
+                  makePayment(userData.telephone, userData.email, data.name, data.amount, data.method, paymentjson._id)
+                  console.log(response)
+              } else {
+                 setError(response.error)
+              }
+          } else {
+             setError(response.error)
+          }
+
     }
     const handleSelect = (event: { target: { value: React.SetStateAction<string>; }; }) => {
         setRecord(event.target.value)
@@ -136,9 +166,11 @@ const Paytax = () => {
                     <label htmlFor="categories" className="text-sm font-normal">Business category</label>
                     <select {...register('type')} className="px-4 py-2 rounded-md outline-none border transition-all text-xs" id="">
                         <option value="">Please choose one</option>
+
                         {types.map((type: any) => (
                             <option key={type._id} value={type.name}>{type.code}</option>
                         ))}
+
                     </select>
                 </div>
                 <div className="flex flex-col">
