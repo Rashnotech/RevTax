@@ -1,7 +1,80 @@
-import Table from "../../components/dashboard/table"
+import { useAtom } from "jotai";
+import { allPayments } from "../../store/admin";
+import { useEffect } from "react";
+import { getRequest } from "../../utils/GetRequest";
+
+interface TableProps {
+    caption: string;
+    head: string[];
+    body: any[] | object;
+}
+
+export const Table: React.FC<TableProps> = ({caption, head, body}) => {
+    return (
+        <table className="border-collapse table-auto w-full my-8 font-sans text-sm">
+            <caption className='caption-bottom mt-4'>
+                {caption && caption}
+            </caption>
+            <thead>    
+                <tr>
+                    {head && head.map((item, index) => (
+                        <th key={index}
+                            className='border-b dark:border-slate-600 font-normal font-sans p-4 pl-8 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left'>
+                            {item}
+                        </th>
+                    ))}
+                </tr>
+            </thead>
+            <tbody className='bg-white dark:bg-slate-800'>
+                
+                    {Array.isArray(body) && body.length > 0 ? body.map((items, idx) => (
+                    <tr key={idx}>
+                        <td className='table_data'>
+                            {idx + 1}
+                        </td>                 
+                        <td className='table_data'>
+                            {items.amount}
+                        </td>
+                        <td className='table_data'>
+                            {items.payemnt_method}
+                        </td>
+                        <td className='table_data'>
+                            {items.created_at}
+                        </td>
+                        <td className='table_data'>
+                            {items.status}
+                        </td>
+                     </tr>
+                    )) :
+                    <tr>
+                        <td colSpan={head.length}
+                            className='border-b text-center border-slate-100 text-slate-500 p-4 pl-8'>
+                                No data
+                            </td>
+                    </tr>}
+            </tbody>
+        </table>
+    )
+}
+
 
 
 const Transactions = () => {
+    const [payment, setPayment] = useAtom(allPayments);
+    useEffect(() => {
+        const fetchPaymentData = async () => {
+             try {
+                 const url = `${import.meta.env.VITE_API_URL}/payments`;
+                 const response = await getRequest(url);
+                 const data = await response.json();
+                 setPayment(data);
+             } catch (error) {
+                 console.error('Error fetching payment data:', error);
+             }
+         };
+ 
+         fetchPaymentData();
+     }, []);
     return (
         <section className="flex-1 w-full px-6 font-light">
             <h2 className="text-2xl font-sans font-semibold mt-4 text-slate-600">Transactions</h2>
@@ -31,7 +104,7 @@ const Transactions = () => {
                 <Table
                     caption="Revenue transaction history"
                     head={['S/N', 'Name', 'Business', 'Amount', 'Date', 'Status']}
-                    body={[]}
+                    body={payment}
                 />
             </div>
            

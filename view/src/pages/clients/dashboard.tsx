@@ -1,11 +1,13 @@
 import { FC } from "react"
 import PanelItem from "../../components/dashboard/panel"
-import Table from "../../components/dashboard/table"
+import { Table } from "./history"
 import { useAtom } from 'jotai'
 import { user } from '../../store/user'
+import { payment } from "../../store/client"
 
 const Dashboard: FC = () => {
     const [userData]: any = useAtom(user)
+    const [paymentData]: any = useAtom(payment)
     return (
         <main className="flex-1 w-full px-6 font-light">
             <div className="rounded-md bg-sky-500/10 p-4 md:p-8 my-4 ring-blue-400 ring-1 relative">
@@ -21,7 +23,7 @@ const Dashboard: FC = () => {
                 <Table
                     caption="Last recent activities"
                     head={['S/N', 'Amount', 'Method', 'Date', 'Status']}
-                    body={[]}
+                    body={paymentData}
                 />
             </div>
         </main>   

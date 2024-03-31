@@ -15,9 +15,8 @@ const Userprofile = () => {
         try {
           const url = `${import.meta.env.VITE_API_URL}/users/${userData._id}/businesses`;
           const response = await getRequest(url);
-//alert(await response.text())
           const data = await response.json();
-                setBusiness(data);
+            setBusiness(data);
           } catch (error) {
             console.error('Error fetching payment data:', error);
             }
@@ -61,7 +60,7 @@ const Userprofile = () => {
 
                             <TabPanel>
                                 <Info
-                                    data={businessData} />
+                                    data={[businessData]} />
                             </TabPanel>
                         </TabPanels>
                     </Tabs>
