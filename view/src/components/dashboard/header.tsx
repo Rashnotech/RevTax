@@ -10,17 +10,11 @@ import { handleLogout } from '../../pages/clients/logout';
 
 interface HeaderProps {
     fullname: string;
+    url: any;
 }
 
-const url = [
-    { name: "Dashboard", path: "/user/dashboard", icon: "radix-icons--dashboard" },
-    { name: "Payment", path: "/user/payment", icon: "ri--hand-coin-line" },
-    { name: "History", path: "/user/history", icon: "fluent--history-28-filled"},
-    { name: "Profile", path: "/user/profile", icon: "solar--user-linear" },
-    { name: "Setting", path: "/user/setting", icon: "lets-icons--setting-alt-line" },
-]
 
-const Header: React.FC<HeaderProps> = ({fullname}) => {
+const Header: React.FC<HeaderProps> = ({fullname, url}) => {
     const { isOpen, onClose, onOpen } = useDisclosure()
 
     return (

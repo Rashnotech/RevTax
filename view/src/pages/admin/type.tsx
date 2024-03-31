@@ -1,20 +1,26 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BizTypes } from "../../store/admin";
 import { useAtom } from "jotai";
 import { getRequest } from "../../utils/GetRequest";
 import Biztype from "./biztype";
-import { useDisclosure } from "@chakra-ui/react";
+import { Menu, MenuItem, MenuList, MenuButton, useDisclosure } from "@chakra-ui/react";
+import { DELRequest } from "../../utils/deleteRequest";
 
 
 interface TableProps {
     caption: string;
     head: string[];
     body: any[] | object;
+    onOpen: (() => void);
+    isOpen: boolean;
+    onClose: () => void;
 }
 
 const BusinessType = () => {
-    const [types, setTypes] = useAtom(BizTypes)
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const [current, setCurrent] = useState({});
+    const [types, setTypes]: any = useAtom(BizTypes)
+
     useEffect(() => {
         const url = `${import.meta.env.VITE_API_URL}/businesstypes`
         const fetchBizTypes = async () => {
@@ -22,17 +28,20 @@ const BusinessType = () => {
                 const response = await getRequest(url)
                 const data = await response.json();
                 setTypes(data);
-                console.log(data)
             } catch (error) {
                 console.error('Error fetching payment data:', error);
             }
         }
         fetchBizTypes()
-    }, [() => onClose()])
+    }, [])
+
+    const addType = () => {
+        setCurrent({});
+    }
     return (
         <section className="flex-1 w-full px-6 font-light">
             <h2 className="text-2xl font-sans font-semibold mt-4 text-slate-600">Add Business Types</h2>
-            <div className="p-4 mt-3 flex md:flex-row flex-col items-center justify-between bg-white shadow-sm">
+            <div className="p-4 mt-3 flex md:flex-row items-center justify-between bg-white shadow-sm">
                 <label className="relative block md:w-1/2">
                     <span className="sr-only">Search</span>
                     <span className="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -41,17 +50,20 @@ const BusinessType = () => {
                     <input className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm" placeholder="Search for anything..." type="text" name="search"/>
                 </label>
                 <div className="md:space-x-4">
-                    <button onClick={onOpen} className="rounded-md bg-primary text-sm border flex items-center text-white bg-blue-700 hover:bg-blue-600 px-4 py-2">
+                    <button onClick={() => {onOpen(); addType()}} className="rounded-md bg-primary text-sm border flex items-center text-white bg-blue-700 hover:bg-blue-600 px-4 py-2">
                        <span className="material-symbols-light--add"></span> Add Type
                     </button>
                 </div>
             </div>
-            <Biztype isOpen={isOpen} onClose={onClose} />
+            <Biztype isOpen={isOpen} onClose={onClose} data={current} />
             <div className="overflow-x-auto ">
                 <Table
                     caption="List of business fees and types."
                     head={['S/N', 'Name', 'Code', 'Fee', '']}
                     body={types}
+                    onOpen={onOpen}
+                    isOpen={isOpen}
+                    onClose={onClose}
                 />
             </div>
            
@@ -59,8 +71,13 @@ const BusinessType = () => {
     )
 }
 
-export const Table: React.FC<TableProps> = ({caption, head, body}) => {
+export const Table: React.FC<TableProps> = ({caption, head, body, onOpen, isOpen, onClose }) => {
+    const [current, setCurrent] = useState({})
 
+    const handleEdit = (event: React.MouseEvent<HTMLButtonElement>, items: any) => {
+        event.preventDefault();
+        setCurrent(items);
+    }
     return (
         <table className="border-collapse table-auto w-full my-8 font-sans text-sm">
             <caption className='caption-bottom mt-4'>
@@ -93,7 +110,19 @@ export const Table: React.FC<TableProps> = ({caption, head, body}) => {
                             {items.fee}
                         </td>
                         <td className="table_data">
-                            <button className="font-semibold text-sm">...</button>
+                            <Biztype isOpen={isOpen} onClose={onClose} data={current} />
+                            <Menu>
+                                <MenuButton fontWeight={'500'} fontSize={'small'}>...</MenuButton>
+                                <MenuList>
+                                    <MenuItem
+                                        onClick={(event) => {handleEdit(event, items); onOpen();}}>
+                                        Edit
+                                    </MenuItem>
+                                    <MenuItem textColor={'red'} onClick={(event) => handleDelete(event, items.code)}>
+                                        Delete
+                                    </MenuItem>
+                                </MenuList>
+                            </Menu>
                         </td>
                      </tr>
                     )) :
@@ -108,6 +137,16 @@ export const Table: React.FC<TableProps> = ({caption, head, body}) => {
     )
 }
 
+const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>, code: string) => {
+    event.preventDefault();
+    const url = `${import.meta.env.VITE_API_URL}/businesstypes/${code}`
+    const response = await DELRequest(url)
+    if (response.ok) {
+        alert('Type deleted successfully');
+    } else {
+        console.log('An error occurred.')
+    }
+}
 
 
 export default BusinessType

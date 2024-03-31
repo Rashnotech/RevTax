@@ -1,11 +1,13 @@
 import React from 'react'
+import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react"
+
 
 interface TableProps {
     caption: string;
     head: string[];
     body: any[] | object;
 }
-const roles = ['User', 'Staff', 'Admin']
+const roles = ['Customers', 'Staff', 'Admin']
 
 const Table: React.FC<TableProps> = ({caption, head, body}) => {
 
@@ -44,7 +46,13 @@ const Table: React.FC<TableProps> = ({caption, head, body}) => {
                             {roles[items.type - 1]}
                         </td>
                         <td>
-                            <button className='font-medium text-sm'>...</button>
+                            <Menu>
+                                <MenuButton fontWeight={'500'}>...</MenuButton>
+                                <MenuList fontSize={'small'}>
+                                    <MenuItem>Edit</MenuItem>
+                                    <MenuItem textColor={'red'}>Delete</MenuItem>
+                                </MenuList>
+                            </Menu>
                         </td>
                      </tr>
                     )) :

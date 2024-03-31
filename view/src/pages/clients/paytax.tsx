@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import data from  './state.json'
 import Feedback from '../../components/alert';
@@ -7,6 +7,7 @@ import { UsersRequest } from '../../utils/PostRequest';
 import { useAtom } from 'jotai'
 import { makePayment } from './pay';
 import { user } from '../../store/user';
+import { getRequest } from '../../utils/GetRequest';
 
 interface StateStructure {
     [key: string]: string[];
@@ -21,14 +22,29 @@ const Paytax = () => {
     const [record, setRecord] = useState('')
     const [businessType, setBusinessType] = useState('')
     const [state, setState] = useState<StateStructure>(data)
+    const [types, setTypes] = useState([])
     const {
         register,
         watch,
         handleSubmit,
         formState: { errors }
         } = useForm<IFormInput>();
-    const choice = watch('state');
 
+    useEffect(() => {
+        const fetchBizTypes = async () => {
+            const url = `${import.meta.env.VITE_API_URL}/businesstypes`
+            const response = await getRequest(url)
+            const res = await response.json()
+            if (response.ok) {
+                setTypes(res)
+            } else {
+                setError(res.error)
+            }
+        }
+        fetchBizTypes();        
+    }, [])
+
+    const choice = watch('state');
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         console.log(data)
         const url = `${import.meta.env.VITE_API_URL}/business`
@@ -120,12 +136,9 @@ const Paytax = () => {
                     <label htmlFor="categories" className="text-sm font-normal">Business category</label>
                     <select {...register('type')} className="px-4 py-2 rounded-md outline-none border transition-all text-xs" id="">
                         <option value="">Please choose one</option>
-                        <option value="SUPERMARKET">Supermarket</option>
-                        <option value="KIOS">Kios</option>
-                        <option value="FASHION HOUSE">Fashion House</option>
-                        <option value="WAREHOUSE">Warehouse</option>
-                        <option value="ICT FIRM">ICT Firm</option>
-                        <option value="OTHERS">Others</option>
+                        {types.map((type: any) => (
+                            <option key={type._id} value={type.code}>{type.name}</option>
+                        ))}
                     </select>
                 </div>
                 <div className="flex flex-col">
