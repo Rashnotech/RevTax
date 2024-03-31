@@ -40,7 +40,7 @@ const Paytax = () => {
             const res = await UsersRequest(url, data);
             const response = await res.json();
 alert(response.code)
-            await setBusiness({...response})
+            setBusiness(response)
             if (!res.ok) {
                setError("Failed to create business please try again later")
               return;
