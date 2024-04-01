@@ -26,10 +26,19 @@ export default class TaxController {
             if (!cac || !tin) return res.status(400).json({error: 'Missing cac or tin'})
         }
         const business = await Business.findOne({ 'userId': userId  })
-        if (business) return res.status(400).json({error: 'You already own a business'})
-	const busType = await BusinessType.findOne({name: filtered.type })
-	    console.log(busType, busType.code)
+        if (business) {
+	  if (data.business === "existing" ) {
+	    return res.json(business)
+	  } else {
+	     return res.status(400).json({error: 'You already own a business'})
+	  }
+	}
+
+	if (data.business === "existing" ) return res.status(400).json({error: 'You dont have a budiness yet'})
+	const busType = await BusinessType.findOne({code: filtered.type })
+	    console.log(type)
 	filtered.code = busType.code;
+	filtered.type = busType.name;
         const newBiz = new Business({ ...filtered });
         await newBiz.save()
 
@@ -42,7 +51,6 @@ export default class TaxController {
             const registered = new IsRegistered(...ref)
             registered.save()
         }
-	    console.log(newBiz)
         return res.status(201).json(newBiz)
     }
 
