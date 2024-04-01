@@ -11,7 +11,7 @@ const Settings = () => {
             <div className="p-4 mt-3 flex md:flex-row flex-col items-center justify-between bg-white shadow-sm">
                 <ul role="list" className="divide-y divide-slate-200 w-full bg-white p-2">
                     <li className="first:pt-0 last:pb-0">
-                        <Link to='' className='flex py-4'>
+                        <Link to='' className='flex py-2'>
                             <span className="h-10 w-10 rounded-full flex items-center justify-center bg-slate-200">
                                 <span className="mage--email-fill"></span>
                             </span>
@@ -22,7 +22,7 @@ const Settings = () => {
                         </Link>
                     </li>
                     <li className="first:pt-0 last:pb-0">
-                        <Link to='' className='flex py-4'>
+                        <Link to='' className='flex py-2'>
                             <span className="h-10 w-10 rounded-full flex items-center justify-center bg-slate-200">
                                 <span className="mingcute--notification-fill"></span>
                             </span>
@@ -33,7 +33,7 @@ const Settings = () => {
                         </Link>
                     </li>
                     <li className="first:pt-0 last:pb-0">
-                        <Link to='' className='flex py-4'>
+                        <Link to='' className='flex py-2'>
                             <span className="h-10 w-10 rounded-full flex items-center justify-center bg-slate-200">
                                 <span className="ph--password-bold"></span>
                             </span>
@@ -44,7 +44,7 @@ const Settings = () => {
                         </Link>
                     </li>
                     <li className="first:pt-0 last:pb-0">
-                        <Link to='' className='flex py-4'>
+                        <Link to='' className='flex py-2'>
                             <span className="h-10 w-10 rounded-full flex items-center justify-center bg-slate-200">
                                 <span className="mdi--two-factor-authentication"></span>
                             </span>
@@ -56,7 +56,7 @@ const Settings = () => {
                     </li>
 
                     <li className="first:pt-0 last:pb-0">
-                        <Link to='' className='flex py-4'>
+                        <Link to='' className='flex py-2'>
                             <span className="h-10 w-10 rounded-full flex items-center justify-center bg-slate-200">
                                 <span className="fluent--delete-16-regular"></span>
                             </span>

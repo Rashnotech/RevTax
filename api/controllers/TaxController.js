@@ -16,12 +16,14 @@ export default class TaxController {
         const filtered = {
             userId, name, type, isRegistered,
             state, LGA}
+	
 	for (const field of Object.keys(filtered)) {
 	    if (!Object.keys(data).includes(field)) {
 		return res.status(400).json({ error: `Missing ${field}` })
 	    }
 	}
-        if (isRegistered === 'true') isRegistered = true;
+        
+	if (isRegistered === 'true') isRegistered = true;
         if (isRegistered === true) {
             if (!cac || !tin) return res.status(400).json({error: 'Missing cac or tin'})
         }

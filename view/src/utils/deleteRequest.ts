@@ -1,6 +1,6 @@
-import { getCookie } from './cookiemanager';
+import { getCookie } from './cookiemanager'
 
-export const UsersRequest = async (url: string, data: any) => {
+export const DELRequest = async (url: string) => {
     const cookie = getCookie('rev_tax')
     const headers = new Headers({
         'Content-Type': 'application/json',
@@ -8,8 +8,7 @@ export const UsersRequest = async (url: string, data: any) => {
     });
     const response = await fetch(url, {
         headers,
-        method: 'POST',
-        body: JSON.stringify(data),
+        method: 'DELETE'
     });
     return response;
 }

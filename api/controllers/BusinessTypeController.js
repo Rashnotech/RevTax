@@ -47,10 +47,11 @@ class BusinessTypeController {
 
     if (!code) return res.status(400).json({error: "Missing businessTypeName"})
 
-    if (typeof code !== 'string') return res.status(400).json({error: "businessTypeName must be a string"})
+    if (typeof code !== 'string') return res.status(400).json({error: "Business Type Name must be a string"})
     
     const data = req.body || {}
 
+    console.log(code)
     const businessType = await BusinessType.findOneAndUpdate({ code }, {...data }, {new: true})
     if (!businessType) return res.status(404).json({error: "Not Found"})
     return res.json(businessType)

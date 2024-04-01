@@ -43,32 +43,35 @@ class UsersController {
         const mobile = TextService.isMobile(telephone);
         if (!mobile) return res.status(400).json({error: 'Invalid phone number'});
         
-        const existingUser = await User.findOne({ $or: [{ email }, { mobile }] });
+        const existingUser = await User.findOne({ $or: [{ email }, { 'telephone': mobile }] });
         if (existingUser) return res.status(400).json({error: 'User email or mobile already exist'});
         
         const token = Mailer.generateToken();
         //const smsResponse = await TextService.sms(mobile, `Welcome to Rev platform. Your otp is ${token}`);
         //Twilo require a paid account to send sms
         //if (smsResponse.status !== 'success') {}
-        const mailResponse = await Mailer.mail(email,
-          {
-            title: 'RevTax',
-            body: `
-              <html>
-              <body>
-                <h1>RevTax Email Verification</h1>
-                Hi ${email}, <br>
-                We've received your request due to attempt to create an account.
-                <p> Your OTP code is: ${token} </p>
-                If you didn't attempt signing up this code, you can safely ignore this email. Someone else might have typed your email address by mistake.
-                Thanks <br>
-                <strong>RevTax Team</strong>
-              </body>
-              <html>
-            `
-        });
-        if (mailResponse.error) return res.status(500).json({error: 'An error occured while sending otp'});
-
+        if (data.type === '2'|| data.type === '3') data['validated'] = true;
+        else {
+          const mailResponse = await Mailer.mail(email,
+            {
+              title: 'RevTax',
+              body: `
+                <html>
+                <body>
+                  <h1>RevTax Email Verification</h1>
+                  Hi ${email}, <br>
+                  We've received your request due to attempt to create an account.
+                  <p> Your OTP code is: ${token} </p>
+                  If you didn't attempt signing up this code, you can safely ignore this email. Someone else might have typed your email address by mistake.
+                  Thanks <br>
+                  <strong>RevTax Team</strong>
+                </body>
+                <html>
+              `
+          });
+          if (mailResponse.error) return res.status(500).json({error: 'An error occured while sending otp'});
+        }
+        
         data.password = sha1(data.password);
         data.telephone = mobile;
         data['token'] = token;
