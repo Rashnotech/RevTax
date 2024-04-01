@@ -1,13 +1,16 @@
 import React from 'react'
+import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react"
+
 
 interface TableProps {
     caption: string;
     head: string[];
-    body: any[];
+    body: any[] | object;
 }
+const roles = ['Customers', 'Staff', 'Admin']
 
 const Table: React.FC<TableProps> = ({caption, head, body}) => {
-alert(body)
+
     return (
         <table className="border-collapse table-auto w-full my-8 font-sans text-sm">
             <caption className='caption-bottom mt-4'>
@@ -24,16 +27,41 @@ alert(body)
                 </tr>
             </thead>
             <tbody className='bg-white dark:bg-slate-800'>
-                <tr>
-                    {body && Object.keys(body).length > 0 ? Object.entries(body).map((item) => (
-                        <td
-                            key={item._id}
-                            className='border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:test-slate-400'
-                        >
-                            {item.amount}
+                
+                    {Array.isArray(body) ? body.map((items, idx) => (
+                    <tr key={idx}>
+                        <td className='table_data'>
+                            {idx + 1}
+                        </td>                 
+                        <td className='table_data'>
+                            {items.firstname} {items.lastname}
                         </td>
-                    )) : <td colSpan={head.length} className='border-b text-center border-slate-100 text-slate-500 p-4 pl-8'>No data</td>}
-                </tr>
+                        <td className='table_data'>
+                            {items.telephone}
+                        </td>
+                        <td className='table_data'>
+                            {items.email}
+                        </td>
+                        <td className='table_data'>
+                            {roles[items.type - 1]}
+                        </td>
+                        <td>
+                            <Menu>
+                                <MenuButton fontWeight={'500'}>...</MenuButton>
+                                <MenuList fontSize={'small'}>
+                                    <MenuItem>Edit</MenuItem>
+                                    <MenuItem textColor={'red'}>Delete</MenuItem>
+                                </MenuList>
+                            </Menu>
+                        </td>
+                     </tr>
+                    )) :
+                    <tr>
+                        <td colSpan={head.length}
+                            className='border-b text-center border-slate-100 text-slate-500 p-4 pl-8'>
+                                No data
+                            </td>
+                    </tr>}
             </tbody>
         </table>
     )

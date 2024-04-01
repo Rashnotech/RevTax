@@ -14,7 +14,7 @@ const url = [
 const Admin = () => {
     return (
         <section className="flex bg-[#f3f4f6] flex-col h-[100vh]">
-            <Header fullname='' />
+            <Header fullname='' url={url} />
             <div className="flex h-full">
                 <Aside visibility='hidden' url={url} />
                 <Outlet />

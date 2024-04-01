@@ -19,6 +19,7 @@ import Transactions from "./pages/admin/transactions";
 import Users from "./pages/admin/users";
 import Business from "./pages/admin/business";
 import Moboard from "./pages/admin/dashboard";
+import BusinessType from "./pages/admin/type";
 
 const routes = createBrowserRouter(createRoutesFromElements(
   <Route>
@@ -40,6 +41,7 @@ const routes = createBrowserRouter(createRoutesFromElements(
         <Route path="dashboard" element={<Moboard />} />
         <Route path="transactions" element={<Transactions />} />
         <Route path="users" element={<Users />} />
+        <Route path="business/types" element={<BusinessType />} />
         <Route path="business" element={<Business />} />
         <Route path="settings" element={<Settings />} />
     </Route>

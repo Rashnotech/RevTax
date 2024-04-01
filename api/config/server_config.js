@@ -3,7 +3,7 @@ import 'dotenv/config';
 const config = {
     server: {
         host: process.env.HOST,
-        user: process.env.USERNAME,
+        user: process.env.USER,
         pass: process.env.PASS,
         port: process.env.PORT,
         apiKey: process.env.APIKEY

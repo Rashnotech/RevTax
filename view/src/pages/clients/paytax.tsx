@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import data from  './state.json'
 import Feedback from '../../components/alert';
@@ -10,6 +10,7 @@ import { user } from '../../store/user';
 import { business } from '../../store/client'
 import { payment } from '../../store/client'
 import { getRequest } from "../../utils/GetRequest"
+
 
 interface StateStructure {
     [key: string]: string[];
@@ -25,49 +26,61 @@ const Paytax = () => {
     const [record, setRecord] = useState('')
     const [businessType, setBusinessType] = useState('')
     const [state, setState] = useState<StateStructure>(data)
+    const [types, setTypes] = useState([])
     const {
         register,
         watch,
         handleSubmit,
         formState: { errors }
         } = useForm<IFormInput>();
-    const choice = watch('state');
 
-    const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-        console.log(data)
-        if (data.business === 'new') {
-            const url = `${import.meta.env.VITE_API_URL}/business`
-            const res = await UsersRequest(url, data);
-            const response = await res.json();
-alert(response.code)
-            setBusiness(response)
-            if (!res.ok) {
-               setError("Failed to create business please try again later")
-              return;
+    useEffect(() => {
+        const fetchBizTypes = async () => {
+            const url = `${import.meta.env.VITE_API_URL}/businesstypes`
+            const response = await getRequest(url)
+            const res = await response.json()
+            if (response.ok) {
+                setTypes(res)
+            } else {
+                setError(res.error)
             }
-          }
-alert(businessData.code)
-          const amounturl = `${import.meta.env.VITE_API_URL}/businesstypes/${businessData.code}`
-          const amountresponse = await getRequest(amounturl)
-          if (amountresponse.ok) {
-              const json = await amountresponse.json();
-              const amount = json.fee
-              data.amount = amount
+        }
+        fetchBizTypes();        
+    }, [])
 
-              const payurl = `${import.meta.env.VITE_API_URL}/payments`
-              const paymentResponse = await UsersRequest(payurl, data);
-alert('done')
-              const paymentjson = await paymentResponse.json()
-              if (paymentResponse.ok) {
-                  makePayment(userData.telephone, userData.email, data.name, data.amount, data.method, paymentjson._id)
-                  console.log(response)
-              } else {
-                 setError(response.error)
-              }
-          } else {
-             setError(response.error)
-          }
+    const choice = watch('state');
+    const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+
+        const url = `${import.meta.env.VITE_API_URL}/business`
+        const res = await UsersRequest(url, data);
+        const response = await res.json();
+        if (res.ok) {
+            const amounturl = `${import.meta.env.VITE_API_URL}/businesstypes/${response.code}`
+            const amountresponse = await getRequest(amounturl);
+            if (amountresponse.ok) {
+                setSuccess("Processing Payment...")
+                const json = await amountresponse.json();
+                const amount = json.fee
+                const payurl = `${import.meta.env.VITE_API_URL}/payments`
+alert(amount)
+                const paymentResponse = await UsersRequest(payurl, { amount });
+                const paymentjson = await paymentResponse.json()
+                if (paymentResponse.ok) {
+                    makePayment(userData.telephone,userData.email, data.name, amount, data.method, paymentjson._id)
+                    setSuccess("Payment Successful")
+                } else {
+                   setError("There was an error please try again later")
+                }
+            } else {
+               setError("Processing Failed")
+            }
+        } else {
+          setError(response.error)
+        }
     }
+
+        
+
     const handleSelect = (event: { target: { value: React.SetStateAction<string>; }; }) => {
         setRecord(event.target.value)
     }
@@ -79,7 +92,9 @@ alert('done')
   return (
     <section className="md:w-1/2 md:mx-auto w-full">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+
             {error && <Feedback message={error} status='error' />}
+            {success && <Feedback message={success} status='success' />}
             <div className="block space-y-4">
                 <div className={`${!record ? 'flex flex-col': 'hidden'}`}>
                     <label htmlFor="business" className="text-sm font-normal">Please pick an option</label>
@@ -145,9 +160,11 @@ alert('done')
                     <label htmlFor="categories" className="text-sm font-normal">Business category</label>
                     <select {...register('type')} className="px-4 py-2 rounded-md outline-none border transition-all text-xs" id="">
                         <option value="">Please choose one</option>
-                        <option value="Small Scale Business">Small Scale Business</option>
-                        <option value="Medium Scale Business">Medium Scale Business</option>
-                        <option value="Large Scale Business">Large Scale Business</option>
+
+                        {types.map((type: any) => (
+                            <option key={type._id} value={type.code}>{type.name}</option>
+                        ))}
+
                     </select>
                 </div>
                 <div className="flex flex-col">
@@ -169,7 +186,7 @@ alert('done')
                             ))
                         : <option>No state selected</option> }
                     </select>
-                    {errors && <p className='text-xs font-sans text-pink-600'>{errors.lga?.message}</p>}
+                    {errors && <p className='text-xs font-sans text-pink-600'>{errors.LGA?.message}</p>}
                 </div>
                 <div className="flex items-center justify-between">
                     <button onClick={decrement} className="px-4 py-2 text-sm bg-black font-semibold text-white hover: bg-black/75 rounded-md">back</button>

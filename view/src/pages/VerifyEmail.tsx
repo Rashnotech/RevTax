@@ -42,7 +42,6 @@ const Verify: FC = () => {
 alert(url)
             const response = await UsersRequest(url, { token: otpValue })
             const res = await response.json();
-            console.log(res);
             if (res.status === 'Ok') {
                 setFeedback('Account verified successfully, redirecting to login page');
                 setTimeout(() => {
