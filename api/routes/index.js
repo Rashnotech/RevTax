@@ -432,6 +432,5 @@ router.post('/api/requesttoken', AuthController.requestToken)
 router.post('/api/verifytoken', AuthController.verifyToken)
 router.post('/api/resetpassword', AuthController.resetPassword)
 router.post('/api/business', jwtAuth, TaxController.business)
-router.put('/api/business', jwtAuth, TaxController.updateBusiness)
 
 export default router;

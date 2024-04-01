@@ -1,4 +1,4 @@
-import { useForm, SubmitHandler, set } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 import {
     Modal, ModalContent,

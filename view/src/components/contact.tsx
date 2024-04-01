@@ -16,9 +16,10 @@ const Contact = () => {
                     <input type="text" placeholder="Enter your name" className="input_style" id="name" name="name" />
                     <input className='input_style' placeholder="Enter your email" type="email" id="email" name="email" />
                     <textarea
-                        className="rounded-md text-slate-600 border p-4 border-slate-800 outline-none" name="message" id="message" cols={10} rows={4}>
-                            Message
-                    </textarea>
+                        placeholder="Enter your message"
+                        className="rounded-md text-sm text-slate-600 border p-4 border-slate-800 outline-none"
+                        name="message"
+                        id="message" cols={10} rows={4} />
                     <button className="btn_primary">Send</button>
                 </form>
             </article>

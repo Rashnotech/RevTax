@@ -1,7 +1,8 @@
-import { Outlet } from "react-router-dom"
+import { Outlet, Navigate } from "react-router-dom"
 import Header from "../../components/dashboard/header"
 import Aside from "../../components/dashboard/sidebar"
-
+import { admin } from "../../store/admin"
+import { useAtom } from 'jotai'
 
 const url = [
     { name: "Dashboard", path: "/admin/dashboard", icon: "radix-icons--dashboard" },
@@ -12,15 +13,16 @@ const url = [
 ]
 
 const Admin = () => {
-    return (
+    const [adminData]: any = useAtom(admin)
+    return Object.keys(adminData).length ? (
         <section className="flex bg-[#f3f4f6] flex-col h-[100vh]">
-            <Header fullname='' url={url} />
+            <Header fullname={`${adminData.firstname} ${adminData.lastname}`} url={url} />
             <div className="flex h-full">
                 <Aside visibility='hidden' url={url} />
                 <Outlet />
             </div>
         </section>
-    )
+    ) : (<Navigate to='/login' />)
 }
 
 export default Admin

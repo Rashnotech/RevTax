@@ -52,39 +52,30 @@ const Paytax = () => {
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
 
         const url = `${import.meta.env.VITE_API_URL}/business`
+        const payurl = `${import.meta.env.VITE_API_URL}/payments`
         const res = await UsersRequest(url, data);
         const response = await res.json();
         if (res.ok) {
-            const amounturl = `${import.meta.env.VITE_API_URL}/businesstypes/${response.code}`
-            const amountresponse = await getRequest(amounturl);
-            if (amountresponse.ok) {
-                setSuccess("Processing Payment...")
-                const json = await amountresponse.json();
-                const amount = json.fee
-                const payurl = `${import.meta.env.VITE_API_URL}/payments`
-alert(amount)
-                const paymentResponse = await UsersRequest(payurl, { amount });
-                const paymentjson = await paymentResponse.json()
-                if (paymentResponse.ok) {
-                    makePayment(userData.telephone,userData.email, data.name, amount, data.method, paymentjson._id)
-                    setSuccess("Payment Successful")
-                } else {
-                   setError("There was an error please try again later")
-                }
+
+            setSuccess('Payment initiated.')
+            data.amount = response.fee
+            const paymentResponse = await UsersRequest(payurl, data);
+            const paymentjson = await paymentResponse.json()
+            if (paymentResponse.ok) {
+                makePayment(userData.telephone, userData.email, data.name, data.amount, data.method, paymentjson._id)
             } else {
-               setError("Processing Failed")
+            setError(response.error)
+
+            
             }
         } else {
           setError(response.error)
         }
     }
 
-        
-
     const handleSelect = (event: { target: { value: React.SetStateAction<string>; }; }) => {
         setRecord(event.target.value)
     }
-
     const decrement = (event: { preventDefault: () => void; } ) => {
         event.preventDefault();
         setStep(prev => prev - 1);
@@ -92,11 +83,10 @@ alert(amount)
   return (
     <section className="md:w-1/2 md:mx-auto w-full">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-
             {error && <Feedback message={error} status='error' />}
             {success && <Feedback message={success} status='success' />}
             <div className="block space-y-4">
-                <div className={`${!record ? 'flex flex-col': 'hidden'}`}>
+                <div c{lassName={`${!record ? 'flex flex-col': 'hidden'}`}>
                     <label htmlFor="business" className="text-sm font-normal">Please pick an option</label>
                     <select
                         {...register('business')}
@@ -162,7 +152,7 @@ alert(amount)
                         <option value="">Please choose one</option>
 
                         {types.map((type: any) => (
-                            <option key={type._id} value={type.code}>{type.name}</option>
+                            <option key={type._id} value={type.name}>{type.code}</option>
                         ))}
 
                     </select>
@@ -208,7 +198,7 @@ alert(amount)
                             <label htmlFor="credit-card" className="text-slate-700 has-[:checked]:ring-indigo-200 has-[:checked]:text-indigo-800 has-[:checked]:bg-indigo-50 grid grid-cols-[24px_1fr_auto] items-center gap-6 rounded-lg p-4 ring-1 ring-transparent hover:bg-slate-100">
                                 <span className="la--cc-visa"></span>
                                 Credit Card
-                                <input {...register('method')} id="credit-card" value="credit-card" type="radio" className="box-content h-1.5 w-1.5 appearance-none rounded-full border-[5px] border-white bg-white bg-clip-padding outline-none ring-1 ring-gray-950/10 checked:border-indigo-500 checked:ring-indigo-500" />
+                                <input {...register('method')} id="card" value="card" type="radio" className="box-content h-1.5 w-1.5 appearance-none rounded-full border-[5px] border-white bg-white bg-clip-padding outline-none ring-1 ring-gray-950/10 checked:border-indigo-500 checked:ring-indigo-500" />
                             </label>
                         </div>
                     </fieldset>

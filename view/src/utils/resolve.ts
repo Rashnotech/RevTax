@@ -11,6 +11,7 @@ export interface IFormInput {
     state: string;
     LGA: string;
     method: string;
+    amount: number;
 }
 
 
@@ -50,8 +51,8 @@ const resolver: Resolver<IFormInput> = async (values) => {
             message: 'State is required',
         }
     }
-    if(!values.lga) {
-        errors.lga = {
+    if(!values.LGA) {
+        errors.LGA = {
             type: 'required',
             message: 'Local Government Area is required',
         }
