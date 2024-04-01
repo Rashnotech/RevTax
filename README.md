@@ -4,12 +4,9 @@
 
 # RevTax
 
-
-# RevTax
-
 ## Introduction
-
-RevTax is a revolutionary software solution designed to streamline revenue collection processes, making them secure, easy, and efficient. Built with modern technologies and innovative approaches, RevTax aims to combat corruption, harassment, and extortion prevalent in manual collection methods. By leveraging Node.js, Express.js, React.js, MongoDB and JWT (JSON Web Tokens), RevTax offers a robust and user-friendly platform for managing revenue data, authentication, and reporting.
+RevTax  is a software solution aimed at revolutionizing revenue collection processes to combat corruption, harassment, and extortion prevalent in manual collection methods. This project leverages modern technologies and innovative approaches to streamline revenue collection, making it easy, simple, and transparent.
+Built with modern technologies and innovative approaches, RevTax aims to combat corruption, harassment, and extortion prevalent in manual collection methods. By leveraging Node.js, Express.js, React.js, MongoDB and JWT (JSON Web Tokens), RevTax offers a robust and user-friendly platform for managing revenue data, authentication, and reporting.
 
 ## Installation
 
