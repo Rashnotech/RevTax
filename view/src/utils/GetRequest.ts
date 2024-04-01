@@ -21,7 +21,6 @@ export const putRequest = async (url: string, data: any) => {
         {headers: new Headers({
 	    'Content-Type': 'application/json',
             'Authorization': cookie,
-	    'Cache-Control': 'no-cache',
         }),
 	method: 'PUT',
 	body: JSON.stringify(data),
