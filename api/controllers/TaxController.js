@@ -2,6 +2,7 @@ import Business from "../models/business.js";
 import IsRegistered from "../models/isRegistered.js";
 import BusinessType from "../models/businessType.js";
 
+
 export default class TaxController {
 
     static async business (req, res) {
@@ -15,6 +16,7 @@ export default class TaxController {
         const filtered = {
             userId, name, type, isRegistered,
             state, LGA}
+
         for (const field of Object.keys(filtered)) {
             if (!Object.keys(data).includes(field)) {
                 return res.status(400).json({ error: `Missing ${field}` })
@@ -30,6 +32,9 @@ export default class TaxController {
             if (business) return res.status(400).json({error: 'You already own a business'})
             const newBiz = new Business({ ...filtered });
             await newBiz.save()
+
+	
+	
 
             if (isRegistered === true) {
                 const ref = {
@@ -48,6 +53,7 @@ export default class TaxController {
             const bizType = await BusinessType.findOne({ name: business.type })
             return res.status(200).json({fee: bizType.fee})
         }
+
     }
 
 }

@@ -1,8 +1,5 @@
-import { atom } from 'jotai'
+import { atom } from 'jotai';
 
-
-
-export const payment = atom({})
-
+export const payment = atom({});
 
 export const business = atom({})
