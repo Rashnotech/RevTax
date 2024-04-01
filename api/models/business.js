@@ -5,6 +5,7 @@ const businessSchema = new Schema({
   userId: { type: String, required: true },
   name: { type: String, required: true },
   type: { type: String, required: true },
+  code: { type: String, required: true },
   isregistered: { type: Boolean, default: false },
   state: { type: String, required: true },
   LGA: { type: String, required: true }
