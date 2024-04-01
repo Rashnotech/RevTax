@@ -66,7 +66,7 @@ RevTax is licensed under the MIT License. See the LICENSE file for more details.
 
 RevTax was created by a team of dedicated developers committed to revolutionizing revenue collection processes:
 - Inimfon Ebong (inimfonebong001@gmail.com)
-- Abdulrasheed Aliyu (jane.smith@example.com)
+- Abdulrasheed Aliyu (rashnotech@gmail.com)
 - Aliyu Adekola (alex.johnson@example.com)
 
 Feel free to contact any of the authors for inquiries or collaboration opportunities.
