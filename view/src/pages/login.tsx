@@ -7,14 +7,14 @@ import { IFormInput } from '../utils/types';
 import { UsersRequest } from '../utils/PostRequest'
 import { useNavigate } from 'react-router-dom'
 import { useAtom } from 'jotai'
-import { user } from '../store/user'
+import { user, userPesist } from '../store/user'
 import { admin } from '../store/admin';
 import Feedback from '../components/alert';
-
 
 function Login() {
     const navigate = useNavigate();
     const [, setUser] = useAtom(user);
+    const [, writeAtom] = useAtom(userPesist);
     const [, setAdmin] = useAtom(admin);
     const [loading, setLoading] = useState(false)
     const [feedback, setFeedback] = useState('')
@@ -35,6 +35,7 @@ function Login() {
         if (response.ok) {
             const res = await response.json()
             res.type == 3 ? setAdmin(res.user) : setUser(res.user)
+            writeAtom(res.user)
             const expire = new Date()
             expire.setTime(expire.getTime() + (30 * 24 * 60 * 60 * 1000));
             document.cookie = `rev_tax=${res.token}; expires=${expire.toUTCString()}`
@@ -84,7 +85,7 @@ function Login() {
                         {errors?.password && <span className='text-red-500 text-xs'>{errors.password.message}</span>}
                     </div>
                     <a href='/reset_password' className='text-blue-700 font-light mt-4 text-sm cursor-pointer'>Forget password?</a>
-                    <button className='btn_primary' disabled={loading}>continue</button>
+                    <button className='btn_primary hover:bg-blue-500' disabled={loading}>continue</button>
                     <p className='text-sm font-light'>Don&apos;t have an account? <a href="/signup" className='text-blue-700 cursor-pointer'>Sign up</a></p>
                 </form>
             </section>

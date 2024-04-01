@@ -17,9 +17,10 @@ export default class TaxController {
             state, LGA}
         for (const field of Object.keys(filtered)) {
             if (!Object.keys(data).includes(field)) {
-            return res.status(400).json({ error: `Missing ${field}` })
+                return res.status(400).json({ error: `Missing ${field}` })
             }
         }
+
         if (isRegistered === 'true') isRegistered = true;
         if (isRegistered === true) {
             if (!cac || !tin) return res.status(400).json({error: 'Missing cac or tin'})
@@ -44,7 +45,7 @@ export default class TaxController {
         } else {
             const business = await Business.findOne({ 'userId': userId  })
             if (!business) return res.status(400).json({error: 'No existing business'})
-            const bizType = await BusinessType.findOne({ name: type })
+            const bizType = await BusinessType.findOne({ name: business.type })
             return res.status(200).json({fee: bizType.fee})
         }
     }

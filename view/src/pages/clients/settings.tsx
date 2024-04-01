@@ -35,6 +35,17 @@ const Usersetting = () => {
                     <li className="first:pt-0 last:pb-0">
                         <Link to='' className='flex py-2'>
                             <span className="h-10 w-10 rounded-full flex items-center justify-center bg-slate-200">
+                                <span className="carbon--business-processes"></span>
+                            </span>
+                            <div className="ml-3 overflow-hidden">
+                                <p className="text-sm font-medium text-slate-900">Business</p>
+                                <p className="text-sm text-slate-500 truncate">Update few information about business</p>
+                            </div>
+                        </Link>
+                    </li>
+                    <li className="first:pt-0 last:pb-0">
+                        <Link to='' className='flex py-2'>
+                            <span className="h-10 w-10 rounded-full flex items-center justify-center bg-slate-200">
                                 <span className="ph--password-bold"></span>
                             </span>
                             <div className="ml-3 overflow-hidden">

@@ -1,8 +1,6 @@
 import mongoose from '../utils/db.js'
 const { Schema } = mongoose;
 
-import Business from './business.js';
-
 const isRegisteredSchema = new Schema({
   business: {
     type: Schema.Types.ObjectId,
