@@ -39,7 +39,6 @@ const Verify: FC = () => {
         setLoading(true);
         try {
             const url = `${import.meta.env.VITE_API_URL}/verifyemail/${email}`;
-alert(url)
             const response = await UsersRequest(url, { token: otpValue })
             const res = await response.json();
             if (res.status === 'Ok') {

@@ -31,15 +31,18 @@ export const Table: React.FC<TableProps> = ({caption, head, body}) => {
                     <tr key={idx}>
                         <td className='table_data'>
                             {idx + 1}
-                        </td>                 
+                        </td>
+                        <td className="table_data">
+                            ''
+                        </td> 
+                        <td className="table_data">
+                            ''
+                        </td>                
                         <td className='table_data'>
                             {items.amount}
                         </td>
                         <td className='table_data'>
-                            {items.payemnt_method}
-                        </td>
-                        <td className='table_data'>
-                            {items.created_at}
+                            {new Date(items.created_at).toDateString()}
                         </td>
                         <td className='table_data'>
                             {items.status}

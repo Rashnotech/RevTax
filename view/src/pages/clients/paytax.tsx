@@ -7,6 +7,7 @@ import { UsersRequest } from '../../utils/PostRequest';
 import { useAtom } from 'jotai'
 import { makePayment } from './pay';
 import { user } from '../../store/user';
+
 import { business } from '../../store/client'
 import { payment } from '../../store/client'
 import { getRequest } from "../../utils/GetRequest"
@@ -50,13 +51,11 @@ const Paytax = () => {
 
     const choice = watch('state');
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-
         const url = `${import.meta.env.VITE_API_URL}/business`
         const payurl = `${import.meta.env.VITE_API_URL}/payments`
         const res = await UsersRequest(url, data);
         const response = await res.json();
         if (res.ok) {
-
             setSuccess('Payment initiated.')
             data.amount = response.fee
             const paymentResponse = await UsersRequest(payurl, data);
@@ -65,14 +64,11 @@ const Paytax = () => {
                 makePayment(userData.telephone, userData.email, data.name, data.amount, data.method, paymentjson._id)
             } else {
             setError(response.error)
-
-            
             }
         } else {
-          setError(response.error)
+            setError(response.error)
         }
     }
-
     const handleSelect = (event: { target: { value: React.SetStateAction<string>; }; }) => {
         setRecord(event.target.value)
     }
@@ -86,7 +82,7 @@ const Paytax = () => {
             {error && <Feedback message={error} status='error' />}
             {success && <Feedback message={success} status='success' />}
             <div className="block space-y-4">
-                <div c{lassName={`${!record ? 'flex flex-col': 'hidden'}`}>
+                <div className={`${!record ? 'flex flex-col': 'hidden'}`}>
                     <label htmlFor="business" className="text-sm font-normal">Please pick an option</label>
                     <select
                         {...register('business')}
@@ -150,9 +146,8 @@ const Paytax = () => {
                     <label htmlFor="categories" className="text-sm font-normal">Business category</label>
                     <select {...register('type')} className="px-4 py-2 rounded-md outline-none border transition-all text-xs" id="">
                         <option value="">Please choose one</option>
-
                         {types.map((type: any) => (
-                            <option key={type._id} value={type.name}>{type.code}</option>
+                            <option key={type._id} value={type.name}>{type.name}</option>
                         ))}
 
                     </select>
