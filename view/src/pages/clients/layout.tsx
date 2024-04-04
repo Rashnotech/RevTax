@@ -1,7 +1,7 @@
 import { Outlet, Navigate } from "react-router-dom"
 import Header from "../../components/dashboard/header"
 import Aside from "../../components/dashboard/sidebar"
-import { user, userPesist } from "../../store/user"
+import { user } from "../../store/user"
 import { useAtom } from 'jotai'
 
 
@@ -16,9 +16,7 @@ const url = [
 
 const Layout = () => {
     const [userData]: any = useAtom(user)
-    const [userStore]: any = useAtom(userPesist)
-
-    return Object.keys(userStore).length ? (
+    return Object.keys(userData).length ? (
             <section className="flex bg-[#f3f4f6] flex-col h-[100vh]">
                 <Header fullname ={`${userData.firstname} ${userData.lastname}`} url={url} />
                 <div className="flex h-full">

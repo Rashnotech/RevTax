@@ -1,4 +1,5 @@
 import Hero from '../assets/images/hero.jpg'
+import { Link } from 'react-router-dom'
 
 const Main = () => {
     return (
@@ -10,9 +11,9 @@ const Main = () => {
                 <p className="text-base text-center">
                     Revolutionizing revenue collection with our platform.
                 </p>
-                <button className="text-sm text-white bg-blue-600 hover:bg-blue-500 rounded-md px-6 py-3">
+                <Link to='/signup' className="text-sm text-white bg-blue-600 hover:bg-blue-500 rounded-md px-6 py-3">
                     Get started
-                </button>
+                </Link>
             </div>
             
         </main>

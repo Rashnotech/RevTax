@@ -7,14 +7,13 @@ import { IFormInput } from '../utils/types';
 import { UsersRequest } from '../utils/PostRequest'
 import { useNavigate } from 'react-router-dom'
 import { useAtom } from 'jotai'
-import { user, userPesist } from '../store/user'
+import { user } from '../store/user'
 import { admin } from '../store/admin';
 import Feedback from '../components/alert';
 
 function Login() {
     const navigate = useNavigate();
     const [, setUser] = useAtom(user);
-    const [, writeAtom] = useAtom(userPesist);
     const [, setAdmin] = useAtom(admin);
     const [loading, setLoading] = useState(false)
     const [feedback, setFeedback] = useState('')
@@ -34,14 +33,13 @@ function Login() {
         const response = await UsersRequest(url, data)
         if (response.ok) {
             const res = await response.json()
-            res.type == 3 ? setAdmin(res.user) : setUser(res.user)
-            writeAtom(res.user)
+            res.user.type == 3 ? setAdmin(res.user) : setUser(res.user)
             const expire = new Date()
             expire.setTime(expire.getTime() + (30 * 24 * 60 * 60 * 1000));
             document.cookie = `rev_tax=${res.token}; expires=${expire.toUTCString()}`
             setFeedback('Redirecting to dashboard...')
             setTimeout(() => {
-                res.type === 3 ? navigate('/admin/dashboard') : navigate('/user/dashboard')
+                res.user.type === 3 ? navigate('/admin/dashboard') : navigate('/user/dashboard')
             }, 5000);
         } else {
             setError('Invalid email or password');

@@ -169,7 +169,6 @@ class UsersController {
 
   static logout(req, res) {
     try {
-      res.clearCookie('revTax');
       return res.json({message: 'Logged out successfully'});
     } catch (error) {
       return res.status(400).json({error});

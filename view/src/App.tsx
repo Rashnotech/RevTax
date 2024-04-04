@@ -20,6 +20,7 @@ import Users from "./pages/admin/users";
 import Business from "./pages/admin/business";
 import Moboard from "./pages/admin/dashboard";
 import BusinessType from "./pages/admin/type";
+import ScanResult from "./services/scanner";
 
 const routes = createBrowserRouter(createRoutesFromElements(
   <Route>
@@ -46,6 +47,7 @@ const routes = createBrowserRouter(createRoutesFromElements(
         <Route path="business" element={<Business />} />
         <Route path="settings" element={<Settings />} />
     </Route>
+    <Route path="check" element={<ScanResult />} />
   </Route>
 ))
 
